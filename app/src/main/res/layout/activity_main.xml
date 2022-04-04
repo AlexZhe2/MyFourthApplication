@@ -12,43 +12,48 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="65dp"
         android:orientation="horizontal"
         tools:ignore="MissingConstraints">
 
 
-
         <ImageButton
-
+            android:id="@+id/Button_01"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:background="@null"
             app:srcCompat="@drawable/ic_image_01"
-            tools:ignore="Suspicious0dp" />
+           />
 
-
-        <TextView
+        <ImageButton
+            android:id="@+id/Button_02"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="Hello"
-            android:background="#e0e0e0"
             android:layout_weight="1"
-            android:textSize="26sp" />
+            android:background="@null"
+            app:srcCompat="@drawable/ic_image_02"
+            />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="#eeeeee"
             android:text=""
-            android:layout_weight="2"
+            android:layout_weight="4"
             android:textSize="26sp" />
-        <TextView
+
+        <ImageButton
+            android:id="@+id/Button_03"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="World"
-            android:background="#bdbdbd"
             android:layout_weight="1"
-            android:textSize="26sp" />
+            android:background="@null"
+            app:srcCompat="@drawable/ic_image_03"
+            />
+
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
