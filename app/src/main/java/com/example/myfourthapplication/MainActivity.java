@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton ImageButton_01;
     private ImageButton ImageButton_02;
     private ImageButton ImageButton_03;
+    private ImageButton ImageButton_04;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +22,12 @@ public class MainActivity extends AppCompatActivity {
         ImageButton_01 = findViewById(R.id.ImageButton_xml_01);
         ImageButton_02 = findViewById(R.id.ImageButton_xml_02);
         ImageButton_03 = findViewById(R.id.ImageButton_xml_03);
+        ImageButton_04 = findViewById(R.id.ImageButton_xml_04);
 
         testFunction_01(ImageButton_01);
         testFunction_01(ImageButton_02);
         testFunction_01(ImageButton_03);
+        testFunction_01(ImageButton_04);
 
     }
 
