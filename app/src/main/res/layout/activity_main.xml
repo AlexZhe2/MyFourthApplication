@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:background="@color/my_color_background"
-    >
-    <!-- ^ background можно задать потом из стилей ^ -->
+    tools:context=".MainActivity">
+    <!-- ^ background можно задать потом из colors ^ -->
 
 
     <LinearLayout
@@ -24,8 +23,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
-            app:srcCompat="@drawable/ic_image_01"
-           />
+            app:srcCompat="@drawable/ic_image_01" />
 
         <ImageButton
             android:id="@+id/ImageButton_xml_02"
@@ -33,28 +31,36 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
-            app:srcCompat="@drawable/ic_image_02"
-            />
+            app:srcCompat="@drawable/ic_image_02" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="#eeeeee"
-            android:text=""
             android:layout_weight="4"
-            />
+            android:background="#eeeeee"
+            android:text="" />
 
-
-        <ImageButton
-            android:id="@+id/ImageButton_xml_03"
-            android:layout_width="0dp"
+        <FrameLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@null"
-            app:srcCompat="@drawable/ic_image_03"
-            />
+            >
+            <ImageButton
+                android:id="@+id/ImageButton_xml_03"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_image_03" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:text="23" />
 
+        </FrameLayout>
 
 
     </LinearLayout>
@@ -62,32 +68,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/Linear_Layout_01"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        tools:ignore="MissingConstraints"
-        android:layout_marginTop="5dp">
+        app:layout_constraintTop_toBottomOf="@id/Linear_Layout_01"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="#eeeeee"
-            android:text=""
             android:layout_weight="1"
-            />
+            android:background="#eeeeee"
+            android:text="" />
+
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_image_04"
-            android:scaleType="fitXY"
             android:layout_weight="9"
-            />
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_image_04" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="#eeeeee"
-            android:text=""
             android:layout_weight="1"
-            />
+            android:background="#eeeeee"
+            android:text="" />
 
     </LinearLayout>
 
