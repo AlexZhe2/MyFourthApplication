@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="20dp">
+
+
+    <CheckBox
+        android:id="@+id/checkBox_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/EditText_1"
+
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/EditText_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:hint="new task"
+
+        android:textColor="#ED0B0B"
+        android:textSize="35dp"
+        android:layout_marginTop="80dp"
+        android:textAlignment="center"
+        tools:ignore="MissingConstraints,UnknownId"
+
+      app:layout_constraintLeft_toRightOf="@+id/checkBox_1"
+        app:layout_constraintRight_toLeftOf="@+id/EditText_2"
+
+        />
+
+    <EditText
+        android:id="@+id/EditText_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:hint="14.03.2022"
+        tools:ignore="MissingConstraints"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/EditText_1"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
