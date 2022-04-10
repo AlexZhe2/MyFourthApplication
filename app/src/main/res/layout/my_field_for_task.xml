@@ -33,6 +33,8 @@
             android:background="@null"
             android:hint="new task"
             android:inputType="text"
+            android:maxLength="30"
+            android:maxLines="2"
             android:paddingStart="10dp"
             android:paddingBottom="5dp"
             android:textAlignment="textStart"
@@ -42,17 +44,21 @@
             app:layout_constraintRight_toLeftOf="@+id/EditText_2"
             tools:ignore="MissingConstraints,UnknownId" />
 
+
         <EditText
             android:id="@+id/EditText_2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:hint="14.03.2022"
-            android:inputType="text"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="dd-mm-yy"
+            android:inputType="date"
+            android:textAlignment="textEnd"
             android:textColor="@color/black"
-            app:layout_constraintLeft_toRightOf="@id/EditText_1"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:ignore="MissingConstraints" />
+            android:textSize="20dp"
+            app:layout_constraintLeft_toRightOf="@+id/EditText_1"
+            app:layout_constraintRight_toLeftOf="parent"
+            tools:ignore="MissingConstraints,UnknownId" />
 
 
     </LinearLayout>
