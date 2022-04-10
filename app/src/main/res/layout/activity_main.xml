@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:background="#eeeeee"
+            android:background="@color/my_color_background"
             android:text="" />
 
         <FrameLayout
@@ -100,7 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="100dp"
-        android:background="#DDF3F6"
+        android:background="@null"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp">
 
@@ -135,7 +135,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"
                 android:layout_marginTop="80dp"
-                android:text="Hello2 World!" />
+                android:text="Hello2 World!"
+                android:textColor="@color/black"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
