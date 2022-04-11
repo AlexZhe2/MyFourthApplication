@@ -2,6 +2,7 @@ package com.example.myfourthapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 my_LinerLayout_01.addView(my_view_01);
             }
         });
+    }
+
+    // метод вызывается из с помощью прописанного в xml файле "activity_main.xml" для
+    // кнопки Button ("@+id/button3") атрибута android:onClick="startTaskActivity"
+    public void startTaskActivity(View view) {
+        Intent intent = new Intent(this, Task_Activity.class);
+        startActivity(intent);
     }
 
 }
