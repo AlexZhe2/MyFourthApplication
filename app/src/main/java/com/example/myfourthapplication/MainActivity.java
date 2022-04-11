@@ -96,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
                         {
                             // сохраняем текст, введённый до нажатия Enter в переменную
                             EditText editText_03=findViewById(R.id.EditText_1);
+                            EditText editText_032=findViewById(R.id.EditText_2);
                             String strCatName = editText_03.getText().toString();
-                            TextView_01.setText(strCatName);
+                           // TextView_01.setText(strCatName);
+                            editText_032.setText(strCatName);
 
 
                             return true;
@@ -154,4 +156,34 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
+  /*  public void a1(){
+        findViewById(R.id.EditText_1).setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN &&
+                        (i == KeyEvent.KEYCODE_ENTER))
+                {
+                    Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
+                    // сохраняем текст, введённый до нажатия Enter в переменную
+                   // EditText editText_03=findViewById(R.id.EditText_1);
+                  //  EditText editText_032=findViewById(R.id.EditText_2);
+                   // String strCatName = editText_03.getText().toString();
+                    // TextView_01.setText(strCatName);
+                 //   editText_032.setText(strCatName);
+
+
+                    return true;
+                }
+                return false;
+            }
+
+
+        });
+        }
+        */
+
+
+
 }
