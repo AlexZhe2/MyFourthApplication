@@ -17,6 +17,8 @@ public class One {
             this.count = count;
             this.my_textView = textView;
 
+
+            textView.setText("from class");
         }
 
         String getName() {return name;}

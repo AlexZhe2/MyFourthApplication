@@ -392,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
                 // устанавливаем текста
                 //  textView.setText("Hello Android!");
               //  my_txtView_from_List.get(i).setText("Hello Android!");
-                my_txtView_from_List_One.get(i).getMy_textView().setText("Hello Android!");
+              //  my_txtView_from_List_One.get(i).getMy_textView().setText("Hello Android!");
                 if (i == 3) {
                //     my_txtView_from_List.get(i).setText("Hello-Hello Android!!!");
                     my_txtView_from_List_One.get(i).getMy_textView().setText("Hello-Hello Android!!!");
