@@ -43,7 +43,7 @@
             app:layout_constraintLeft_toRightOf="@+id/checkBox_1"
             app:layout_constraintRight_toLeftOf="@+id/EditText_2"
             tools:ignore="MissingConstraints,UnknownId"
-
+            android:onClick="startTaskActivity"
             />
 
 
