@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         testFunction_01(ImageButton_04);
 
         //  add_task_01(ImageButton_04);
-       // add_task_02(ImageButton_04);
+        // add_task_02(ImageButton_04);
         add_task_03(ImageButton_04);
 
         ////////
@@ -271,7 +272,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tt2() {
-        One my_one_01 = new One("a1", 1, new TextView(this));
+        One my_one_01 = new One("a1", 1, new TextView(this), new CheckBox(this),
+                new LinearLayout(this));
         my_txtView_from_List_One.add(my_one_01);
     }
 
@@ -296,13 +298,13 @@ public class MainActivity extends AppCompatActivity {
                 //   TextView textView = new TextView(this);
                 // установка фонового цвета
                 //  textView.setBackgroundColor(0xffe8eaf6);
-                my_txtView_from_List.get(i).setBackgroundColor(0xffe8eaf6);
+                //   my_txtView_from_List.get(i).setBackgroundColor(0xffe8eaf6);
                 // установка цвета текста
                 //  textView.setTextColor(0xff5c6bc0);
-                my_txtView_from_List.get(i).setTextColor(0xff5c6bc0);
+                // my_txtView_from_List.get(i).setTextColor(0xff5c6bc0);
                 // делаем все буквы заглавными
                 //  textView.setAllCaps(true);
-                my_txtView_from_List.get(i).setAllCaps(true);
+                //   my_txtView_from_List.get(i).setAllCaps(true);
                 // устанавливаем вравнивание текста по центру
                 //  textView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
                 my_txtView_from_List.get(i).setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
@@ -375,34 +377,38 @@ public class MainActivity extends AppCompatActivity {
                 //   TextView textView = new TextView(this);
                 // установка фонового цвета
                 //  textView.setBackgroundColor(0xffe8eaf6);
-              //  my_txtView_from_List.get(i).setBackgroundColor(0xffe8eaf6);
-                my_txtView_from_List_One.get(i).getMy_textView().setBackgroundColor(0xffe8eaf6);
+                //  my_txtView_from_List.get(i).setBackgroundColor(0xffe8eaf6);
+
+                //  my_txtView_from_List_One.get(i).getMy_textView().setBackgroundColor(0xffe8eaf6);
                 // установка цвета текста
                 //  textView.setTextColor(0xff5c6bc0);
-               // my_txtView_from_List.get(i).setTextColor(0xff5c6bc0);
-                my_txtView_from_List_One.get(i).getMy_textView().setTextColor(0xff5c6bc0);
+                // my_txtView_from_List.get(i).setTextColor(0xff5c6bc0);
+
+                // my_txtView_from_List_One.get(i).getMy_textView().setTextColor(0xff5c6bc0);
                 // делаем все буквы заглавными
                 //  textView.setAllCaps(true);
-               // my_txtView_from_List.get(i).setAllCaps(true);
-                my_txtView_from_List_One.get(i).getMy_textView().setAllCaps(true);
+                // my_txtView_from_List.get(i).setAllCaps(true);
+                //  my_txtView_from_List_One.get(i).getMy_textView().setAllCaps(true);
                 // устанавливаем вравнивание текста по центру
                 //  textView.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-              //  my_txtView_from_List.get(i).setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-                my_txtView_from_List_One.get(i).getMy_textView().setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+                //  my_txtView_from_List.get(i).setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+                //   my_txtView_from_List_One.get(i).getMy_textView().setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
                 // устанавливаем текста
                 //  textView.setText("Hello Android!");
-              //  my_txtView_from_List.get(i).setText("Hello Android!");
-              //  my_txtView_from_List_One.get(i).getMy_textView().setText("Hello Android!");
+                //  my_txtView_from_List.get(i).setText("Hello Android!");
+                //  my_txtView_from_List_One.get(i).getMy_textView().setText("Hello Android!");
                 if (i == 3) {
-               //     my_txtView_from_List.get(i).setText("Hello-Hello Android!!!");
+                    //     my_txtView_from_List.get(i).setText("Hello-Hello Android!!!");
                     my_txtView_from_List_One.get(i).getMy_textView().setText("Hello-Hello Android!!!");
                 }
 
 
                 // устанавливаем высоту текста
                 //  textView.setTextSize(26);
-             //   my_txtView_from_List.get(i).setTextSize(26);
-                my_txtView_from_List_One.get(i).getMy_textView().setTextSize(26);
+                //   my_txtView_from_List.get(i).setTextSize(26);
+                //  my_txtView_from_List_One.get(i).getMy_textView().setTextSize(26);
+
+/*
 
 
                 ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams
@@ -424,10 +430,16 @@ public class MainActivity extends AppCompatActivity {
                 my_txtView_from_List_One.get(i).getMy_textView().setLayoutParams(layoutParams);
 
 
+*/
 
 
-             //   my_LinerLayout_01.addView(my_txtView_from_List.get(i));
-                my_LinerLayout_01.addView( my_txtView_from_List_One.get(i).getMy_textView());
+                //   my_LinerLayout_01.addView(my_txtView_from_List.get(i));
+              /*
+                my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_checkBox());
+                my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_textView());
+                */
+                my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_linearLayout());
+
 
                 //   setContentView(my_LinerLayout_01);
 
@@ -439,8 +451,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
-
 
 
 }
