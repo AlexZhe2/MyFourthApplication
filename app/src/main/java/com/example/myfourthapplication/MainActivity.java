@@ -440,6 +440,8 @@ public class MainActivity extends AppCompatActivity {
                 */
                 my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_linearLayout());
 
+               // my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_textView());
+
 
                 //   setContentView(my_LinerLayout_01);
 

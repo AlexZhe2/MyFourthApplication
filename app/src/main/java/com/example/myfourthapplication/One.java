@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 
 public class One extends AppCompatActivity {
@@ -59,27 +61,75 @@ public class One extends AppCompatActivity {
         textView.setBackgroundColor(Color.parseColor("#eeeeee"));
         textView.setTextColor(Color.BLACK);
        // textView.setTextAlignment(TextView.TEXT_ALIGNMENT_TEXT_START);
+      //  textView.setTextAlignment(TextView.TEXT_ALIGNMENT_TEXT_END);
         textView.setTextSize(28);
 
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams
-                (ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         //layoutParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
        // layoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
        // layoutParams.width=0;
       //  layoutParams.height=80;
-        layoutParams.horizontalWeight=10;
+        layoutParams.setMarginStart(50);
+        layoutParams.gravity = Gravity.RIGHT;
+       // layoutParams.gravity = Gravity.CENTER;
+       // layoutParams.horizontalWeight=10;
       //   layoutParams.rightToLeft = textView.getId();
        // layoutParams.leftToRight = checkBox.getId();
-        layoutParams.rightToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+      //  layoutParams.rightToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
         textView.setLayoutParams(layoutParams);
 
 // параметры для linearLayout
-        ConstraintLayout.LayoutParams layoutParams_linearLayout = new ConstraintLayout.LayoutParams
-                (ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+
+
+
+        LinearLayout.LayoutParams layoutParams_linearLayout = new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+
+
         linearLayout.setLayoutParams(layoutParams_linearLayout);
+
+
+
+
+
       //  linearLayout.addView(checkBox);
+
+
+
+      //  linearLayout.addView(textView, layoutParams);
+      //  linearLayout.addView(textView);
+
+
+//
+//
+//        LinearLayout.LayoutParams layoutParams_linearLayout = new LinearLayout.LayoutParams
+//                (80, LinearLayout.LayoutParams.WRAP_CONTENT);
+//
+
+
+     //   linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+       // linearLayout.setLayoutParams(layoutParams_linearLayout);
+        //linearLayout.addView(textView);
         linearLayout.addView(textView);
+       /*
+        linearLayout.addView(textView, new LinearLayout.LayoutParams
+                ( 2,LinearLayout.LayoutParams.MATCH_PARENT));
+*/
+
+        ConstraintSet constraintSet = new ConstraintSet();
+       // constraintSet.clone(context, R.id.my_LinerLayout_xml_01);
+
+
+
+
+
+
+
     }
 
     String getName() {
