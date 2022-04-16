@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -273,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void tt2() {
         One my_one_01 = new One("a1", 1, new TextView(this), new CheckBox(this),
-                new LinearLayout(this));
+                new LinearLayout(this), new RelativeLayout(this), new ConstraintLayout(this));
         my_txtView_from_List_One.add(my_one_01);
     }
 
@@ -438,9 +439,11 @@ public class MainActivity extends AppCompatActivity {
                 my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_checkBox());
                 my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_textView());
                 */
-                my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_linearLayout());
+                 my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_linearLayout());
+               // my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_relativeLayout());
+               // my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_constraintLayout());
 
-               // my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_textView());
+                // my_LinerLayout_01.addView(my_txtView_from_List_One.get(i).getMy_textView());
 
 
                 //   setContentView(my_LinerLayout_01);
