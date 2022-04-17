@@ -27,10 +27,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton ImageButton_04;
 
     private LinearLayout my_LinerLayout_01;
+    private LinearLayout my_LinerLayout_02; // test
     private View my_view_01;
 
     private EditText editText_01;
     private TextView TextView_01;
+
+    private TextView TextView_03; //test
 
 
     @Override
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         my_LinerLayout_01 = findViewById(R.id.my_LinerLayout_xml_01);
+        my_LinerLayout_02 = findViewById(R.id.LinearLayout_2_test);
 
         ImageButton_01 = findViewById(R.id.ImageButton_xml_01);
         ImageButton_02 = findViewById(R.id.ImageButton_xml_02);
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         editText_01 = findViewById(R.id.EditText_1);
         TextView_01 = findViewById(R.id.textView2);
 
+        TextView_03 = findViewById(R.id.EditText_2);  // test
+
         testFunction_01(ImageButton_01);
         testFunction_01(ImageButton_02);
         testFunction_01(ImageButton_03);
@@ -56,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         //  add_task_01(ImageButton_04);
         // add_task_02(ImageButton_04);
-        add_task_03(ImageButton_04);
+      //  add_task_03(ImageButton_04); // работает но только через vertical
+        add_task_04(ImageButton_04);
 
         ////////
 
@@ -134,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 EditText editText_03 = findViewById(R.id.EditText_1);
-                EditText editText_032 = findViewById(R.id.EditText_2);
+             //   EditText editText_032 = findViewById(R.id.EditText_2);
 
                 //int a3 = editText_03.generateViewId();
                 // editText_03.setId(a3);
@@ -167,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
                             String strCatName = editText_03.getText().toString();
                             // TextView_01.setText(strCatName);
-                            editText_032.setText(strCatName);
+                         //   editText_032.setText(strCatName);
 
 
                             return true;
@@ -456,6 +463,60 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
+
+    ArrayList<Two> my_txtView_from_List_Two = new ArrayList<Two>();
+
+
+
+
+
+    public void tt3() {
+        Two my_two_01 = new Two("a1", 1, new TextView(this), new TextView(this),
+                new CheckBox(this), new LinearLayout(this),
+                new RelativeLayout(this), new ConstraintLayout(this));
+        System.out.println("=================3");
+        my_txtView_from_List_Two.add(my_two_01);
+    }
+
+
+    public void add_task_04(ImageButton value) {  // добавление новой задачи
+        value.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onClick(View view) {
+
+                System.out.println("=================1");
+                tt3();
+
+                System.out.println("=================3");
+                if (i == 3) {
+
+                    my_txtView_from_List_Two.get(i).getMy_textView().setText("Hello-Hello Android!!!");
+                }
+
+                if (i == 5) {
+
+                    my_txtView_from_List_Two.get(i).getMy_textView().
+                            setText("It is the test of long line");
+                }
+
+
+               my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout());
+             //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_textView());
+
+
+                i++;
+
+            }
+
+
+        });
+    }
+
+
+
+
+
 
 
 }
