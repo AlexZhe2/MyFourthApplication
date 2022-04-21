@@ -9,7 +9,7 @@
     >
 
     <EditText
-        android:id="@+id/EditText_task_01"
+        android:id="@+id/EditText_task_01_xml"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,12 +17,14 @@ import android.widget.Toast;
 public class Task_Activity extends AppCompatActivity {
 
     private Button Button_01;
+    private EditText EditText_task_01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
+        EditText_task_01=findViewById(R.id.EditText_task_01_xml);
         Button_01 = findViewById(R.id.button_task_01);
         showToastFunction_01(Button_01);// обработка нажатия
 
@@ -47,15 +51,19 @@ public class Task_Activity extends AppCompatActivity {
 
     //База данных
     String a1 ="Alex Zhe";
+    Editable a2;
+
    // public void onClick(View view){
     public void onClick_01(){
+
+        a2 = EditText_task_01.getText();
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
         db.execSQL("CREATE TABLE IF NOT EXISTS users_01 (name TEXT, UNIQUE(name))");//создание таблицы users_01
-        // поле "name" в ней текстовое и уникальное (UNIQUE(name))
+        // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
 
-        db.execSQL("INSERT OR IGNORE INTO users_01 VALUES ('"+a1+"');"); // добавление значения в базу
+        db.execSQL("INSERT OR IGNORE INTO users_01 VALUES ('"+a2+"');"); // добавление значения в базу
 
         Cursor query = db.rawQuery("SELECT * FROM users_01;", null); // вытаскивает значения из базы
 
