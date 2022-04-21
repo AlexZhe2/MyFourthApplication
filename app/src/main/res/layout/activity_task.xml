@@ -8,15 +8,36 @@
     android:background="@color/my_color_background"
     >
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/EditText_task_01"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="TextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@null"
+        android:hint="new task"
+
+        android:inputType="text"
+        android:paddingStart="10dp"
+        android:paddingBottom="5dp"
+        android:textAlignment="textStart"
         android:textColor="@color/black"
         android:textSize="24dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="138dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints,UnknownId"
+        />
+
+    <Button
+        android:id="@+id/button_task_01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Сохранить"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick="startMainActivity"
+        tools:ignore="MissingConstraints,OnClick" />
 </androidx.constraintlayout.widget.ConstraintLayout>

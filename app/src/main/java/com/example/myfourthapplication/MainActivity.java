@@ -35,16 +35,16 @@ public class MainActivity extends AppCompatActivity {
         ImageButton_03 = findViewById(R.id.ImageButton_xml_03);
         ImageButton_04 = findViewById(R.id.ImageButton_xml_04);
 
-        testFunction_01(ImageButton_01);// обработка нажатия
-        testFunction_01(ImageButton_02);
-        testFunction_01(ImageButton_03);
-        testFunction_01(ImageButton_04);
+        showToastFunction_01(ImageButton_01);// обработка нажатия
+        showToastFunction_01(ImageButton_02);
+        showToastFunction_01(ImageButton_03);
+      // showToastFunction_01(ImageButton_04);
 
-        add_task_04(ImageButton_04); // добавление новой задачи
+      // add_task_04(ImageButton_04); // добавление новой задачи
 
     }
 
-    public void testFunction_01(ImageButton value) { // показывает всплывающее сообщение
+    public void showToastFunction_01(ImageButton value) { // показывает всплывающее сообщение
         value.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,12 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
     // открытие другого окна (activity)
     // метод вызывается с помощью прописанного в xml файле "activity_main.xml" для
-    // кнопки Button ("@+id/button3") атрибута android:onClick="startTaskActivity"
+    // кнопки Button ("@+id/button3") и кнопки ImageButton ("@+id/ImageButton_xml_04")
+    // атрибута android:onClick="startTaskActivity"
     public void startTaskActivity(View view) {
         Intent intent = new Intent(this, Task_Activity.class);
         startActivity(intent);
     }
-
 
     ArrayList<Two> my_txtView_from_List_Two = new ArrayList<Two>(); // создание списка который
     // будет содержать в себе значения типа "Two"
@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
                my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout()); // добавляем на
                 // нужное нам поле созданные объекты Two из списка - обращаясь к ним по индексу i
+                my_txtView_from_List_Two.get(i).getMy_linearLayout().requestFocusFromTouch(); // устанавливает фокус
+                //на последнюю созданную задачу
 
                 i++;
 

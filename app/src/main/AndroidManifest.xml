@@ -11,7 +11,9 @@
         android:theme="@style/Theme.MyFourthApplication">
         <activity
             android:name=".Task_Activity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true">
