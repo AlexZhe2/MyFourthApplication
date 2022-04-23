@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -60,6 +62,25 @@ public class MainActivity extends AppCompatActivity {
     public void startTaskActivity(View view) {
         Intent intent = new Intent(this, Task_Activity.class);
         startActivity(intent);
+
+        ////
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+        Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+
+        while (query.moveToNext()) {
+            String name = query.getString(0);
+            String data = query.getString(1);
+
+            //   int age = query.getInt(1);
+            //    textView.append("Name: " + name + " Age: " + age + "\n");
+            System.out.println("From main========================= " + i + " " + name);
+            System.out.println("From main========================= " + i + " " + data);
+            i++;
+        }
+
+        ////
+
     }
 
     ArrayList<Two> my_txtView_from_List_Two = new ArrayList<Two>(); // создание списка который
@@ -99,6 +120,30 @@ public class MainActivity extends AppCompatActivity {
 
                 i++;
 
+                ////
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+                Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+
+                while (query.moveToNext()) {
+                    // вписать  createObjectTwo() и в коде задать значения для полей с задачей и вызывать
+                    // не по кнопке, а по умолчанию (при запуске экрана = Activity) из метода
+                    // protected void onCreate(Bundle savedInstanceState)
+                    //
+                    // сделать my_LinerLayout_01 для сегодня, завтра, после завтра, на неделе, потом
+                    // проходить циклом по дате для задачи и добавляем на соответствующий LinerLayout через
+                    //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout());
+                    String name = query.getString(0);
+                    String data = query.getString(1);
+
+                    //   int age = query.getInt(1);
+                    //    textView.append("Name: " + name + " Age: " + age + "\n");
+                    System.out.println("========================= " + i + " " + name);
+                    System.out.println("========================= " + i + " " + data);
+                    i++;
+                }
+
+                ////
             }
 
         });
