@@ -179,7 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Button"
-                android:onClick="startTaskActivity"
+                android:onClick="fill_Layout_for_tasks"
                 tools:ignore="OnClick" />
 
         </LinearLayout>

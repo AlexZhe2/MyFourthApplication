@@ -88,5 +88,10 @@ public class Task_Activity extends AppCompatActivity {
         }
         query.close(); //закрываем связи
         db.close(); //закрываем связи
+
+        /////
+
+
+        ////
     }
 }

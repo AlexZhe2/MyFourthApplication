@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout my_LinerLayout_01;
 
+    int j = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
         showToastFunction_01(ImageButton_01);// обработка нажатия
         showToastFunction_01(ImageButton_02);
         showToastFunction_01(ImageButton_03);
-      // showToastFunction_01(ImageButton_04);
+        // showToastFunction_01(ImageButton_04);
 
-      // add_task_04(ImageButton_04); // добавление новой задачи
-
+        // add_task_04(ImageButton_04); // добавление новой задачи
+      //  fill_Layout_for_tasks_02();
     }
 
     public void showToastFunction_01(ImageButton value) { // показывает всплывающее сообщение
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
         ////
+
+/*
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
         Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
@@ -78,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("From main========================= " + i + " " + data);
             i++;
         }
-
+        query.close(); //закрываем связи
+        db.close(); //закрываем связи
+        */
         ////
 
     }
@@ -113,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                             setText("It is the test of long line");
                 }
 
-               my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout()); // добавляем на
+                my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout()); // добавляем на
                 // нужное нам поле созданные объекты Two из списка - обращаясь к ним по индексу i
                 my_txtView_from_List_Two.get(i).getMy_linearLayout().requestFocusFromTouch(); // устанавливает фокус
                 //на последнюю созданную задачу
@@ -121,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 i++;
 
                 ////
+                /*
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
                 Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
@@ -142,11 +149,166 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("========================= " + i + " " + data);
                     i++;
                 }
-
+*/
                 ////
             }
 
         });
     }
+
+  //  int j = 0;
+    int k = 0;
+
+    public void fill_Layout_for_tasks(View view) {
+        ////
+        //  int j = 0;
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+        Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+
+
+        k = query.getCount();
+
+        if(j==0){
+
+            System.out.println("============= if(j==0) "+j);
+        ///
+            while (query.moveToNext()) {
+                //  while (query.moveToPosition(4)) {
+                // вписать  createObjectTwo() и в коде задать значения для полей с задачей и вызывать
+                // не по кнопке, а по умолчанию (при запуске экрана = Activity) из метода
+                // protected void onCreate(Bundle savedInstanceState)
+                //
+                // сделать my_LinerLayout_01 для сегодня, завтра, после завтра, на неделе, потом
+                // проходить циклом по дате для задачи и добавляем на соответствующий LinerLayout через
+                //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout());
+
+
+                //if (k >= j) {
+                if (k > j) {
+                    String name = query.getString(0);
+                    String data = query.getString(1);
+
+                    createObjectTwo();
+                    my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                    my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                    //    int age = query.getInt(1);
+                    //     textView.append("Name: " + name + " Age: " + age + "\n");
+                    System.out.println("from main========================= " + j + " " + name);
+                    System.out.println("from main========================= " + j + " " + data);
+                    j++;
+
+                }
+            }
+            ///
+
+        }
+        else{
+            while (query.move(j)) {
+
+
+                System.out.println("============= while (query.move(j)) "+j);
+
+                if (k >= j) {
+                    String name = query.getString(0);
+                    String data = query.getString(1);
+
+                    createObjectTwo();
+                    my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                    my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                    //    int age = query.getInt(1);
+                    //     textView.append("Name: " + name + " Age: " + age + "\n");
+                    System.out.println("from main========================= " + j + " " + name);
+                    System.out.println("from main========================= " + j + " " + data);
+                    j++;
+
+
+                }
+            }
+        }
+/*
+          while (query.moveToNext()) {
+      //  while (query.moveToPosition(4)) {
+            // вписать  createObjectTwo() и в коде задать значения для полей с задачей и вызывать
+            // не по кнопке, а по умолчанию (при запуске экрана = Activity) из метода
+            // protected void onCreate(Bundle savedInstanceState)
+            //
+            // сделать my_LinerLayout_01 для сегодня, завтра, после завтра, на неделе, потом
+            // проходить циклом по дате для задачи и добавляем на соответствующий LinerLayout через
+            //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout());
+
+
+            if (k >= j) {
+                String name = query.getString(0);
+                String data = query.getString(1);
+
+                createObjectTwo();
+                my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+               //    int age = query.getInt(1);
+               //     textView.append("Name: " + name + " Age: " + age + "\n");
+                System.out.println("from main========================= " + j + " " + name);
+                System.out.println("from main========================= " + j + " " + data);
+                j++;
+
+
+            }
+
+        }
+
+        */
+
+        query.close(); //закрываем связи
+        db.close(); //закрываем связи
+
+
+        ////
+    }
+/*
+
+    public void fill_Layout_for_tasks_02() {
+        ////
+        //int j = 0;
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+        Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+
+     //   k = query.getCount();
+        System.out.println("==========k = query.getCount()= "+k);
+        //  while (query.moveToNext()) {
+        while (query.move(j)) {
+            // вписать  createObjectTwo() и в коде задать значения для полей с задачей и вызывать
+            // не по кнопке, а по умолчанию (при запуске экрана = Activity) из метода
+            // protected void onCreate(Bundle savedInstanceState)
+            //
+            // сделать my_LinerLayout_01 для сегодня, завтра, после завтра, на неделе, потом
+            // проходить циклом по дате для задачи и добавляем на соответствующий LinerLayout через
+            //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout());
+
+           // if (k >= j) {
+
+                String name = query.getString(0);
+                String data = query.getString(1);
+
+                createObjectTwo();
+                my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                //   int age = query.getInt(1);
+                //    textView.append("Name: " + name + " Age: " + age + "\n");
+                System.out.println("from main========================= " + j + " " + name);
+                System.out.println("from main========================= " + j + " " + data);
+                j++;
+        //    }
+
+            query.close(); //закрываем связи
+            db.close(); //закрываем связи
+        }
+        ////
+    }
+*/
 
 }
