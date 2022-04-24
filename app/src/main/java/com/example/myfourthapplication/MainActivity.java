@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // showToastFunction_01(ImageButton_04);
 
         // add_task_04(ImageButton_04); // добавление новой задачи
-      //  fill_Layout_for_tasks_02();
+        //  fill_Layout_for_tasks_02();
     }
 
     public void showToastFunction_01(ImageButton value) { // показывает всплывающее сообщение
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-  //  int j = 0;
+    //  int j = 0;
     int k = 0;
 
     public void fill_Layout_for_tasks(View view) {
@@ -169,10 +169,10 @@ public class MainActivity extends AppCompatActivity {
 
         k = query.getCount();
 
-        if(j==0){
+        if (j == 0) {
 
-            System.out.println("============= if(j==0) "+j);
-        ///
+            System.out.println("============= if(j==0) " + j);
+            ///
             while (query.moveToNext()) {
                 //  while (query.moveToPosition(4)) {
                 // вписать  createObjectTwo() и в коде задать значения для полей с задачей и вызывать
@@ -184,50 +184,55 @@ public class MainActivity extends AppCompatActivity {
                 //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout());
 
 
-                //if (k >= j) {
-                if (k > j) {
-                    String name = query.getString(0);
-                    String data = query.getString(1);
 
-                    createObjectTwo();
-                    my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
-                    my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
-                    //    int age = query.getInt(1);
-                    //     textView.append("Name: " + name + " Age: " + age + "\n");
-                    System.out.println("from main========================= " + j + " " + name);
-                    System.out.println("from main========================= " + j + " " + data);
-                    j++;
 
-                }
-            }
-            ///
+
+                String name = query.getString(0);
+                String data = query.getString(1);
+
+                createObjectTwo();
+                my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                //    int age = query.getInt(1);
+                //     textView.append("Name: " + name + " Age: " + age + "\n");
+                System.out.println("from first========================= " + j + " " + name);
+                System.out.println("from first========================= " + j + " " + data);
+                j++;
+
 
         }
-        else{
-            while (query.move(j)) {
+        ///
+
+    }
+        else
+
+    {
+        while (query.move(j+1)) {
 
 
-                System.out.println("============= while (query.move(j)) "+j);
+            System.out.println("============= while (query.move(j)) " + j);
+            System.out.println("====== K= " + k + " ===== J= " + j);
+            //  if (k >= j) {
+            if (k > j) {
+                String name = query.getString(0);
+                String data = query.getString(1);
 
-                if (k >= j) {
-                    String name = query.getString(0);
-                    String data = query.getString(1);
+                createObjectTwo();
+                my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
-                    createObjectTwo();
-                    my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
-                    my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
-
-                    //    int age = query.getInt(1);
-                    //     textView.append("Name: " + name + " Age: " + age + "\n");
-                    System.out.println("from main========================= " + j + " " + name);
-                    System.out.println("from main========================= " + j + " " + data);
-                    j++;
+                //    int age = query.getInt(1);
+                //     textView.append("Name: " + name + " Age: " + age + "\n");
+                System.out.println("from second========================= " + j + " " + name);
+                System.out.println("from second========================= " + j + " " + data);
+                j++;
 
 
-                }
             }
         }
+    }
 /*
           while (query.moveToNext()) {
       //  while (query.moveToPosition(4)) {
@@ -265,8 +270,8 @@ public class MainActivity extends AppCompatActivity {
         db.close(); //закрываем связи
 
 
-        ////
-    }
+    ////
+}
 /*
 
     public void fill_Layout_for_tasks_02() {
