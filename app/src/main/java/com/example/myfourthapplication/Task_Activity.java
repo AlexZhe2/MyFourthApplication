@@ -32,6 +32,7 @@ public class Task_Activity extends AppCompatActivity {
 
     }
 
+
     public void showToastFunction_01(Button value) { // показывает всплывающее сообщение
         value.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,13 +40,16 @@ public class Task_Activity extends AppCompatActivity {
                 Toast.makeText(Task_Activity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
 
                 onClick_01();
+                startMainActivity();
             }
         });
     }
 
-    public void startMainActivity(View view) {
-       /* Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);*/
+
+   // public void startMainActivity(View view) {
+    public void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
     //  чтобы кнопка "Сохранить" всегда была видна и не закрывалась всплывающей
     //  клавиатурой в файле AndroidManifest.xml в соответствующем разделе <activity>
