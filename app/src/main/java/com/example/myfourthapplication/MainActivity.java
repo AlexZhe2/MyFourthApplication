@@ -14,7 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,8 +49,22 @@ public class MainActivity extends AppCompatActivity {
 
         // add_task_04(ImageButton_04); // добавление новой задачи
         //  fill_Layout_for_tasks_02();
+        create_BD_01();//  создаем базу данных
+
+
         fill_Layout_for_tasks_03();
     }
+
+    public void create_BD_01() { //  создаем базу данных
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS users_03 (name TEXT,data INTEGER, UNIQUE(name))");//создание таблицы users_01
+        // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
+
+        db.close(); //закрываем связи
+    }
+
+
 
     public void showToastFunction_01(ImageButton value) { // показывает всплывающее сообщение
         value.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +182,8 @@ public class MainActivity extends AppCompatActivity {
         //  int j = 0;
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-        Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+      //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_03;", null); // вытаскивает значения из базы
 
 
         k = query.getCount();
@@ -190,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
                 createObjectTwo();
                 my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
                 my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                 //    int age = query.getInt(1);
@@ -215,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
 
                     createObjectTwo();
                     my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                    my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
                     my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                     //    int age = query.getInt(1);
@@ -315,7 +335,8 @@ public class MainActivity extends AppCompatActivity {
         //  int j = 0;
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-        Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+      //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_03;", null); // вытаскивает значения из базы
 
 
         k = query.getCount();
@@ -336,10 +357,30 @@ public class MainActivity extends AppCompatActivity {
 
 
                 String name = query.getString(0);
-                String data = query.getString(1);
+               // String data = query.getString(1);
+             ///////////
+                long data_long = query.getLong(1);
 
+                //перевод из числа в строку формата дата
+                Date date_obj = new Date();
+                date_obj.setTime(data_long);
+                String data_raw=date_obj.toString();
+                String data = "";
+                // форматируем дату по нужный нам вид
+               // SimpleDateFormat formatForDateNow = new SimpleDateFormat("E yyyy.MM.dd ");
+                SimpleDateFormat formatForDateNow = new SimpleDateFormat("E'.' dd.MM.yy "); // описание http://proglang.su/java/date-and-time
+
+                Date date_obj_parse = new Date();
+                // date_obj_parse = formatForDateNow.parse(data_raw);
+                //    date_obj_parse= formatForDateNow.format(data_raw);
+                // data=date_obj_parse.toString();
+                data=formatForDateNow.format(date_obj);
+
+
+                //////
                 createObjectTwo();
                 my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
                 my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                 //    int age = query.getInt(1);
@@ -361,10 +402,33 @@ public class MainActivity extends AppCompatActivity {
                 //  if (k >= j) {
                 if (k > j) {
                     String name = query.getString(0);
-                    String data = query.getString(1);
+                 //   String data = query.getString(1);
+                    ///////////
+                    long data_long = query.getLong(1);
+
+                    //перевод из числа в строку формата дата
+                    Date date_obj = new Date();
+                    date_obj.setTime(data_long);
+                    String data_raw=date_obj.toString();
+                    String data = "";
+                    // форматируем дату по нужный нам вид
+                    // SimpleDateFormat formatForDateNow = new SimpleDateFormat("E yyyy.MM.dd ");
+                    SimpleDateFormat formatForDateNow = new SimpleDateFormat("E yyyy.MM.dd "); // описание http://proglang.su/java/date-and-time
+
+                    try {
+                        Date date_obj_parse = new Date();
+                        date_obj_parse = formatForDateNow.parse(data_raw);
+                        data=date_obj_parse.toString();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        System.out.println("=======ошибка2======= mainActivity class");
+                    }
+                    //////
+
 
                     createObjectTwo();
                     my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
+                    my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
                     my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                     //    int age = query.getInt(1);
