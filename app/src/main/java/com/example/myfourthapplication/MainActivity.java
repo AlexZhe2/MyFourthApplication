@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton ImageButton_04;
 
     private LinearLayout my_LinerLayout_01;
+    private LinearLayout my_LinerLayout_Today_01;
 
     int j = 0;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         my_LinerLayout_01 = findViewById(R.id.my_LinerLayout_xml_01);//присвоение ранее созданной переменной
+        my_LinerLayout_Today_01 = findViewById(R.id.my_LinerLayout_Today_xml_01);//присвоение ранее созданной переменной
         // типа LinearLayout конкретного значения LinearLayout из XML файла
         ImageButton_01 = findViewById(R.id.ImageButton_xml_01);
         ImageButton_02 = findViewById(R.id.ImageButton_xml_02);
@@ -211,6 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
                 my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
+
+
+
                 //    int age = query.getInt(1);
                 //     textView.append("Name: " + name + " Age: " + age + "\n");
                 System.out.println("from first========================= " + j + " " + name);
@@ -381,7 +386,36 @@ public class MainActivity extends AppCompatActivity {
                 createObjectTwo();
                 my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
                 my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
-                my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+             //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+//////// заполнение Layout сегодня
+                // получаем текущие дату
+               // SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+                SimpleDateFormat formatter= new SimpleDateFormat("E'.' dd.MM.yy "); // класс для форматирования
+              //  Date date = new Date(System.currentTimeMillis());
+                Date current_date = new Date(); // при создании объекта автоматом задается текущая дата
+                System.out.println("===========formatter.format(current_date)=="+formatter.format(current_date));
+
+              //  разделение по сегодня, завтра, на неделе, потом
+              // запись о задаче должна быть только на одном layout иначе не работает
+                if(date_obj.after(current_date)){
+                    my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                    System.out.println("========Date1 is after Date2======");
+                }
+
+                if(date_obj.before(current_date)){
+                    my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                    System.out.println("=======Date1 is before Date2=======");
+                    System.out.println("=======add to layoyt TODAY=======");
+
+                }
+
+                if(date_obj.equals(current_date)){
+                    System.out.println("======Date1 is equal Date2=====");
+                }
+
+//////// конец заполнение Layout сегодня
 
                 //    int age = query.getInt(1);
                 //     textView.append("Name: " + name + " Age: " + age + "\n");
@@ -429,8 +463,35 @@ public class MainActivity extends AppCompatActivity {
                     createObjectTwo();
                     my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
                     my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
-                    my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                   // my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+//////// заполнение Layout сегодня
+                    // получаем текущие дату
+                    // SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+                    SimpleDateFormat formatter= new SimpleDateFormat("E'.' dd.MM.yy "); // класс для форматирования
+                    //  Date date = new Date(System.currentTimeMillis());
+                    Date current_date = new Date(); // при создании объекта автоматом задается текущая дата
+                    System.out.println("===========formatter.format(current_date)=="+formatter.format(current_date));
 
+                    //  разделение по сегодня, завтра, на неделе, потом
+                    // запись о задаче должна быть только на одном layout иначе не работает
+                    // сделать для Потом отдельный Layout сейчас ложиться в общий
+                    if(date_obj.after(current_date)){
+                        my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                        System.out.println("========Date1 is after Date2======");
+                    }
+
+                    if(date_obj.before(current_date)){
+                        my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                        System.out.println("=======Date1 is before Date2=======");
+                        System.out.println("=======add to layoyt TODAY=======");
+                    }
+
+                    if(date_obj.equals(current_date)){
+
+                    }
+
+//////// конец заполнение Layout сегодня
                     //    int age = query.getInt(1);
                     //     textView.append("Name: " + name + " Age: " + age + "\n");
                     System.out.println("from second========================= " + j + " " + name);

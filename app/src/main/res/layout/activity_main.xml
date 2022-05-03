@@ -65,6 +65,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/LinearLayout_Line_xml_01"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -95,6 +96,9 @@
 
     </LinearLayout>
 
+
+
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
@@ -109,35 +113,31 @@
             android:id="@+id/my_LinerLayout_xml_01"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:orientation="vertical">
 
+
+
             <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="50dp"
-                android:background="#685A5A"
-                android:text="Hello my World!" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="80dp"
-                android:text="Hello2 World!"
-                android:textColor="#232222"
-                android:visibility="visible" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="80dp"
-                android:text="Hello2 World!"
+                android:layout_marginTop="10dp"
+                android:text="Сегодня"
+                android:textSize="28dp"
                 android:textColor="@color/black"
-                />
+                 />
+
+        <LinearLayout
+            android:id="@+id/my_LinerLayout_Today_xml_01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+
+        </LinearLayout>
+
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -146,33 +146,11 @@
                 android:layout_marginTop="80dp"
                 android:text="Hello2 World!" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="80dp"
-                android:text="Hello2 World!" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="80dp"
-                android:text="Hello2 World!" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="80dp"
-                android:text="Hello2 World!" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="80dp"
-                android:text="Hello2 World!" />
+
+
 
             <Button
                 android:id="@+id/button3"
@@ -182,8 +160,19 @@
                 android:onClick="fill_Layout_for_tasks"
                 tools:ignore="OnClick" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Потом"
+                android:textSize="28dp"
+                android:textColor="@color/black"
+                />
+
         </LinearLayout>
     </ScrollView>
+
 
     <ImageButton
         android:id="@+id/ImageButton_xml_04"
