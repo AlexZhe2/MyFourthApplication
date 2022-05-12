@@ -138,27 +138,22 @@
         </LinearLayout>
 
 
-
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
-                android:layout_marginTop="80dp"
-                android:text="Hello2 World!" />
-
-
-
-
-
-
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Завтра"
+                android:textSize="28dp"
+                android:textColor="@color/black"
+                />
+            <LinearLayout
+                android:id="@+id/my_LinerLayout_Tomorrow_xml_01"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button"
-                android:onClick="fill_Layout_for_tasks"
-                tools:ignore="OnClick" />
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -169,6 +164,14 @@
                 android:textSize="28dp"
                 android:textColor="@color/black"
                 />
+            <LinearLayout
+                android:id="@+id/my_LinerLayout_Late_xml_01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+            </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>

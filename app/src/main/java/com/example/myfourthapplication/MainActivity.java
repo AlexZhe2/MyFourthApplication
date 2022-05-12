@@ -17,7 +17,9 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton ImageButton_04;
 
     private LinearLayout my_LinerLayout_01;
-    private LinearLayout my_LinerLayout_Today_01;
+      private LinearLayout my_LinerLayout_Today_01;
+      private LinearLayout my_LinerLayout_Tomorrow_01;
+      private LinearLayout my_LinerLayout_Late_01;
 
     int j = 0;
 
@@ -38,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         my_LinerLayout_01 = findViewById(R.id.my_LinerLayout_xml_01);//присвоение ранее созданной переменной
         my_LinerLayout_Today_01 = findViewById(R.id.my_LinerLayout_Today_xml_01);//присвоение ранее созданной переменной
+        my_LinerLayout_Tomorrow_01 = findViewById(R.id.my_LinerLayout_Tomorrow_xml_01);//присвоение ранее созданной переменной
+        my_LinerLayout_Late_01 = findViewById(R.id.my_LinerLayout_Late_xml_01);//присвоение ранее созданной переменной
         // типа LinearLayout конкретного значения LinearLayout из XML файла
         ImageButton_01 = findViewById(R.id.ImageButton_xml_01);
         ImageButton_02 = findViewById(R.id.ImageButton_xml_02);
@@ -391,19 +397,41 @@ public class MainActivity extends AppCompatActivity {
 //////// заполнение Layout сегодня
                 // получаем текущие дату
                // SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-                SimpleDateFormat formatter= new SimpleDateFormat("E'.' dd.MM.yy "); // класс для форматирования
+                SimpleDateFormat formatter= new SimpleDateFormat("E'.' dd.MM.yy HH:mm "); // класс для форматирования
               //  Date date = new Date(System.currentTimeMillis());
                 Date current_date = new Date(); // при создании объекта автоматом задается текущая дата
                 System.out.println("===========formatter.format(current_date)=="+formatter.format(current_date));
 
+                // для отброса от текущей даты времени
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(current_date);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+
+                current_date=calendar.getTime();
+                //добавляем к текущей дате 1 день
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+               // Date current_date_plus_day=new Date();
+                Date current_date_plus_day=calendar.getTime();
+              //  current_date_plus_day=calendar.getTime();
+
+                System.out.println("====current_date_plus_day==="+formatter.format(current_date_plus_day));
+
+                System.out.println("===========current_date=calendar.getTime();=="+formatter.format(current_date));
+  System.out.println("===========current_date=calendar.getTime();==+==date_obj=="+formatter.format(date_obj));
+
               //  разделение по сегодня, завтра, на неделе, потом
               // запись о задаче должна быть только на одном layout иначе не работает
-                if(date_obj.after(current_date)){
-                    my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                if((date_obj.after(current_date))&&(!(date_obj.equals(current_date_plus_day)))){
+                 //   my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                    my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
                     System.out.println("========Date1 is after Date2======");
                 }
 
-                if(date_obj.before(current_date)){
+                if(date_obj.before(current_date)){ // может сделать для просроченных отдельное поле???
                     my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                     System.out.println("=======Date1 is before Date2=======");
@@ -412,8 +440,16 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(date_obj.equals(current_date)){
+                    my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
                     System.out.println("======Date1 is equal Date2=====");
                 }
+
+                if(date_obj.equals(current_date_plus_day)){
+                   my_LinerLayout_Tomorrow_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                System.out.println("!!!====current_date_plus_day===!!!"+formatter.format(current_date_plus_day));
+
+                    }
 
 //////// конец заполнение Layout сегодня
 
@@ -472,15 +508,34 @@ public class MainActivity extends AppCompatActivity {
                     Date current_date = new Date(); // при создании объекта автоматом задается текущая дата
                     System.out.println("===========formatter.format(current_date)=="+formatter.format(current_date));
 
+                    // для отброса от текущей даты времени
+                    Calendar calendar = new GregorianCalendar();
+                    calendar.setTime(current_date);
+                    calendar.set(Calendar.HOUR_OF_DAY, 0);
+                    calendar.set(Calendar.MINUTE, 0);
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+
+                    current_date=calendar.getTime();
+                    //добавляем к текущей дате 1 день
+                    calendar.add(Calendar.DAY_OF_MONTH, 1);
+                    // Date current_date_plus_day=new Date();
+                    Date current_date_plus_day=calendar.getTime();
+                    //  current_date_plus_day=calendar.getTime();
+
+
+
                     //  разделение по сегодня, завтра, на неделе, потом
                     // запись о задаче должна быть только на одном layout иначе не работает
                     // сделать для Потом отдельный Layout сейчас ложиться в общий
-                    if(date_obj.after(current_date)){
-                        my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                    if((date_obj.after(current_date))&&(!(date_obj.equals(current_date_plus_day)))){
+                     //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                     my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
                         System.out.println("========Date1 is after Date2======");
                     }
 
-                    if(date_obj.before(current_date)){
+                    if(date_obj.before(current_date)){ // может сделать для просроченных отдельное поле???
                         my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                         System.out.println("=======Date1 is before Date2=======");
@@ -488,8 +543,13 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if(date_obj.equals(current_date)){
-
+                        my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                     }
+
+                 //   if(date_obj.equals(current_date_plus_day)){
+                  //      my_LinerLayout_Tomorrow_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                 //       System.out.println("======Date1 is equal Date2=====");
+                //    }
 
 //////// конец заполнение Layout сегодня
                     //    int age = query.getInt(1);
