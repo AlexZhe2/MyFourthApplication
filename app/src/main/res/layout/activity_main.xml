@@ -160,6 +160,40 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:text="На неделе"
+                android:textSize="28dp"
+                android:textColor="@color/black"
+                />
+            <LinearLayout
+                android:id="@+id/my_LinerLayout_Week_xml_01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="В этом месяце"
+                android:textSize="28dp"
+                android:textColor="@color/black"
+                />
+            <LinearLayout
+                android:id="@+id/my_LinerLayout_Month_xml_01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Потом"
                 android:textSize="28dp"
                 android:textColor="@color/black"
