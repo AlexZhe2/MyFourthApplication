@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <!-- my_color -->
     <color name="my_color_background">#eeeeee</color>
+    <color name="my_color_for_checked">#DCD6D6</color>
 </resources>

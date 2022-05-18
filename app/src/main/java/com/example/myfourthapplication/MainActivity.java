@@ -1,11 +1,14 @@
 package com.example.myfourthapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     public void startTaskActivity(View view) {
         Intent intent = new Intent(this, Task_Activity.class);
         startActivity(intent);
-
+        System.out.println("==========start=========");
         ////
 
 /*
@@ -222,8 +225,6 @@ public class MainActivity extends AppCompatActivity {
                 my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
                 my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
                 my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
-
-
 
 
                 //    int age = query.getInt(1);
@@ -397,6 +398,14 @@ public class MainActivity extends AppCompatActivity {
                 my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
                 my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
              //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                ////удалить эксперемент checkBox
+
+               // my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(true);
+                check_box_listener(my_txtView_from_List_Two.get(j).getMy_checkBox(),
+                        my_txtView_from_List_Two.get(j).getMy_textView());
+                ////////
+
 
 //////// заполнение Layout сегодня
                 // получаем текущие дату
@@ -710,5 +719,36 @@ public class MainActivity extends AppCompatActivity {
 
         ////
     }
+//////////////////
+
+
+    public void check_box_listener(CheckBox checkBox, TextView textView) { // показывает всплывающее сообщение
+        checkBox.setOnClickListener(new View.OnClickListener() {
+
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
+                System.out.println("========checkBox.isChecked()=============================================3");
+
+                Resources resources = getResources();
+                int textColor_checked = resources.getColor(R.color.my_color_for_checked,  null);
+                int textColor_black = resources.getColor(R.color.black,  null);
+
+
+                if (checkBox.isChecked()) {
+                    textView.setTextColor(textColor_checked);
+                }else {
+                    textView.setTextColor(textColor_black);
+                }
+
+            }
+
+        });
+    }
+//////////////////////////
+
+
 
 }
