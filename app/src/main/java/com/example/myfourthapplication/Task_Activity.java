@@ -9,9 +9,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -23,15 +22,18 @@ public class Task_Activity extends AppCompatActivity {
     private Button Button_01;
     private EditText EditText_task_01;
     private EditText EditText_task_02;
+  //  private CheckBox CheckBox_task_01;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
+        Button_01 = findViewById(R.id.button_task_01);
         EditText_task_01 = findViewById(R.id.EditText_task_01_xml);
         EditText_task_02 = findViewById(R.id.EditText_task_data_02_xml);
-        Button_01 = findViewById(R.id.button_task_01);
+      //  CheckBox_task_01 = findViewById(R.id.checkBox_1);   //вроде он здесь не нужен, при создании задачи значение всегда будет false
         showToastFunction_01(Button_01);// обработка нажатия
 
     }
@@ -50,7 +52,7 @@ public class Task_Activity extends AppCompatActivity {
     }
 
 
-   // public void startMainActivity(View view) {
+    // public void startMainActivity(View view) {
     public void startMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
@@ -63,18 +65,18 @@ public class Task_Activity extends AppCompatActivity {
     Date date = new Date();
 
 
-
     //База данных
     String a1 = "Alex Zhe";
-   // String a3 = "23.04.2022";
+    // String a3 = "23.04.2022";
     String str1 = "11";
-    String str2 ;
-    String str3 ;
+    String str2;
+    String str3;
     long a3 = System.currentTimeMillis();
-    long a5 ;
+    long a5;
     Editable a2;
     Editable a4;
 
+    boolean value_of_checkBox = false;
 
 
     // public void onClick(View view){
@@ -82,17 +84,21 @@ public class Task_Activity extends AppCompatActivity {
 
         a2 = EditText_task_01.getText();
         a4 = EditText_task_02.getText();
-        str2= String.valueOf(a4);
-        str3= String.valueOf(a4); // перевод из формата от TextView в формат String
+
+        str2 = String.valueOf(a4);
+        str3 = String.valueOf(a4); // перевод из формата от TextView в формат String
+
+       // value_of_checkBox =CheckBox_task_01.isChecked();
+
 /////////////////
         //перевод из строки в число
-       //   String s="05.09.2013";  // нужный формат
+        //   String s="05.09.2013";  // нужный формат
         SimpleDateFormat format = new SimpleDateFormat();
         format.applyPattern("dd.MM.yyyy");
         try {
-            Date docDate= format.parse(str3);
-            a5=docDate.getTime();
-            System.out.println("===============data format long from String===== "+a5);
+            Date docDate = format.parse(str3);
+            a5 = docDate.getTime();
+            System.out.println("===============data format long from String===== " + a5);
         } catch (ParseException e) {
             e.printStackTrace();
             System.out.println("=======ошибка=======");
@@ -118,14 +124,14 @@ public class Task_Activity extends AppCompatActivity {
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS users_03 (name TEXT,data INTEGER, UNIQUE(name))");//создание таблицы users_01
+        db.execSQL("CREATE TABLE IF NOT EXISTS users_05 (name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
         // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
 
-     //   db.execSQL("INSERT OR IGNORE INTO users_01 VALUES ('" + a2 + "');"); // добавление значения в базу
-     //   db.execSQL("INSERT OR IGNORE INTO users_02 VALUES ('" + a2 + "','" + a4 + "');"); // добавление значения в базу
-        db.execSQL("INSERT OR IGNORE INTO users_03 VALUES ('" + a2 + "','" + a5 + "');"); // добавление значения в базу
+        //   db.execSQL("INSERT OR IGNORE INTO users_01 VALUES ('" + a2 + "');"); // добавление значения в базу
+        //   db.execSQL("INSERT OR IGNORE INTO users_02 VALUES ('" + a2 + "','" + a4 + "');"); // добавление значения в базу
+        db.execSQL("INSERT OR IGNORE INTO users_05 VALUES ('" + a2 + "','" + a5 + "','" + value_of_checkBox + "');"); // добавление значения в базу
 
-        Cursor query = db.rawQuery("SELECT * FROM users_03;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_05;", null); // вытаскивает значения из базы
 
         //  TextView textView = findViewById(R.id.textView);
         //  textView.setText("");

@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public void create_BD_01() { //  создаем базу данных
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS users_03 (name TEXT,data INTEGER, UNIQUE(name))");//создание таблицы users_01
+        db.execSQL("CREATE TABLE IF NOT EXISTS users_05 (name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
         // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
 
         db.close(); //закрываем связи
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
       //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
-        Cursor query = db.rawQuery("SELECT * FROM users_03;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_05;", null); // вытаскивает значения из базы
 
 
         k = query.getCount();
@@ -352,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
       //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
-        Cursor query = db.rawQuery("SELECT * FROM users_03;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_05;", null); // вытаскивает значения из базы
 
 
         k = query.getCount();
@@ -376,6 +376,8 @@ public class MainActivity extends AppCompatActivity {
                // String data = query.getString(1);
              ///////////
                 long data_long = query.getLong(1);
+                boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(2));
+                System.out.println("=====value_checkBox_from_DB====="+value_checkBox_from_DB);
 
                 //перевод из числа в строку формата дата
                 Date date_obj = new Date();
@@ -397,9 +399,10 @@ public class MainActivity extends AppCompatActivity {
                 createObjectTwo();
                 my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
                 my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
+                my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(value_checkBox_from_DB);
              //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
-                ////удалить эксперемент checkBox
+                ////обработчик изменений для checkBox
 
                // my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(true);
                 check_box_listener(my_txtView_from_List_Two.get(j).getMy_checkBox(),
@@ -541,6 +544,9 @@ public class MainActivity extends AppCompatActivity {
                  //   String data = query.getString(1);
                     ///////////
                     long data_long = query.getLong(1);
+                    boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(2));
+                    System.out.println("=====value_checkBox_from_DB====2="+value_checkBox_from_DB);
+
 
                     //перевод из числа в строку формата дата
                     Date date_obj = new Date();
@@ -565,7 +571,19 @@ public class MainActivity extends AppCompatActivity {
                     createObjectTwo();
                     my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
                     my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
-                   // my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                    my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(value_checkBox_from_DB);
+
+                    // my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+
+                    ////обработчик изменений для checkBox
+
+                    // my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(true);
+                    check_box_listener(my_txtView_from_List_Two.get(j).getMy_checkBox(),
+                            my_txtView_from_List_Two.get(j).getMy_textView());
+                    ////////
+
+
 //////// заполнение Layout сегодня
                     // получаем текущие дату
                     // SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
@@ -735,7 +753,8 @@ public class MainActivity extends AppCompatActivity {
                 Resources resources = getResources();
                 int textColor_checked = resources.getColor(R.color.my_color_for_checked,  null);
                 int textColor_black = resources.getColor(R.color.black,  null);
-
+                boolean value_checkBox_for_DB = checkBox.isChecked();
+                String string_name= (String) textView.getText();
 
                 if (checkBox.isChecked()) {
                     textView.setTextColor(textColor_checked);
@@ -743,7 +762,20 @@ public class MainActivity extends AppCompatActivity {
                     textView.setTextColor(textColor_black);
                 }
 
+                ////работа с базой
+
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+              //  сделать в базе данных таблице users_05 столбец ID - автоинкремент для поиска записей
+              //  db.execSQL("UPDATE users_05 SET value_of_checkBox = value_checkBox_for_DB WHERE id=...."); // добавление значения в базу
+              //  db.execSQL("UPDATE users_05 SET value_of_checkBox = '" + value_checkBox_for_DB + "' WHERE name='" + string_name + "'"); // обновление значения в базе
+              //  не работает обновление в базе данных
+
+                db.close(); //закрываем связи
+
+
             }
+
 
         });
     }
