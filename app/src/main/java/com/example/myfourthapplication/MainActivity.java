@@ -73,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
     public void create_BD_01() { //  создаем базу данных
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS users_05 (name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
+      //  db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
+        db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
+
         // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
 
         db.close(); //закрываем связи
@@ -198,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
       //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
-        Cursor query = db.rawQuery("SELECT * FROM users_05;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
 
 
         k = query.getCount();
@@ -218,8 +220,9 @@ public class MainActivity extends AppCompatActivity {
                 //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout());
 
 
-                String name = query.getString(0);
-                String data = query.getString(1);
+               // String name = query.getString(0);
+                String name = query.getString(1);
+                String data = query.getString(2);
 
                 createObjectTwo();
                 my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
@@ -245,8 +248,9 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("====== K= " + k + " ===== J= " + j);
                 //  if (k >= j) {
                 if (k > j) {
-                    String name = query.getString(0);
-                    String data = query.getString(1);
+                   // String name = query.getString(0);
+                    String name = query.getString(1);
+                    String data = query.getString(2);
 
                     createObjectTwo();
                     my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
@@ -352,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
       //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
-        Cursor query = db.rawQuery("SELECT * FROM users_05;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
 
 
         k = query.getCount();
@@ -372,10 +376,10 @@ public class MainActivity extends AppCompatActivity {
                 //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout());
 
 
-                String name = query.getString(0);
+                String name = query.getString(1);
                // String data = query.getString(1);
              ///////////
-                long data_long = query.getLong(1);
+                long data_long = query.getLong(2);
                 boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(2));
                 System.out.println("=====value_checkBox_from_DB====="+value_checkBox_from_DB);
 
@@ -540,10 +544,10 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("====== K= " + k + " ===== J= " + j);
                 //  if (k >= j) {
                 if (k > j) {
-                    String name = query.getString(0);
+                    String name = query.getString(1);
                  //   String data = query.getString(1);
                     ///////////
-                    long data_long = query.getLong(1);
+                    long data_long = query.getLong(2);
                     boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(2));
                     System.out.println("=====value_checkBox_from_DB====2="+value_checkBox_from_DB);
 
@@ -766,9 +770,9 @@ public class MainActivity extends AppCompatActivity {
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-              //  сделать в базе данных таблице users_05 столбец ID - автоинкремент для поиска записей
-              //  db.execSQL("UPDATE users_05 SET value_of_checkBox = value_checkBox_for_DB WHERE id=...."); // добавление значения в базу
-              //  db.execSQL("UPDATE users_05 SET value_of_checkBox = '" + value_checkBox_for_DB + "' WHERE name='" + string_name + "'"); // обновление значения в базе
+              //  сделать в базе данных таблице users_06 столбец ID - автоинкремент для поиска записей
+              //  db.execSQL("UPDATE users_06 SET value_of_checkBox = value_checkBox_for_DB WHERE id=...."); // добавление значения в базу
+                 db.execSQL("UPDATE users_06 SET value_of_checkBox = '" + value_checkBox_for_DB + "' WHERE name='" + string_name + "'"); // обновление значения в базе
               //  не работает обновление в базе данных
 
                 db.close(); //закрываем связи

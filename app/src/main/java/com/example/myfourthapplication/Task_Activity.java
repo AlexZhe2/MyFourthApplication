@@ -124,26 +124,29 @@ public class Task_Activity extends AppCompatActivity {
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS users_05 (name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
+       // db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
+        db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
         // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
 
         //   db.execSQL("INSERT OR IGNORE INTO users_01 VALUES ('" + a2 + "');"); // добавление значения в базу
         //   db.execSQL("INSERT OR IGNORE INTO users_02 VALUES ('" + a2 + "','" + a4 + "');"); // добавление значения в базу
-        db.execSQL("INSERT OR IGNORE INTO users_05 VALUES ('" + a2 + "','" + a5 + "','" + value_of_checkBox + "');"); // добавление значения в базу
+        db.execSQL("INSERT OR IGNORE INTO users_06 (name, data, checkBox) VALUES ('" + a2 + "','" + a5 + "','" + value_of_checkBox + "');"); // добавление значения в базу
 
-        Cursor query = db.rawQuery("SELECT * FROM users_05;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
 
         //  TextView textView = findViewById(R.id.textView);
         //  textView.setText("");
         int i = 0;
         while (query.moveToNext()) {
-            String name = query.getString(0);
-            String data = query.getString(1);
+            int id_from_db= query.getInt(0);
+            String name = query.getString(1);
+            String data = query.getString(2);
 
             //   int age = query.getInt(1);
             //    textView.append("Name: " + name + " Age: " + age + "\n");
-            System.out.println("========================= " + i + " " + name);
-            System.out.println("========================= " + i + " " + data);
+            System.out.println("=========================id_from_db " + i + " " + id_from_db);
+            System.out.println("=========================name " + i + " " + name);
+            System.out.println("=========================data " + i + " " + data);
             i++;
         }
         query.close(); //закрываем связи
