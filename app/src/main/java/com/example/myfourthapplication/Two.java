@@ -19,14 +19,16 @@ public class Two extends AppCompatActivity {
     private final TextView my_textView_DATA;
     private final CheckBox my_checkBox;
     private final LinearLayout my_linearLayout;
+    private int my_task_id;
 
 
-    Two(TextView textView, TextView textView_DATA, CheckBox checkBox, LinearLayout linearLayout) {
+    Two(TextView textView, TextView textView_DATA, CheckBox checkBox, LinearLayout linearLayout, int task_id) {
 
         this.my_textView = textView;
         this.my_textView_DATA = textView_DATA;
         this.my_checkBox = checkBox;
         this.my_linearLayout = linearLayout;
+        this.my_task_id = task_id;
 
 // параметры для linearLayout
         linearLayout.setBackgroundColor(0xffe8eaf6);
@@ -92,6 +94,12 @@ public class Two extends AppCompatActivity {
 
     LinearLayout getMy_linearLayout() {
         return my_linearLayout;
+    }
+
+    int getMy_task_id() { return my_task_id;  }
+
+    public void setMy_task_id(int id_from_object){
+        my_task_id=id_from_object;
     }
 
 }

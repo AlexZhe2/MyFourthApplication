@@ -130,8 +130,12 @@ public class MainActivity extends AppCompatActivity {
     // метод который инициирует создание объекта (класа) Two с необходимыми для работы атрибутами
     // после создания ложит экземпляры созданных объектов в список. Работаем со списком через переменную "int i=0"
     public void createObjectTwo() {
+
+        int idTask=0;
+
         Two my_two_01 = new Two(new TextView(this), new TextView(this),
-                new CheckBox(this), new LinearLayout(this));
+                new CheckBox(this), new LinearLayout(this),  idTask );
+
         my_txtView_from_List_Two.add(my_two_01);
     }
 
@@ -376,11 +380,14 @@ public class MainActivity extends AppCompatActivity {
                 //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(i).getMy_linearLayout());
 
 
+                int id_for_object  = query.getInt(0);
                 String name = query.getString(1);
                // String data = query.getString(1);
              ///////////
                 long data_long = query.getLong(2);
-                boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(2));
+               // boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(3));//2
+                boolean value_checkBox_from_DB = Boolean.parseBoolean(query.getString(3));//2
+
                 System.out.println("=====value_checkBox_from_DB====="+value_checkBox_from_DB);
 
                 //перевод из числа в строку формата дата
@@ -404,13 +411,19 @@ public class MainActivity extends AppCompatActivity {
                 my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
                 my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
                 my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(value_checkBox_from_DB);
+                my_txtView_from_List_Two.get(j).setMy_task_id(id_for_object);
+
+                System.out.println("=my_txtView_from_List_Two.get(j).setMy_task_id(id_for_object);= "+
+                        my_txtView_from_List_Two.get(j).getMy_task_id());
+
              //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                 ////обработчик изменений для checkBox
 
                // my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(true);
                 check_box_listener(my_txtView_from_List_Two.get(j).getMy_checkBox(),
-                        my_txtView_from_List_Two.get(j).getMy_textView());
+                        my_txtView_from_List_Two.get(j).getMy_textView(),
+                        my_txtView_from_List_Two.get(j).getMy_task_id());
                 ////////
 
 
@@ -544,11 +557,15 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("====== K= " + k + " ===== J= " + j);
                 //  if (k >= j) {
                 if (k > j) {
+
+                    int id_for_object  = query.getInt(0);
                     String name = query.getString(1);
                  //   String data = query.getString(1);
                     ///////////
                     long data_long = query.getLong(2);
-                    boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(2));
+                 //   boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(3)); //2
+                    boolean value_checkBox_from_DB = Boolean.parseBoolean(query.getString(3));//2
+
                     System.out.println("=====value_checkBox_from_DB====2="+value_checkBox_from_DB);
 
 
@@ -576,6 +593,7 @@ public class MainActivity extends AppCompatActivity {
                     my_txtView_from_List_Two.get(j).getMy_textView().setText(name);
                     my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText(data);
                     my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(value_checkBox_from_DB);
+                    my_txtView_from_List_Two.get(j).setMy_task_id(id_for_object);
 
                     // my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
@@ -584,7 +602,8 @@ public class MainActivity extends AppCompatActivity {
 
                     // my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(true);
                     check_box_listener(my_txtView_from_List_Two.get(j).getMy_checkBox(),
-                            my_txtView_from_List_Two.get(j).getMy_textView());
+                            my_txtView_from_List_Two.get(j).getMy_textView(),
+                            my_txtView_from_List_Two.get(j).getMy_task_id());
                     ////////
 
 
@@ -744,7 +763,7 @@ public class MainActivity extends AppCompatActivity {
 //////////////////
 
 
-    public void check_box_listener(CheckBox checkBox, TextView textView) { // показывает всплывающее сообщение
+    public void check_box_listener(CheckBox checkBox, TextView textView, int task_id) {
         checkBox.setOnClickListener(new View.OnClickListener() {
 
 
@@ -753,27 +772,85 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
                 System.out.println("========checkBox.isChecked()=============================================3");
+                System.out.println("========checkBox.isChecked()===================== "+task_id);
 
                 Resources resources = getResources();
                 int textColor_checked = resources.getColor(R.color.my_color_for_checked,  null);
                 int textColor_black = resources.getColor(R.color.black,  null);
-                boolean value_checkBox_for_DB = checkBox.isChecked();
+               // boolean value_checkBox_for_DB = checkBox.isChecked();
+                boolean value_checkBox_for_DB ;
                 String string_name= (String) textView.getText();
 
                 if (checkBox.isChecked()) {
                     textView.setTextColor(textColor_checked);
+                    value_checkBox_for_DB=true;
                 }else {
                     textView.setTextColor(textColor_black);
+                    value_checkBox_for_DB=false;
+
                 }
 
-                ////работа с базой
+                //// работа с базой
 
                 SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
               //  сделать в базе данных таблице users_06 столбец ID - автоинкремент для поиска записей
               //  db.execSQL("UPDATE users_06 SET value_of_checkBox = value_checkBox_for_DB WHERE id=...."); // добавление значения в базу
-                 db.execSQL("UPDATE users_06 SET value_of_checkBox = '" + value_checkBox_for_DB + "' WHERE name='" + string_name + "'"); // обновление значения в базе
+
+                // проверка - потом удалить
+                Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+                while (query.moveToNext()) {
+                    int id_from_db= query.getInt(0);
+                    String name = query.getString(1);
+                    String data = query.getString(2);
+                   // boolean value_check = query.getExtras().getBoolean(String.valueOf(3));
+                  //  int value_check = query.getInt(3);
+                    boolean value_check = Boolean.parseBoolean(query.getString(3));
+
+
+
+                    //   int age = query.getInt(1);
+                    //    textView.append("Name: " + name + " Age: " + age + "\n");
+                    System.out.println("=========================id_from_db " + i + " " + id_from_db);
+                    System.out.println("=========================name " + i + " " + name);
+                    System.out.println("=========================data " + i + " " + data);
+                    System.out.println("=========================value_check " + i + " " + value_check);
+                    i++;
+                }
+                query.close(); //закрываем связи
+
+
+             //   db.execSQL("UPDATE users_06 SET checkBox = '" + value_checkBox_for_DB + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
+                db.execSQL("UPDATE users_06 SET checkBox =  '" + value_checkBox_for_DB + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
+             //   db.execSQL("UPDATE users_06 SET name = ' бе-бе-бе ' WHERE _id='" + task_id + "'"); // обновление значения в базе
+
+
+
+                System.out.println("=========после добавления в базу=========");
+
+                Cursor query2 = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+               i=0;
+                while (query2.moveToNext()) {
+                    int id_from_db= query2.getInt(0);
+                    String name = query2.getString(1);
+                    String data = query2.getString(2);
+                  //  boolean value_check = query2.getExtras().getBoolean(String.valueOf(3));
+                  //  int value_check = query.getInt(3);
+                    boolean value_check = Boolean.parseBoolean(query2.getString(3));
+
+
+                    //   int age = query.getInt(1);
+                    //    textView.append("Name: " + name + " Age: " + age + "\n");
+                    System.out.println("=========================id_from_db " + i + " " + id_from_db);
+                    System.out.println("=========================name " + i + " " + name);
+                    System.out.println("=========================data " + i + " " + data);
+                    System.out.println("=========================value_check " + i + " " + value_check);
+                    i++;
+                }
               //  не работает обновление в базе данных
+
+
+                query2.close(); //закрываем связи
 
                 db.close(); //закрываем связи
 

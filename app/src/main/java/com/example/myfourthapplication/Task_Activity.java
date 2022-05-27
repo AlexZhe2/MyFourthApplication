@@ -76,7 +76,8 @@ public class Task_Activity extends AppCompatActivity {
     Editable a2;
     Editable a4;
 
-    boolean value_of_checkBox = false;
+  //  boolean value_of_checkBox = false;
+    boolean value_of_checkBox =true;
 
 
     // public void onClick(View view){
@@ -141,12 +142,15 @@ public class Task_Activity extends AppCompatActivity {
             int id_from_db= query.getInt(0);
             String name = query.getString(1);
             String data = query.getString(2);
+            boolean value_check = Boolean.parseBoolean(query.getString(3));
 
             //   int age = query.getInt(1);
             //    textView.append("Name: " + name + " Age: " + age + "\n");
             System.out.println("=========================id_from_db " + i + " " + id_from_db);
             System.out.println("=========================name " + i + " " + name);
             System.out.println("=========================data " + i + " " + data);
+            System.out.println("=========================value_check=main " + i + " " + value_check);
+
             i++;
         }
         query.close(); //закрываем связи
