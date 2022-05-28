@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     int j = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -354,6 +355,7 @@ public class MainActivity extends AppCompatActivity {
             ////
         }
     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void fill_Layout_for_tasks_03() { // для автоматического построения Layout в основном активити
         ////
         //  int j = 0;
@@ -413,10 +415,24 @@ public class MainActivity extends AppCompatActivity {
                 my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(value_checkBox_from_DB);
                 my_txtView_from_List_Two.get(j).setMy_task_id(id_for_object);
 
+                if(data_long==0){ // если у задачи нет даты (дата = 01.01.1970 или data_long==0) то ничего в поле дата не пишем
+                    my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText("");
+                }
+
                 System.out.println("=my_txtView_from_List_Two.get(j).setMy_task_id(id_for_object);= "+
                         my_txtView_from_List_Two.get(j).getMy_task_id());
 
-             //  my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+             // отрисовка цвета для выполненых задач
+                Resources resources = getResources();
+                int textColor_checked = resources.getColor(R.color.my_color_for_checked,  null);
+                int textColor_black = resources.getColor(R.color.black,  null);
+
+                if (value_checkBox_from_DB==true) {
+                    my_txtView_from_List_Two.get(j).getMy_textView().setTextColor(textColor_checked);
+                }else {
+                    my_txtView_from_List_Two.get(j).getMy_textView().setTextColor(textColor_black);
+                }
+                ///////
 
                 ////обработчик изменений для checkBox
 
@@ -494,14 +510,19 @@ public class MainActivity extends AppCompatActivity {
               // запись о задаче должна быть только на одном layout иначе не работает
                 if((date_obj.after(current_date))&&(!(date_obj.equals(current_date_plus_day)))&&
                         (!(num_of_current_week.equals(num_of_obj_week)))&&
-                        (!(num_of_current_month.equals(num_of_obj_month)))){
+                        (!(num_of_current_month.equals(num_of_obj_month)))&&(value_checkBox_from_DB==false)){
                  //   my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                     my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                     System.out.println("========Date1 is after Date2======");
                 }
 
-                if(date_obj.before(current_date)){ // может сделать для просроченных отдельное поле???
+                if((data_long==0)&&(value_checkBox_from_DB==false)){ // если у задачи нет даты то ее тоже в поле "Потом"
+                    my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                }
+
+
+                if(date_obj.before(current_date)&&(data_long!=0)&&(value_checkBox_from_DB==false)){ // может сделать для просроченных отдельное поле???
                     my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                     System.out.println("=======Date1 is before Date2=======");
@@ -509,27 +530,27 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                if(date_obj.equals(current_date)){
+                if(date_obj.equals(current_date)&&(value_checkBox_from_DB==false)){
                     my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                     System.out.println("======Date1 is equal Date2=====");
                 }
 
-                if(date_obj.equals(current_date_plus_day)){
+                if(date_obj.equals(current_date_plus_day)&&(value_checkBox_from_DB==false)){
                    my_LinerLayout_Tomorrow_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                 System.out.println("!!!====current_date_plus_day===!!!"+formatter.format(current_date_plus_day));
 
                 }
 
                 if((date_obj.after(current_date))&&(!(date_obj.equals(current_date_plus_day)))&&
-                        ((num_of_current_week.equals(num_of_obj_week)))){
+                        ((num_of_current_week.equals(num_of_obj_week)))&&(value_checkBox_from_DB==false)){
 
                     my_LinerLayout_Week_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                 }
 
                 if((date_obj.after(current_date))&&(!(date_obj.equals(current_date_plus_day)))&&
                         (!(num_of_current_week.equals(num_of_obj_week)))&&
-                        ((num_of_current_month.equals(num_of_obj_month)))){
+                        ((num_of_current_month.equals(num_of_obj_month)))&&(value_checkBox_from_DB==false)){
 
                     my_LinerLayout_Month_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                 }
@@ -595,8 +616,23 @@ public class MainActivity extends AppCompatActivity {
                     my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(value_checkBox_from_DB);
                     my_txtView_from_List_Two.get(j).setMy_task_id(id_for_object);
 
+                    if(data_long==0){ // если у задачи нет даты (дата = 01.01.1970 или data_long==0) то ничего в поле дата не пишем
+                        my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText("");
+                    }
+
                     // my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
+                    // отрисовка цвета для выполненых задач
+                    Resources resources = getResources();
+                    int textColor_checked = resources.getColor(R.color.my_color_for_checked,  null);
+                    int textColor_black = resources.getColor(R.color.black,  null);
+
+                    if (value_checkBox_from_DB==true) {
+                        my_txtView_from_List_Two.get(j).getMy_textView().setTextColor(textColor_checked);
+                    }else {
+                        my_txtView_from_List_Two.get(j).getMy_textView().setTextColor(textColor_black);
+                    }
+                    ///////
 
                     ////обработчик изменений для checkBox
 
@@ -665,14 +701,19 @@ public class MainActivity extends AppCompatActivity {
                     // сделать для Потом отдельный Layout сейчас ложиться в общий
                     if((date_obj.after(current_date))&&(!(date_obj.equals(current_date_plus_day)))&&
                             (!(num_of_current_week.equals(num_of_obj_week)))&&
-                            (!(num_of_current_month.equals(num_of_obj_month)))){
+                            (!(num_of_current_month.equals(num_of_obj_month)))&&(value_checkBox_from_DB==false)){
                         //   my_LinerLayout_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                         my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                         System.out.println("========Date1 is after Date2======");
                     }
 
-                    if(date_obj.before(current_date)){ // может сделать для просроченных отдельное поле???
+                    if((data_long==0)&&(value_checkBox_from_DB==false)){ // если у задачи нет даты то ее тоже в поле "Потом"
+                        my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+                    }
+
+
+                    if(date_obj.before(current_date)&&(value_checkBox_from_DB==false)){ // может сделать для просроченных отдельное поле???
                         my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                         System.out.println("=======Date1 is before Date2=======");
@@ -680,27 +721,29 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                    if(date_obj.equals(current_date)){
+
+
+                    if(date_obj.equals(current_date)&&(data_long!=0)&&(value_checkBox_from_DB==false)){
                         my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                         System.out.println("======Date1 is equal Date2=====");
                     }
 
-                    if(date_obj.equals(current_date_plus_day)){
+                    if(date_obj.equals(current_date_plus_day)&&(value_checkBox_from_DB==false)){
                         my_LinerLayout_Tomorrow_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                         System.out.println("!!!====current_date_plus_day===!!!"+formatter.format(current_date_plus_day));
 
                     }
 
                     if((date_obj.after(current_date))&&(!(date_obj.equals(current_date_plus_day)))&&
-                            ((num_of_current_week.equals(num_of_obj_week)))){
+                            ((num_of_current_week.equals(num_of_obj_week)))&&(value_checkBox_from_DB==false)){
 
                         my_LinerLayout_Week_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                     }
 
                     if((date_obj.after(current_date))&&(!(date_obj.equals(current_date_plus_day)))&&
                             (!(num_of_current_week.equals(num_of_obj_week)))&&
-                            ((num_of_current_month.equals(num_of_obj_month)))){
+                            ((num_of_current_month.equals(num_of_obj_month)))&&(value_checkBox_from_DB==false)){
 
                         my_LinerLayout_Month_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                     }

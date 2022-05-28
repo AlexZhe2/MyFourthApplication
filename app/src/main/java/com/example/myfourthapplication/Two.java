@@ -31,7 +31,8 @@ public class Two extends AppCompatActivity {
         this.my_task_id = task_id;
 
 // параметры для linearLayout
-        linearLayout.setBackgroundColor(0xffe8eaf6);
+     //   linearLayout.setBackgroundColor(0xffe8eaf6);
+
         // создание и установка объекту который отвечает за настройки параметров для LinearLayout
         //нужных значений для характеристик которые потом будут переданы конкретному LinearLayout
         // в XML файле этозадается тегами
@@ -51,7 +52,7 @@ public class Two extends AppCompatActivity {
 //параметры для textView_DATA
 
         textView_DATA.setText("17-04-22");  // настройка для объекта textView
-        textView_DATA.setBackgroundColor(Color.RED);
+      //  textView_DATA.setBackgroundColor(Color.BLACK);
         textView_DATA.setTextColor(Color.BLACK);
         textView_DATA.setTextSize(10);
         // настройки для объекта который потом будет установлен именно в объект LinearLayout
@@ -63,7 +64,8 @@ public class Two extends AppCompatActivity {
         textView.setText("text from class");
         textView.setBackgroundColor(Color.parseColor("#eeeeee"));
         textView.setTextColor(Color.BLACK);
-        textView.setTextSize(28);
+       // textView.setTextSize(28);
+        textView.setTextSize(24);
 
         LinearLayout.LayoutParams layoutParams_1 = new LinearLayout.LayoutParams
                 (LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 9);

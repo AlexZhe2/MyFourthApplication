@@ -76,8 +76,8 @@ public class Task_Activity extends AppCompatActivity {
     Editable a2;
     Editable a4;
 
-  //  boolean value_of_checkBox = false;
-    boolean value_of_checkBox =true;
+    boolean value_of_checkBox = false;
+  //  boolean value_of_checkBox =true;
 
 
     // public void onClick(View view){
