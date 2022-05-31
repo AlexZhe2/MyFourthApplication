@@ -126,7 +126,13 @@ public class Task_Activity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
        // db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
-        db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
+      //  db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
+       // db.execSQL("DROP TABLE IF EXISTS  users_06"); //удаление таблицы
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
+                "data INTEGER,checkBox BOOL,done_data_fact INTEGER,time_alert INTEGER,exist_alert BOOL," +
+                "exist_important BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
+
         // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
 
         //   db.execSQL("INSERT OR IGNORE INTO users_01 VALUES ('" + a2 + "');"); // добавление значения в базу
@@ -143,6 +149,7 @@ public class Task_Activity extends AppCompatActivity {
             String name = query.getString(1);
             String data = query.getString(2);
             boolean value_check = Boolean.parseBoolean(query.getString(3));
+            String done_data_fact = query.getString(4);
 
             //   int age = query.getInt(1);
             //    textView.append("Name: " + name + " Age: " + age + "\n");
@@ -150,6 +157,7 @@ public class Task_Activity extends AppCompatActivity {
             System.out.println("=========================name " + i + " " + name);
             System.out.println("=========================data " + i + " " + data);
             System.out.println("=========================value_check=main " + i + " " + value_check);
+            System.out.println("=========================done_data_fact " + i + " " + done_data_fact);
 
             i++;
         }
