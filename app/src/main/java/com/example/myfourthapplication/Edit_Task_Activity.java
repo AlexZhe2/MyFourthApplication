@@ -1,7 +1,5 @@
 package com.example.myfourthapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,47 +7,56 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Task_Activity extends AppCompatActivity {
+public class Edit_Task_Activity extends AppCompatActivity {
 
     private Button Button_01;
     private EditText EditText_task_01;
     private EditText EditText_task_02;
   //  private CheckBox CheckBox_task_01;
-
+    static String string_text_from_task;
+    static String string_text_from_data;
+    static long id_from_task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+        setContentView(R.layout.edit_activity_task);
 
-        Button_01 = findViewById(R.id.button_task_01);
-        EditText_task_01 = findViewById(R.id.EditText_task_01_xml);
-        EditText_task_02 = findViewById(R.id.EditText_task_data_02_xml);
+        Button_01 = findViewById(R.id.button_edit_task_01);
+        EditText_task_01 = findViewById(R.id.EditText_edit_task_01_xml);
+        EditText_task_02 = findViewById(R.id.EditText_edit_task_data_02_xml);
       //  CheckBox_task_01 = findViewById(R.id.checkBox_1);   //вроде он здесь не нужен, при создании задачи значение всегда будет false
-        showToastFunction_01(Button_01);// обработка нажатия
+        push_button_save_01(Button_01);// обработка нажатия  комент 04.06.2022
+
+        /////
+        EditText_task_01.setText(string_text_from_task);
+        EditText_task_02.setText(string_text_from_data);
+
 
     }
 
 
-    public void showToastFunction_01(Button value) { // показывает всплывающее сообщение
+    public void push_button_save_01(Button value) { // показывает всплывающее сообщение
         value.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-           //     Toast.makeText(Task_Activity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
+                Toast.makeText(Edit_Task_Activity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
 
-                onClick_01();
+                onClick_02();
                 startMainActivity();
             }
         });
     }
+
 
 
     // public void startMainActivity(View view) {
@@ -81,7 +88,8 @@ public class Task_Activity extends AppCompatActivity {
 
 
     // public void onClick(View view){
-    public void onClick_01() {
+
+    public void onClick_02() {
 
         a2 = EditText_task_01.getText();
         a4 = EditText_task_02.getText();
@@ -125,19 +133,25 @@ public class Task_Activity extends AppCompatActivity {
 
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
-       // db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
-      //  db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
-       // db.execSQL("DROP TABLE IF EXISTS  users_06"); //удаление таблицы
 
+
+       // db.execSQL("UPDATE users_06 SET name =  '" + a2 + "' WHERE _id='" + id_from_task + "'"); // обновление значения в базе
+        db.execSQL("UPDATE users_06 SET name =  '" + a2 + "', data='" + a5 + "'  WHERE _id='" + id_from_task + "'"); // обновление значения в базе
+
+
+/*
         db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
                 "data INTEGER,checkBox BOOL,done_data_fact INTEGER,time_alert INTEGER,exist_alert BOOL," +
                 "exist_important BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
 
-        // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
-
-        //   db.execSQL("INSERT OR IGNORE INTO users_01 VALUES ('" + a2 + "');"); // добавление значения в базу
-        //   db.execSQL("INSERT OR IGNORE INTO users_02 VALUES ('" + a2 + "','" + a4 + "');"); // добавление значения в базу
         db.execSQL("INSERT OR IGNORE INTO users_06 (name, data, checkBox) VALUES ('" + a2 + "','" + a5 + "','" + value_of_checkBox + "');"); // добавление значения в базу
+
+
+
+        */
+
+
+
 
         Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
 
@@ -169,4 +183,7 @@ public class Task_Activity extends AppCompatActivity {
 
         ////
     }
+
+
+
 }

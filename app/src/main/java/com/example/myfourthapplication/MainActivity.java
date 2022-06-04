@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Task_Activity.class);
         startActivity(intent);
         System.out.println("==========start=========");
-        ////
 
 /*
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
@@ -149,6 +148,14 @@ public class MainActivity extends AppCompatActivity {
         ////
 
     }
+    public void startEditTaskActivity(View view) {
+        Intent intent_for_edit_task = new Intent(this, Edit_Task_Activity.class);
+        startActivity(intent_for_edit_task);
+        System.out.println("==========start=========");
+    }
+
+
+
 
     ArrayList<Two> my_txtView_from_List_Two = new ArrayList<Two>(); // создание списка который
     // будет содержать в себе значения типа "Two"
@@ -466,6 +473,13 @@ public class MainActivity extends AppCompatActivity {
                         my_txtView_from_List_Two.get(j).getMy_textView(),
                         my_txtView_from_List_Two.get(j).getMy_task_id());
                 ////////
+                //обработчик textView для Задач
+                task_listener(my_txtView_from_List_Two.get(j).getMy_textView(),
+                        my_txtView_from_List_Two.get(j).getMy_textView_DATA(),
+                        my_txtView_from_List_Two.get(j).getMy_task_id(),
+                        data_long);
+
+
 
 
 //////// заполнение Layout сегодня
@@ -659,7 +673,11 @@ public class MainActivity extends AppCompatActivity {
                             my_txtView_from_List_Two.get(j).getMy_textView(),
                             my_txtView_from_List_Two.get(j).getMy_task_id());
                     ////////
-
+                    //обработчик textView для Задач
+                    task_listener(my_txtView_from_List_Two.get(j).getMy_textView(),
+                            my_txtView_from_List_Two.get(j).getMy_textView_DATA(),
+                            my_txtView_from_List_Two.get(j).getMy_task_id(),
+                            data_long);
 
 //////// заполнение Layout сегодня
                     // получаем текущие дату
@@ -916,6 +934,125 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 //////////////////////////
+
+
+
+    public void task_listener(TextView textView, TextView TextView_Data, int task_id, long value_data) {
+        textView.setOnClickListener(new View.OnClickListener() {
+
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
+                startEditTaskActivity(textView);
+
+                Edit_Task_Activity eta= new Edit_Task_Activity();
+                eta.string_text_from_task= (String) textView.getText();
+
+
+                Date date_object = new Date();
+                date_object.setTime(value_data);
+                String data_for_edit = "";
+
+                SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy"); // описание http://proglang.su/java/date-and-time
+                data_for_edit = formatForDateNow.format(date_object);
+                eta.string_text_from_data=data_for_edit;
+
+                eta.id_from_task=task_id;
+
+                System.out.println("=========task listener=====!!!");
+                /* System.out.println("========checkBox.isChecked()=============================================3");
+                System.out.println("========checkBox.isChecked()===================== " + task_id);
+
+                Resources resources = getResources();
+                int textColor_checked = resources.getColor(R.color.my_color_for_checked, null);
+                int textColor_black = resources.getColor(R.color.black, null);
+                // boolean value_checkBox_for_DB = checkBox.isChecked();
+                boolean value_checkBox_for_DB;
+                String string_name = (String) textView.getText();
+
+                if (checkBox.isChecked()) {
+                    textView.setTextColor(textColor_checked);
+                    value_checkBox_for_DB = true;
+                } else {
+                    textView.setTextColor(textColor_black);
+                    value_checkBox_for_DB = false;
+
+                }
+
+                //// работа с базой
+
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+                //  сделать в базе данных таблице users_06 столбец ID - автоинкремент для поиска записей
+                //  db.execSQL("UPDATE users_06 SET value_of_checkBox = value_checkBox_for_DB WHERE id=...."); // добавление значения в базу
+
+                // проверка - потом удалить
+                Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+                while (query.moveToNext()) {
+                    int id_from_db = query.getInt(0);
+                    String name = query.getString(1);
+                    String data = query.getString(2);
+                    // boolean value_check = query.getExtras().getBoolean(String.valueOf(3));
+                    //  int value_check = query.getInt(3);
+                    boolean value_check = Boolean.parseBoolean(query.getString(3));
+
+
+                    //   int age = query.getInt(1);
+                    //    textView.append("Name: " + name + " Age: " + age + "\n");
+                    System.out.println("=========================id_from_db " + i + " " + id_from_db);
+                    System.out.println("=========================name " + i + " " + name);
+                    System.out.println("=========================data " + i + " " + data);
+                    System.out.println("=========================value_check " + i + " " + value_check);
+                    i++;
+                }
+                query.close(); //закрываем связи
+
+
+                //   db.execSQL("UPDATE users_06 SET checkBox = '" + value_checkBox_for_DB + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
+                db.execSQL("UPDATE users_06 SET checkBox =  '" + value_checkBox_for_DB + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
+                //   db.execSQL("UPDATE users_06 SET name = ' бе-бе-бе ' WHERE _id='" + task_id + "'"); // обновление значения в базе
+
+
+                System.out.println("=========после добавления в базу=========");
+
+                Cursor query2 = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+                i = 0;
+                while (query2.moveToNext()) {
+                    int id_from_db = query2.getInt(0);
+                    String name = query2.getString(1);
+                    String data = query2.getString(2);
+                    //  boolean value_check = query2.getExtras().getBoolean(String.valueOf(3));
+                    //  int value_check = query.getInt(3);
+                    boolean value_check = Boolean.parseBoolean(query2.getString(3));
+
+
+                    //   int age = query.getInt(1);
+                    //    textView.append("Name: " + name + " Age: " + age + "\n");
+                    System.out.println("=========================id_from_db " + i + " " + id_from_db);
+                    System.out.println("=========================name " + i + " " + name);
+                    System.out.println("=========================data " + i + " " + data);
+                    System.out.println("=========================value_check " + i + " " + value_check);
+                    i++;
+                }
+                //  не работает обновление в базе данных
+
+
+                query2.close(); //закрываем связи
+
+                db.close(); //закрываем связи
+
+
+*/
+            }
+
+        });
+    }
+
+
+
+
 
 
 }

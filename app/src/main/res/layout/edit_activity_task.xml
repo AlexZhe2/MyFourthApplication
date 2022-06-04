@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Edit_Task_Activity"
+    android:background="@color/my_color_background"
+    >
+
+    <EditText
+        android:id="@+id/EditText_edit_task_01_xml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@null"
+        android:hint="new task"
+
+        android:inputType="text"
+        android:paddingStart="10dp"
+        android:paddingBottom="5dp"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        tools:ignore="MissingConstraints,UnknownId">
+        <requestFocus />
+
+    </EditText>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout_edit_task_01_xml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/EditText_edit_task_01_xml"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#eeeeee"
+            android:text="" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_image_04" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#eeeeee"
+            android:text="" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout_edit_task_02_xml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/LinearLayout_edit_task_01_xml"
+        tools:ignore="MissingConstraints">
+
+        <ImageButton
+            android:id="@+id/ImageButton_edit_task_xml_01"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_image_03" />
+
+
+
+        <EditText
+            android:id="@+id/EditText_edit_task_data_02_xml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/LinearLayout_task_01_xml"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:hint="format: dd.MM.yyyy"
+
+            android:inputType="text"
+            android:paddingStart="10dp"
+            android:paddingBottom="5dp"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            tools:ignore="MissingConstraints,UnknownId">
+
+
+        </EditText>
+
+    </LinearLayout>
+
+
+
+
+    <Button
+        android:id="@+id/button_edit_task_01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Сохранить_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:onClick="startMainActivity"
+        tools:ignore="MissingConstraints,OnClick" />
+</androidx.constraintlayout.widget.ConstraintLayout>
