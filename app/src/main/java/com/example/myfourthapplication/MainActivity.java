@@ -856,6 +856,9 @@ public class MainActivity extends AppCompatActivity {
                 boolean value_checkBox_for_DB;
                 String string_name = (String) textView.getText();
 
+                Date current_date_for_done = new Date(); // при создании объекта автоматом задается текущая дата
+
+
                 if (checkBox.isChecked()) {
                     textView.setTextColor(textColor_checked);
                     value_checkBox_for_DB = true;
@@ -895,8 +898,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 //   db.execSQL("UPDATE users_06 SET checkBox = '" + value_checkBox_for_DB + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
-                db.execSQL("UPDATE users_06 SET checkBox =  '" + value_checkBox_for_DB + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
                 //   db.execSQL("UPDATE users_06 SET name = ' бе-бе-бе ' WHERE _id='" + task_id + "'"); // обновление значения в базе
+                db.execSQL("UPDATE users_06 SET checkBox =  '" + value_checkBox_for_DB + "', done_data_fact =  '" + current_date_for_done + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
 
 
                 System.out.println("=========после добавления в базу=========");
@@ -907,6 +910,8 @@ public class MainActivity extends AppCompatActivity {
                     int id_from_db = query2.getInt(0);
                     String name = query2.getString(1);
                     String data = query2.getString(2);
+                    String done_data = query2.getString(4);
+
                     //  boolean value_check = query2.getExtras().getBoolean(String.valueOf(3));
                     //  int value_check = query.getInt(3);
                     boolean value_check = Boolean.parseBoolean(query2.getString(3));
@@ -918,6 +923,7 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("=========================name " + i + " " + name);
                     System.out.println("=========================data " + i + " " + data);
                     System.out.println("=========================value_check " + i + " " + value_check);
+                    System.out.println("=========================done_data_fact " + i + " " + done_data);
                     i++;
                 }
                 //  не работает обновление в базе данных
