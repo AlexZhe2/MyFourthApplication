@@ -107,6 +107,73 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/LinearLayout_scroll_01_xml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/LinearLayout_task_02_xml"
+
+        tools:ignore="MissingConstraints">
+
+        <ScrollView
+            android:id="@+id/scrollView_task_01_xml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+
+            app:layout_constraintTop_toTopOf="@id/LinearLayout_task_02_xml"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <LinearLayout
+                android:id="@+id/LinearLayout_scroll_00_xml"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:id="@+id/LinearLayout_scroll_02_xml"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearLayout_scroll_03_xml"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="MissingConstraints">
+
+                <Button
+                    android:id="@+id/button_task_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="add subtask"
+                    android:onClick="addSubtask2"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+
+
+            </LinearLayout>
+            </LinearLayout>
+
+
+        </ScrollView>
+</LinearLayout>
 
 
 

@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Task_Activity extends AppCompatActivity {
@@ -22,6 +24,10 @@ public class Task_Activity extends AppCompatActivity {
     private Button Button_01;
     private EditText EditText_task_01;
     private EditText EditText_task_02;
+
+    private ScrollView ScrollView_task_01;
+    private LinearLayout LinearLayout_task_01;
+
   //  private CheckBox CheckBox_task_01;
 
 
@@ -34,8 +40,14 @@ public class Task_Activity extends AppCompatActivity {
         EditText_task_01 = findViewById(R.id.EditText_task_01_xml);
         EditText_task_02 = findViewById(R.id.EditText_task_data_02_xml);
       //  CheckBox_task_01 = findViewById(R.id.checkBox_1);   //вроде он здесь не нужен, при создании задачи значение всегда будет false
-        showToastFunction_01(Button_01);// обработка нажатия
 
+     //   ScrollView_task_01= findViewById(R.id.scrollView_task_01_xml);
+        LinearLayout_task_01= findViewById(R.id.LinearLayout_scroll_02_xml);
+
+
+        showToastFunction_01(Button_01);// обработка нажатия
+        createObjectTwoForSubtask();
+        addSubtask();
     }
 
 
@@ -46,6 +58,7 @@ public class Task_Activity extends AppCompatActivity {
            //     Toast.makeText(Task_Activity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
 
                 onClick_01();
+                saveSubtask();
                 startMainActivity();
             }
         });
@@ -169,4 +182,56 @@ public class Task_Activity extends AppCompatActivity {
 
         ////
     }
+
+
+        ArrayList<Three> my_txtView_from_Subtask_List_Three = new ArrayList<Three>(); // создание списка который
+        // будет содержать в себе значения типа "Three"
+
+    public void createObjectTwoForSubtask() {
+
+        int idTask = 0;
+
+        Three my_three_01 = new Three(new EditText(this), new EditText(this),
+                new CheckBox(this), new LinearLayout(this), idTask);
+
+        my_txtView_from_Subtask_List_Three.add(my_three_01);
+    }
+
+
+
+    public void addSubtask(){
+       // ScrollView_task_01.addView(my_txtView_from_Subtask_List_Three.get(0).getMy_linearLayout());
+        my_txtView_from_Subtask_List_Three.get(0).getMy_textView().setText("text-1");
+        LinearLayout_task_01.addView(my_txtView_from_Subtask_List_Three.get(0).getMy_linearLayout());
+        System.out.println("=======check=======12.06.2022-1"+
+                String.valueOf(my_txtView_from_Subtask_List_Three.get(0).getMy_textView().getText()));
+/*
+        createObjectTwoForSubtask();
+        System.out.println("=======check=======12.06.2022-2");
+
+        my_txtView_from_Subtask_List_Three.get(1).getMy_textView().setText("text-2");
+        LinearLayout_task_01.addView(my_txtView_from_Subtask_List_Three.get(1).getMy_linearLayout());
+        System.out.println("=======check=======12.06.2022-3"+
+                String.valueOf(my_txtView_from_Subtask_List_Three.get(1).getMy_textView().getText()));
+        */
+    }
+    public void addSubtask2(View view){
+        System.out.println("===addSubtask2==1");
+        createObjectTwoForSubtask();
+        System.out.println("===addSubtask2==2");
+        // ScrollView_task_01.addView(my_txtView_from_Subtask_List_Three.get(0).getMy_linearLayout());
+        LinearLayout_task_01.addView(my_txtView_from_Subtask_List_Three.get(1).getMy_linearLayout());
+        System.out.println("===addSubtask2==3");
+
+    }
+    public void saveSubtask(){
+      //  Editable str_Editable= (Editable) my_txtView_from_Subtask_List_Three.get(0).getMy_textView().getText();
+     // String str_from_editText= String.valueOf(str_Editable);
+      String str_from_editText= String.valueOf(my_txtView_from_Subtask_List_Three.get(0).getMy_textView().getText());
+      //  my_txtView_from_Subtask_List_Two.get(0).getMy_textView();
+        System.out.println("==========str_from_editText======="+str_from_editText);
+
+    }
+
+
 }
