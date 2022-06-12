@@ -2,6 +2,7 @@ package com.example.myfourthapplication;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,13 +15,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class Three extends AppCompatActivity {
 
     private final EditText my_EditText;
-    private final EditText my_EditText_DATA;
+    private final TextView my_EditText_DATA;
     private final CheckBox my_checkBox;
     private final LinearLayout my_linearLayout;
     private int my_task_id;
 
 
-    Three(EditText textView, EditText textView_DATA, CheckBox checkBox, LinearLayout linearLayout, int task_id) {
+    Three(EditText textView, TextView textView_DATA, CheckBox checkBox, LinearLayout linearLayout, int task_id) {
 
         this.my_EditText = textView;
         this.my_EditText_DATA = textView_DATA;
@@ -49,10 +50,12 @@ public class Three extends AppCompatActivity {
                 (ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
 //параметры для textView_DATA
 
-        textView_DATA.setText("17-04-22");  // настройка для объекта textView
+        textView_DATA.setText("X     ");  // настройка для объекта textView
       //  textView_DATA.setBackgroundColor(Color.BLACK);
         textView_DATA.setTextColor(Color.BLACK);
-        textView_DATA.setTextSize(10);
+        textView_DATA.setTextSize(14);
+      //  textView_DATA.setTypeface(Typeface.DEFAULT_BOLD);
+        textView_DATA.setTypeface(null, Typeface.BOLD);
         // настройки для объекта который потом будет установлен именно в объект LinearLayout
         LinearLayout.LayoutParams layoutParams_DATA = new LinearLayout.LayoutParams
                 (LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT, 1);

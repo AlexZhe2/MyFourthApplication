@@ -107,24 +107,16 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/LinearLayout_scroll_01_xml"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/LinearLayout_task_02_xml"
 
-        tools:ignore="MissingConstraints">
 
         <ScrollView
             android:id="@+id/scrollView_task_01_xml"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="140dp"
             android:background="@null"
 
-            app:layout_constraintTop_toTopOf="@id/LinearLayout_task_02_xml"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout_task_01_xml"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp">
 
@@ -173,7 +165,7 @@
 
 
         </ScrollView>
-</LinearLayout>
+
 
 
 

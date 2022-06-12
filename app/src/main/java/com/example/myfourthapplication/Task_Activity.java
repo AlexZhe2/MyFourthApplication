@@ -1,10 +1,12 @@
 package com.example.myfourthapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
@@ -13,6 +15,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.ls.LSOutput;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,7 +35,7 @@ public class Task_Activity extends AppCompatActivity {
     private LinearLayout LinearLayout_task_01;
 
   //  private CheckBox CheckBox_task_01;
-
+    int counter=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +52,10 @@ public class Task_Activity extends AppCompatActivity {
 
 
         showToastFunction_01(Button_01);// обработка нажатия
-        createObjectTwoForSubtask();
-        addSubtask();
+
+        //   createObjectThreeForSubtask();
+      //  addSubtask();
+
     }
 
 
@@ -187,11 +195,11 @@ public class Task_Activity extends AppCompatActivity {
         ArrayList<Three> my_txtView_from_Subtask_List_Three = new ArrayList<Three>(); // создание списка который
         // будет содержать в себе значения типа "Three"
 
-    public void createObjectTwoForSubtask() {
+    public void createObjectThreeForSubtask() {
 
         int idTask = 0;
 
-        Three my_three_01 = new Three(new EditText(this), new EditText(this),
+        Three my_three_01 = new Three(new EditText(this), new TextView(this),
                 new CheckBox(this), new LinearLayout(this), idTask);
 
         my_txtView_from_Subtask_List_Three.add(my_three_01);
@@ -215,15 +223,36 @@ public class Task_Activity extends AppCompatActivity {
                 String.valueOf(my_txtView_from_Subtask_List_Three.get(1).getMy_textView().getText()));
         */
     }
+
+
     public void addSubtask2(View view){
+        /*
         System.out.println("===addSubtask2==1");
-        createObjectTwoForSubtask();
+        createObjectThreeForSubtask();
         System.out.println("===addSubtask2==2");
         // ScrollView_task_01.addView(my_txtView_from_Subtask_List_Three.get(0).getMy_linearLayout());
         LinearLayout_task_01.addView(my_txtView_from_Subtask_List_Three.get(1).getMy_linearLayout());
         System.out.println("===addSubtask2==3");
+*/
+        createObjectThreeForSubtask();
+        LinearLayout_task_01.addView(my_txtView_from_Subtask_List_Three.get(counter).getMy_linearLayout());
 
+/*
+
+        if (counter==5) {
+          //  LinearLayout_task_01.removeAllViewsInLayout();
+            LinearLayout_task_01.removeView(my_txtView_from_Subtask_List_Three.get(1).getMy_linearLayout());
+        }
+*/
+
+        subtask_listener(my_txtView_from_Subtask_List_Three.get(counter).getMy_textView_DATA(),counter);
+
+        counter++;
     }
+
+
+
+
     public void saveSubtask(){
       //  Editable str_Editable= (Editable) my_txtView_from_Subtask_List_Three.get(0).getMy_textView().getText();
      // String str_from_editText= String.valueOf(str_Editable);
@@ -232,6 +261,20 @@ public class Task_Activity extends AppCompatActivity {
         System.out.println("==========str_from_editText======="+str_from_editText);
 
     }
+
+    public void subtask_listener(TextView TextView_Data, int counter_met) {
+
+        TextView_Data.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View TextView_Data) {
+            LinearLayout_task_01.removeView(my_txtView_from_Subtask_List_Three.get(counter_met).getMy_linearLayout());
+            }
+        });
+    }
+
+
 
 
 }
