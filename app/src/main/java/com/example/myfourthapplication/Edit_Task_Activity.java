@@ -1,19 +1,26 @@
 package com.example.myfourthapplication;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Edit_Task_Activity extends AppCompatActivity {
@@ -22,10 +29,15 @@ public class Edit_Task_Activity extends AppCompatActivity {
     private EditText EditText_task_01;
     private EditText EditText_task_02;
   //  private CheckBox CheckBox_task_01;
+  private LinearLayout LinearLayout_Edit_subtask_01;
+
     static String string_text_from_task;
     static String string_text_from_data;
     static long id_from_task;
 
+    // LinearLayout_Edit_scroll_02_xml
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +47,17 @@ public class Edit_Task_Activity extends AppCompatActivity {
         EditText_task_01 = findViewById(R.id.EditText_edit_task_01_xml);
         EditText_task_02 = findViewById(R.id.EditText_edit_task_data_02_xml);
       //  CheckBox_task_01 = findViewById(R.id.checkBox_1);   //вроде он здесь не нужен, при создании задачи значение всегда будет false
+        LinearLayout_Edit_subtask_01= findViewById(R.id.LinearLayout_Edit_scroll_02_xml);
+
+
         push_button_save_01(Button_01);// обработка нажатия  комент 04.06.2022
+
 
         /////
         EditText_task_01.setText(string_text_from_task);
         EditText_task_02.setText(string_text_from_data);
 
+        loadSubtask();
 
     }
 
@@ -52,6 +69,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
                 Toast.makeText(Edit_Task_Activity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
 
                 onClick_02();
+                update_subtask ();
                 startMainActivity();
             }
         });
@@ -136,7 +154,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
 
        // db.execSQL("UPDATE users_06 SET name =  '" + a2 + "' WHERE _id='" + id_from_task + "'"); // обновление значения в базе
-        db.execSQL("UPDATE users_06 SET name =  '" + a2 + "', data='" + a5 + "'  WHERE _id='" + id_from_task + "'"); // обновление значения в базе
+        db.execSQL("UPDATE users_07 SET name =  '" + a2 + "', data='" + a5 + "'  WHERE _id='" + id_from_task + "'"); // обновление значения в базе
 
 
 /*
@@ -153,7 +171,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
 
 
-        Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
 
         //  TextView textView = findViewById(R.id.textView);
         //  textView.setText("");
@@ -184,6 +202,156 @@ public class Edit_Task_Activity extends AppCompatActivity {
         ////
     }
 
+    ArrayList<Three> my_txtView_from_Subtask_List_Three = new ArrayList<Three>(); // создание списка который
+    // будет содержать в себе значения типа "Three"
 
+    public void createObjectThreeForEditSubtask() {
+
+        int idTask = 0;
+
+        Three my_three_01 = new Three(new EditText(this), new TextView(this),
+                new CheckBox(this), new LinearLayout(this), idTask);
+
+        my_txtView_from_Subtask_List_Three.add(my_three_01);
+    }
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void loadSubtask() {
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+      //  Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
+
+        System.out.println("id_from_task= "+id_from_task);
+       // Cursor query_value_from_bd = db.rawQuery("SELECT * FROM users_07 WHERE _id='" + id_from_task + "'",null); // вытаскивает значения из базы (сразу нужный картеж)
+       Cursor query_value_from_bd = db.rawQuery("SELECT * FROM users_07 WHERE _id=?",new String[] {String.valueOf(id_from_task)}); // вытаскивает значения из базы (сразу нужный картеж)
+       // query_value_from_bd.close(); //закрываем связи
+
+        // Cursor query_value_from_bd = db.rawQuery("SELECT name FROM users_07 WHERE _id=?",new String[] {"1"}); // вытаскивает значения из базы (сразу нужный картеж)
+        //Cursor query_value_from_bd_ex = db.rawQuery("SELECT exist_subtask FROM users_07 WHERE _id=?",new String[] {"1"}); // вытаскивает значения из базы (сразу нужный картеж)
+
+        boolean value_exist_subtask = false;
+
+        while (query_value_from_bd.moveToNext()) {
+           // int id_from_db= query_value_from_bd.getInt(0);
+            //String name = query_value_from_bd.getString(1);
+            value_exist_subtask = Boolean.parseBoolean(query_value_from_bd.getString(8));
+        //    System.out.println("===id_from_db==="+ id_from_db);
+         //   System.out.println("===name==="+ name);
+            System.out.println("===value_exist_subtask==="+ value_exist_subtask);
+
+        }
+
+        if (value_exist_subtask==true){
+
+            Cursor query_All_subtask = db.rawQuery("SELECT * FROM users_subtask_01;", null); // вытаскивает значения из базы
+           int i =0;
+           int z=0;
+            while (query_All_subtask.moveToNext()) {
+                int id_from_parent= query_All_subtask.getInt(3);
+                boolean value_check = Boolean.parseBoolean(query_All_subtask.getString(2));
+                String name = query_All_subtask.getString(1);
+                int id_subtask= query_All_subtask.getInt(0);
+                    if (id_from_parent==id_from_task){
+
+                        createObjectThreeForEditSubtask();
+                        my_txtView_from_Subtask_List_Three.get(z).getMy_textView().setText(name);
+                        my_txtView_from_Subtask_List_Three.get(z).getMy_checkBox().setChecked(value_check);
+
+                        System.out.println("BINGO" + id_from_parent+ id_from_parent);
+                        System.out.println("=========================name " + i + " " + name);
+
+
+                        LinearLayout_Edit_subtask_01.addView(my_txtView_from_Subtask_List_Three.get(z).getMy_linearLayout());
+// установка цвета
+                        Resources resources = getResources();
+                        int textColor_checked = resources.getColor(R.color.my_color_for_checked, null);
+                        int textColor_black = resources.getColor(R.color.black, null);
+                        if (value_check==true) {
+                            my_txtView_from_Subtask_List_Three.get(z).getMy_textView().setTextColor(textColor_checked);
+
+                        } else {
+                            my_txtView_from_Subtask_List_Three.get(z).getMy_textView().setTextColor(textColor_black);
+
+                        }
+
+                        subtask_listenerClose(my_txtView_from_Subtask_List_Three.get(z).getMy_textView_DATA(),z );
+                        subtask_listenerCheck(my_txtView_from_Subtask_List_Three.get(z).getMy_checkBox(),id_subtask,
+                                my_txtView_from_Subtask_List_Three.get(z).getMy_textView());
+                        z++;
+
+                    }
+
+
+             i++;
+            }
+
+
+            query_All_subtask.close();
+        }
+
+
+
+
+
+        query_value_from_bd.close(); //закрываем связи
+        db.close(); //закрываем связи
+    }
+
+    public void update_subtask (){
+
+
+    }
+
+
+    public void subtask_listenerClose(TextView TextView_Data, int counter_met) {
+
+        TextView_Data.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View TextView_Data) {
+                LinearLayout_Edit_subtask_01.removeView(my_txtView_from_Subtask_List_Three.get(counter_met).getMy_linearLayout());
+                my_txtView_from_Subtask_List_Three.remove(counter_met);
+
+               // SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+               // db.execSQL("UPDATE users_subtask_01 SET checkBox =  '" + value_check_subtask + "' WHERE _id='" + subtask_id + "'"); // обновление значения в базе
+
+
+            }
+        });
+    }
+
+
+    public void subtask_listenerCheck(CheckBox checkBox, int subtask_id, TextView textView) {
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View view) {
+               // LinearLayout_Edit_subtask_01.removeView(my_txtView_from_Subtask_List_Three.get(counter_met).getMy_linearLayout());
+             //   my_txtView_from_Subtask_List_Three.remove(counter_met);
+                Resources resources = getResources();
+                int textColor_checked = resources.getColor(R.color.my_color_for_checked, null);
+                int textColor_black = resources.getColor(R.color.black, null);
+                boolean value_checkBox_for_DB;
+                if (checkBox.isChecked()) {
+                    textView.setTextColor(textColor_checked);
+                    value_checkBox_for_DB = true;
+                } else {
+                    textView.setTextColor(textColor_black);
+                    value_checkBox_for_DB = false;
+
+                }
+
+
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                db.execSQL("UPDATE users_subtask_01 SET checkBox =  '" + value_checkBox_for_DB + "' WHERE _id='" + subtask_id + "'"); // обновление значения в базе
+                System.out.println("=====checkBox===");
+                db.close();
+            }
+        });
+    }
 
 }

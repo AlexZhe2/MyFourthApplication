@@ -96,11 +96,12 @@ public class MainActivity extends AppCompatActivity {
 
         //  db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
         //  db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
-        //  db.execSQL("DROP TABLE IF EXISTS  users_06"); //удаление таблицы
+         // db.execSQL("DROP TABLE IF EXISTS  users_07"); //удаление таблицы
+        // db.execSQL("DROP TABLE IF EXISTS  users_subtask_01"); //удаление таблицы
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
+        db.execSQL("CREATE TABLE IF NOT EXISTS users_07 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
                 "data INTEGER,checkBox BOOL,done_data_fact INTEGER,time_alert INTEGER,exist_alert BOOL," +
-                "exist_important BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
+                "exist_important BOOL,exist_subtask BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
 
 
         // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
@@ -237,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
         //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
-        Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
 
 
         k = query.getCount();
@@ -394,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
 
         //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
-        Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
 
 
         k = query.getCount();
@@ -876,7 +877,7 @@ public class MainActivity extends AppCompatActivity {
                 //  db.execSQL("UPDATE users_06 SET value_of_checkBox = value_checkBox_for_DB WHERE id=...."); // добавление значения в базу
 
                 // проверка - потом удалить
-                Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+                Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
                 while (query.moveToNext()) {
                     int id_from_db = query.getInt(0);
                     String name = query.getString(1);
@@ -899,12 +900,12 @@ public class MainActivity extends AppCompatActivity {
 
                 //   db.execSQL("UPDATE users_06 SET checkBox = '" + value_checkBox_for_DB + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
                 //   db.execSQL("UPDATE users_06 SET name = ' бе-бе-бе ' WHERE _id='" + task_id + "'"); // обновление значения в базе
-                db.execSQL("UPDATE users_06 SET checkBox =  '" + value_checkBox_for_DB + "', done_data_fact =  '" + current_date_for_done + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
+                db.execSQL("UPDATE users_07 SET checkBox =  '" + value_checkBox_for_DB + "', done_data_fact =  '" + current_date_for_done + "' WHERE _id='" + task_id + "'"); // обновление значения в базе
 
 
                 System.out.println("=========после добавления в базу=========");
 
-                Cursor query2 = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+                Cursor query2 = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
                 i = 0;
                 while (query2.moveToNext()) {
                     int id_from_db = query2.getInt(0);

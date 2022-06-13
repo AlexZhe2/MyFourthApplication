@@ -16,9 +16,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.ls.LSOutput;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -98,6 +95,8 @@ public class Task_Activity extends AppCompatActivity {
     Editable a4;
 
     boolean value_of_checkBox = false;
+    boolean exist_subtask_true = true;
+    boolean exist_subtask_false = false;
   //  boolean value_of_checkBox =true;
 
 
@@ -150,17 +149,17 @@ public class Task_Activity extends AppCompatActivity {
       //  db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
        // db.execSQL("DROP TABLE IF EXISTS  users_06"); //удаление таблицы
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
+        db.execSQL("CREATE TABLE IF NOT EXISTS users_07 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
                 "data INTEGER,checkBox BOOL,done_data_fact INTEGER,time_alert INTEGER,exist_alert BOOL," +
-                "exist_important BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
+                "exist_important BOOL,exist_subtask BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
 
         // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
 
         //   db.execSQL("INSERT OR IGNORE INTO users_01 VALUES ('" + a2 + "');"); // добавление значения в базу
         //   db.execSQL("INSERT OR IGNORE INTO users_02 VALUES ('" + a2 + "','" + a4 + "');"); // добавление значения в базу
-        db.execSQL("INSERT OR IGNORE INTO users_06 (name, data, checkBox) VALUES ('" + a2 + "','" + a5 + "','" + value_of_checkBox + "');"); // добавление значения в базу
+        db.execSQL("INSERT OR IGNORE INTO users_07 (name, data, checkBox,exist_subtask) VALUES ('" + a2 + "','" + a5 + "','" + value_of_checkBox + "','" + exist_subtask_false + "');"); // добавление значения в базу
 
-        Cursor query = db.rawQuery("SELECT * FROM users_06;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
 
         //  TextView textView = findViewById(R.id.textView);
         //  textView.setText("");
@@ -181,15 +180,87 @@ public class Task_Activity extends AppCompatActivity {
             System.out.println("=========================done_data_fact " + i + " " + done_data_fact);
 
             i++;
+
         }
+
+
         query.close(); //закрываем связи
         db.close(); //закрываем связи
 
         /////
 
-
+        DB_for_subtask();
         ////
     }
+
+    public void DB_for_subtask() {
+
+       int array_size = my_txtView_from_Subtask_List_Three.size();
+        System.out.println("array_size = "+ array_size);
+
+        if (array_size!=0){
+
+            SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+            db.execSQL("CREATE TABLE IF NOT EXISTS users_subtask_01 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
+                    "checkBox BOOL,parent_task_id INTEGER)");//создание таблицы users_01 , UNIQUE - не нужен
+
+         //   db.execSQL("INSERT OR IGNORE INTO users_07 (exist_subtask) VALUES ('" + exist_subtask_true + "');"); // добавление значения в базу
+
+
+
+            Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
+            int last_parent_id=0;
+            while (query.moveToNext()) {
+                last_parent_id= query.getInt(0);
+                System.out.println("last_parent_id = "+last_parent_id);
+            }
+            query.close(); //закрываем связи
+
+           db.execSQL("UPDATE users_07 SET exist_subtask =  '" + exist_subtask_true + "' WHERE _id='" + last_parent_id + "'"); // обновление значения в базе
+        //    db.execSQL("UPDATE users_07 SET exist_subtask =  '" + exist_subtask_true + "' WHERE _id=1"); // обновление значения в базе
+
+
+            for (int i = 0; i < my_txtView_from_Subtask_List_Three.size(); i++) {
+                System.out.println(my_txtView_from_Subtask_List_Three.get(i).getMy_textView());
+
+             Editable text_from_subtask_textView = (Editable) my_txtView_from_Subtask_List_Three.get(i).getMy_textView().getText();
+             String text_from_subtask = String.valueOf(text_from_subtask_textView); // перевод из формата от TextView в формат String
+             boolean value_of_checkBox =  my_txtView_from_Subtask_List_Three.get(i).getMy_checkBox().isChecked();
+
+              db.execSQL("INSERT OR IGNORE INTO users_subtask_01 (name, checkBox, parent_task_id) VALUES ('" + text_from_subtask + "','" + value_of_checkBox + "','" + last_parent_id + "');"); // добавление значения в базу
+
+
+
+                Cursor query_subtask = db.rawQuery("SELECT * FROM users_subtask_01;", null); // вытаскивает значения из базы
+                int j=0;
+
+                while (query_subtask.moveToNext()) {
+
+                    int id_from_db_subtask= query_subtask.getInt(0);
+                    String text_subtask = query_subtask.getString(1);
+                    boolean value_check = Boolean.parseBoolean(query_subtask.getString(2));
+                    int id_from_db_parent= query_subtask.getInt(3);
+
+                    //   int age = query.getInt(1);
+                    //    textView.append("Name: " + name + " Age: " + age + "\n");
+                    System.out.println("=========================id_from_db_subtask " + j + " " + id_from_db_subtask);
+                    System.out.println("=========================text_subtask " + j + " " + text_subtask);
+                    System.out.println("=========================value_check_subtask " + j + " " + value_check);
+                    System.out.println("=========================id_from_db_parent " + j + " " + id_from_db_parent);
+
+                    j++;
+
+                }
+                query_subtask.close(); //закрываем связи
+
+
+            }
+
+            db.close(); //закрываем связи
+        }
+    }
+
+
 
 
         ArrayList<Three> my_txtView_from_Subtask_List_Three = new ArrayList<Three>(); // создание списка который
@@ -270,6 +341,7 @@ public class Task_Activity extends AppCompatActivity {
             @Override
             public void onClick(View TextView_Data) {
             LinearLayout_task_01.removeView(my_txtView_from_Subtask_List_Three.get(counter_met).getMy_linearLayout());
+            my_txtView_from_Subtask_List_Three.remove(counter_met);
             }
         });
     }

@@ -107,7 +107,62 @@
 
     </LinearLayout>
 
+    <ScrollView
+        android:id="@+id/scrollView_EditTask_01_xml"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="140dp"
+        android:background="@null"
 
+        app:layout_constraintTop_toBottomOf="@id/LinearLayout_edit_task_02_xml"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <LinearLayout
+            android:id="@+id/LinearLayout_Edit_scroll_00_xml"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:id="@+id/LinearLayout_Edit_scroll_02_xml"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearLayout_Edit_scroll_03_xml"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="MissingConstraints">
+
+                <Button
+                    android:id="@+id/button_EditTask_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="add subtask"
+                    android:onClick="addSubtask2"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
 
 
     <Button
