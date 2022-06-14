@@ -257,6 +257,8 @@ public class Edit_Task_Activity extends AppCompatActivity {
                         createObjectThreeForEditSubtask();
                         my_txtView_from_Subtask_List_Three.get(z).getMy_textView().setText(name);
                         my_txtView_from_Subtask_List_Three.get(z).getMy_checkBox().setChecked(value_check);
+                        my_txtView_from_Subtask_List_Three.get(z).setMy_task_id(id_subtask);
+
 
                         System.out.println("BINGO" + id_from_parent+ id_from_parent);
                         System.out.println("=========================name " + i + " " + name);
@@ -275,7 +277,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
                         }
 
-                        subtask_listenerClose(my_txtView_from_Subtask_List_Three.get(z).getMy_textView_DATA(),z );
+                        subtask_listenerClose(my_txtView_from_Subtask_List_Three.get(z).getMy_textView_DATA(),z, id_subtask );
                         subtask_listenerCheck(my_txtView_from_Subtask_List_Three.get(z).getMy_checkBox(),id_subtask,
                                 my_txtView_from_Subtask_List_Three.get(z).getMy_textView());
                         z++;
@@ -299,12 +301,35 @@ public class Edit_Task_Activity extends AppCompatActivity {
     }
 
     public void update_subtask (){
+        int sizeArr =0;
+        sizeArr= my_txtView_from_Subtask_List_Three.size();
+        System.out.println("sizeArr= "+sizeArr );
+        Editable text_from_subtask_textView ;
+        String text_from_subtask ; // перевод из формата от TextView в формат String
+        int subtask_id;
 
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+        for (int i=0;i<sizeArr;i++){
+            System.out.println("==for sizeArr== "+ i +" = "+my_txtView_from_Subtask_List_Three.get(i).getMy_textView().getText());
+            text_from_subtask_textView = (Editable) my_txtView_from_Subtask_List_Three.get(i).getMy_textView().getText();
+            text_from_subtask = String.valueOf(text_from_subtask_textView);
+            subtask_id=my_txtView_from_Subtask_List_Three.get(i).getMy_task_id();
+
+            System.out.println("subtask_id= "+subtask_id);
+
+            db.execSQL("UPDATE users_subtask_01 SET name =  '" + text_from_subtask + "' WHERE _id='" + subtask_id + "'"); // обновление значения в базе
+
+
+
+
+        }
+        db.close();
 
     }
 
 
-    public void subtask_listenerClose(TextView TextView_Data, int counter_met) {
+    public void subtask_listenerClose(TextView TextView_Data, int counter_met,int subtask_id) {
 
         TextView_Data.setOnClickListener(new View.OnClickListener() {
 
@@ -314,9 +339,10 @@ public class Edit_Task_Activity extends AppCompatActivity {
                 LinearLayout_Edit_subtask_01.removeView(my_txtView_from_Subtask_List_Three.get(counter_met).getMy_linearLayout());
                 my_txtView_from_Subtask_List_Three.remove(counter_met);
 
-               // SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
-               // db.execSQL("UPDATE users_subtask_01 SET checkBox =  '" + value_check_subtask + "' WHERE _id='" + subtask_id + "'"); // обновление значения в базе
-
+                SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+              //  db.execSQL("UPDATE users_subtask_01 SET checkBox =  '" + value_check_subtask + "' WHERE _id='" + subtask_id + "'"); // обновление значения в базе
+                db.execSQL("DELETE FROM users_subtask_01  WHERE _id='" + subtask_id + "'"); // удаление
+                db.close();
 
             }
         });
@@ -353,5 +379,70 @@ public class Edit_Task_Activity extends AppCompatActivity {
             }
         });
     }
+
+    public void add_Edit_Subtask_01(View view){
+        /*
+        System.out.println("===addSubtask2==1");
+        createObjectThreeForSubtask();
+        System.out.println("===addSubtask2==2");
+        // ScrollView_task_01.addView(my_txtView_from_Subtask_List_Three.get(0).getMy_linearLayout());
+        LinearLayout_task_01.addView(my_txtView_from_Subtask_List_Three.get(1).getMy_linearLayout());
+        System.out.println("===addSubtask2==3");
+*/
+        System.out.println("checks-0");
+
+       int counter=my_txtView_from_Subtask_List_Three.size();
+       int z=counter;
+        System.out.println("checks-1");
+        createObjectThreeForEditSubtask();
+        System.out.println("checks-2");
+
+        LinearLayout_Edit_subtask_01.addView(my_txtView_from_Subtask_List_Three.get(counter).getMy_linearLayout());
+        System.out.println("checks-3");
+
+/*
+
+        if (counter==5) {
+          //  LinearLayout_task_01.removeAllViewsInLayout();
+            LinearLayout_task_01.removeView(my_txtView_from_Subtask_List_Three.get(1).getMy_linearLayout());
+        }
+*/
+        Editable text_from_subtask_textView ;
+        String text_from_subtask ; // перевод из формата от TextView в формат String
+        text_from_subtask_textView = (Editable) my_txtView_from_Subtask_List_Three.get(counter).getMy_textView().getText();
+        text_from_subtask = String.valueOf(text_from_subtask_textView);
+
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+
+        db.execSQL("INSERT OR IGNORE INTO users_subtask_01 (name, checkBox, parent_task_id) VALUES ('" + text_from_subtask + "','" + value_of_checkBox + "','" + id_from_task + "');"); // добавление значения в базу
+
+        Cursor query = db.rawQuery("SELECT * FROM users_subtask_01;", null); // вытаскивает значения из базы
+        int last_subtask_id=0;
+        while (query.moveToNext()) {
+            last_subtask_id= query.getInt(0);
+            System.out.println("last_parent_id = "+last_subtask_id);
+        }
+        query.close(); //закрываем связи
+
+        my_txtView_from_Subtask_List_Three.get(counter).setMy_task_id(last_subtask_id);
+        int id_subtask=last_subtask_id;
+
+        System.out.println("checks-4");
+//14/06/2022
+        subtask_listenerClose(my_txtView_from_Subtask_List_Three.get(z).getMy_textView_DATA(),z, id_subtask );
+        subtask_listenerCheck(my_txtView_from_Subtask_List_Three.get(z).getMy_checkBox(),id_subtask,
+                my_txtView_from_Subtask_List_Three.get(z).getMy_textView());
+
+
+       // subtask_listener(my_txtView_from_Subtask_List_Three.get(counter).getMy_textView_DATA(),counter);
+        System.out.println("checks-5");
+
+      //  counter++;
+        System.out.println("checks-6 = plus counter=" + counter);
+        db.close(); //закрываем связи
+    }
+
+
 
 }
