@@ -2,12 +2,20 @@ package com.example.myfourthapplication;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -108,15 +116,98 @@ public class MainActivity extends AppCompatActivity {
 
         db.close(); //закрываем связи
     }
+    // Идентификатор уведомления
+    private static final int NOTIFY_ID = 101;
 
+    // Идентификатор канала
+    private static String CHANNEL_ID = "Cat channel";
 
     public void showToastFunction_01(ImageButton value) { // показывает всплывающее сообщение
         value.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
+                ///уведомления
+
+                NotificationCompat.Builder builder =
+                        new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                                //   .setSmallIcon(R.drawable.ic_pets_black_24dp)
+                                .setSmallIcon(R.drawable.ic_image_01)
+                             //   .setSmallIcon(R.mipmap.ic_launcher)
+                                .setContentTitle("Напоминание")
+                                .setContentText("Пора покормить кота")
+                              //  .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+                NotificationManagerCompat notificationManager =
+                        NotificationManagerCompat.from(MainActivity.this);
+                notificationManager.notify(NOTIFY_ID, builder.build());
+
+                System.out.println("notification4");
+/////
+                notif();//delete
+                addNotification();//delete
+
+
+
+
             }
+
+
+
         });
+    }
+
+    public void create_Channel (){
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "My channel",
+                    NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("My channel description");
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            channel.enableVibration(false);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+
+
+    }
+
+
+public void notif(){ //delete
+    create_Channel ();
+
+
+    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+  //  mBuilder.setSmallIcon(R.drawable.notification_icon);
+    mBuilder.setContentTitle("Notification Alert, Click Me!");
+    mBuilder.setContentText("Hi, This is Android Notification Detail!");
+
+}
+    @RequiresApi(api = Build.VERSION_CODES.M)//delete
+    private void addNotification() {//delete
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                      //  .setSmallIcon(R.drawable.abc)
+                        .setSmallIcon(R.drawable.ic_launcher_foreground)
+                        .setContentTitle("Notifications Example")
+                        .setContentText("This is a test notification");
+
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+        System.out.println("notification-5");
+        System.out.println(android.os.Build.VERSION.SDK_INT);
+
     }
 
     // открытие другого окна (activity)

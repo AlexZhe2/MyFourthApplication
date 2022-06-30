@@ -1,5 +1,8 @@
 package com.example.myfourthapplication;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -17,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,7 +63,8 @@ public class Edit_Task_Activity extends AppCompatActivity {
         EditText_task_02.setText(string_text_from_data);
 
         loadSubtask();
-
+        notification ();
+        createNotificationChannels();
     }
 
 
@@ -442,6 +448,115 @@ public class Edit_Task_Activity extends AppCompatActivity {
         System.out.println("checks-6 = plus counter=" + counter);
         db.close(); //закрываем связи
     }
+
+    /////////////////////////////////////////////////////////
+   //уведомления
+
+    // Идентификатор уведомления
+    private static final int NOTIFY_ID = 101;
+
+    // Идентификатор канала
+    private static String CHANNEL_ID = "Cat channel";
+
+
+    public void notification (){
+/*
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(Edit_Task_Activity.this, CHANNEL_ID)
+                        //   .setSmallIcon(R.drawable.ic_pets_black_24dp)
+                        .setSmallIcon(R.drawable.ic_image_01)
+                        .setContentTitle("Напоминание")
+                        .setContentText("Пора покормить кота")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(Edit_Task_Activity.this);
+        notificationManager.notify(NOTIFY_ID, builder.build());
+*/
+
+        System.out.println("notification");
+
+        ///////////
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("Title")
+                        .setContentText("Notification text");
+
+        Notification notification = builder.build();
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
+
+        System.out.println("notification2");
+
+
+    }
+
+    public static final  String CHANNEL_1_ID = "channel1";
+    public static final  String CHANNEL_2_ID = "channel2";
+
+    private void createNotificationChannels()  {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel1 = new NotificationChannel(
+                    CHANNEL_1_ID,
+                    "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel1.setDescription("This is channel 1");
+
+            NotificationChannel channel2 = new NotificationChannel(
+                    CHANNEL_2_ID,
+                    "Channel 2",
+                    NotificationManager.IMPORTANCE_LOW
+            );
+            channel1.setDescription("This is channel 2");
+
+
+            NotificationManager manager = this.getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+            manager.createNotificationChannel(channel2);
+        }
+        System.out.println("notification3");
+    }
+
+
+ /*
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                NotificationCompat.Builder builder =
+                        new NotificationCompat.Builder(Edit_Task_Activity.this, CHANNEL_ID)
+                             //   .setSmallIcon(R.drawable.ic_pets_black_24dp)
+                                .setSmallIcon(R.drawable.ic_image_01)
+                                .setContentTitle("Напоминание")
+                                .setContentText("Пора покормить кота")
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                NotificationManagerCompat notificationManager =
+                        NotificationManagerCompat.from(Edit_Task_Activity.this);
+                notificationManager.notify(NOTIFY_ID, builder.build());
+            }
+        });
+    }
+}
+
+    */
+
+
+
+
+
 
 
 
