@@ -6,10 +6,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -25,7 +27,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
+
 import org.w3c.dom.Text;
+import org.w3c.dom.ls.LSOutput;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
 
         fill_Layout_for_tasks_03();
         set_Data_in_main_activity();
+
+
+        trueNotification(); /// тест потом удалить
     }
 
     public void set_Data_in_main_activity() {
@@ -129,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
                 ///уведомления
+/*    // перенес в  trueNotification();
 
                 NotificationCompat.Builder builder =
                         new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
@@ -143,13 +154,16 @@ public class MainActivity extends AppCompatActivity {
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(MainActivity.this);
                 notificationManager.notify(NOTIFY_ID, builder.build());
+*/
 
                 System.out.println("notification4");
 /////
                 notif();//delete
                 addNotification();//delete
 
+             //   trueNotification();
 
+                callAlarmManager();  // alarmManager
 
 
             }
@@ -159,7 +173,50 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void create_Channel (){
+    public void trueTestResiver(){
+        System.out.println("==Test Resiver==");
+    }
+
+    NotificationCompat.Builder builder;
+    NotificationManagerCompat notificationManager;
+
+    public void trueNotification(){
+
+        NotificationCompat.Builder builder =
+      //   builder =
+                new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
+                        //   .setSmallIcon(R.drawable.ic_pets_black_24dp)
+                        .setSmallIcon(R.drawable.ic_image_01)
+                        //   .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("Напоминание")
+                        .setContentText("Пора покормить кота")
+                        //  .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        NotificationManagerCompat notificationManager =
+      //   notificationManager =
+                NotificationManagerCompat.from(MainActivity.this);
+        notificationManager.notify(NOTIFY_ID, builder.build());
+
+    }
+
+
+
+
+
+
+/*
+
+    public void trueNotification2(){
+        notificationManager.notify(NOTIFY_ID, builder.build());
+        System.out.println("trueNotification2");
+    }
+*/
+
+
+
+
+    public void create_Channel(){  //обязательно нужно сначало настроить канал для уведомлений!!!
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -209,6 +266,136 @@ public void notif(){ //delete
         System.out.println(android.os.Build.VERSION.SDK_INT);
 
     }
+
+    ///////////// вызов Alarm Manager
+
+    private void callAlarmManager() {
+
+        System.out.println("callAlarmManager-1");
+        /*
+
+        MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(12)
+                .setMinute(0)
+                .setTitleText("Выберите время для будильника")
+                .build();
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+*/
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+        ImageButton_02 = findViewById(R.id.ImageButton_xml_02);
+        ImageButton_02.setOnClickListener(v -> {
+            MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                    .setTimeFormat(TimeFormat.CLOCK_24H)
+                    .setHour(12)
+                    .setMinute(0)
+                    .setTitleText("Выберите время для будильника")
+                    .build();
+
+            materialTimePicker.addOnPositiveButtonClickListener(view -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
+                calendar.set(Calendar.HOUR_OF_DAY, materialTimePicker.getHour());
+/////
+ //               AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+ //               AlarmManager.AlarmClockInfo alarmClockInfo = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), getAlarmInfoPendingIntent());
+
+ //               alarmManager.setAlarmClock(alarmClockInfo, getAlarmActionPendingIntent());
+
+///
+
+                Toast.makeText(this, "Будильник установлен на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
+
+
+
+
+/*
+
+                ///////////////////////////////
+                Intent intent = new Intent(this, NotificationReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+                ////////////////////////////////////
+*/
+                Intent my_intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+                PendingIntent   pendingIntent =    PendingIntent.getBroadcast(MainActivity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                 alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+
+
+
+
+
+            });
+
+
+
+            materialTimePicker.show(getSupportFragmentManager(), "tag_picker");
+        });
+
+        System.out.println("callAlarmManager-2");
+
+
+    }
+
+    /*public class NotificationReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+           *//* if (reminder != null) {
+                // Запускаем уведомление
+                MyNotification.notify(context, message, number);
+            }*//*
+            trueNotification();
+
+            System.out.println("Receiver");
+        }
+
+
+    }
+    */
+
+
+
+
+    private PendingIntent getAlarmInfoPendingIntent() {
+        System.out.println("callAlarmManager-3");
+
+       // Intent alarmInfoIntent = new Intent(this, MainActivity.class);
+          Intent alarmInfoIntent = new Intent(this, NotificationReceiver.class);
+        alarmInfoIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        trueNotification();
+        System.out.println("callAlarmManager-4");
+        return PendingIntent.getActivity(this, 0, alarmInfoIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+    }
+
+    private PendingIntent getAlarmActionPendingIntent() {
+
+        System.out.println("callAlarmManager-5");
+
+       // Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        trueNotification();
+        System.out.println("callAlarmManager-6");
+        return PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+    }
+
+
+
+
 
     // открытие другого окна (activity)
     // метод вызывается с помощью прописанного в xml файле "activity_main.xml" для

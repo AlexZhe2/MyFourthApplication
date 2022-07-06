@@ -492,6 +492,28 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
         System.out.println("notification2");
 
+      /////////////
+      /*  NotificationCompat.Builder builder =
+                //   builder =
+                new NotificationCompat.Builder(Edit_Task_Activity.this, CHANNEL_ID)
+                        //   .setSmallIcon(R.drawable.ic_pets_black_24dp)
+                        .setSmallIcon(R.drawable.ic_image_01)
+                        //   .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("Напоминание")
+                        .setContentText("Пора покормить кота")
+                        //  .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        NotificationManagerCompat notificationManager =
+                //   notificationManager =
+                NotificationManagerCompat.from(MainActivity.this);
+        notificationManager.notify(NOTIFY_ID, builder.build());*/
+
+        ////////
+
+
+
+
 
     }
 
