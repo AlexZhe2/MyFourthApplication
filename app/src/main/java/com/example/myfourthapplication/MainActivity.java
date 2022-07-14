@@ -7,6 +7,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,11 +23,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         set_Data_in_main_activity();
 
 
-        trueNotification(); /// тест потом удалить
+      //  trueNotification(); /// тест потом удалить
     }
 
     public void set_Data_in_main_activity() {
@@ -163,7 +166,9 @@ public class MainActivity extends AppCompatActivity {
 
              //   trueNotification();
 
-                callAlarmManager();  // alarmManager
+                callDatePicker(); // show dataPicker
+
+             //   callAlarmManager();  // alarmManager
 
 
             }
@@ -198,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
                 NotificationManagerCompat.from(MainActivity.this);
         notificationManager.notify(NOTIFY_ID, builder.build());
 
+
+        test(); // delete
     }
 
 
@@ -269,8 +276,101 @@ public void notif(){ //delete
 
     ///////////// вызов Alarm Manager
 
-    private void callAlarmManager() {
 
+    Calendar calendar_for_picker = Calendar.getInstance();
+    long long_check_calendar=0;
+    private void callDatePicker() {
+
+        /////////////установка даты
+      //  MaterialDatePicker.Builder data_builder = MaterialDatePicker.Builder.datePicker();
+     //   MaterialDatePicker.Builder data_builder =  MaterialDatePicker.BuilderdatePicker()
+      //          .setTitleText("Select date")
+      //          .build();
+/*
+
+        MaterialDatePicker datePicker =
+                MaterialDatePicker.Builder.datePicker()
+                        .setTitleText("Select date")
+                       // .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                        .build();
+
+*/
+
+
+
+
+
+     //  // Calendar calendar_for_picker = Calendar.getInstance();
+      //  calendar_for_picker.setTimeInMillis((Long) datePicker.getSelection());
+        long_check_calendar=calendar_for_picker.getTimeInMillis();
+
+        //datePicker.show(getSupportFragmentManager(), "tag_picker_Data");
+
+        System.out.println("==calendar_for_picker1==="+calendar_for_picker.getTimeInMillis());
+        System.out.println("==long_check_calendar1==="+long_check_calendar);
+
+      //  test();
+
+        ///////////////////////////////
+
+        // установка обработчика выбора даты
+        DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar_for_picker.set(Calendar.YEAR, year);
+                calendar_for_picker.set(Calendar.MONTH, monthOfYear);
+                calendar_for_picker.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                //setInitialDateTime();
+                long_check_calendar=calendar_for_picker.getTimeInMillis();
+                System.out.println("==calendar_for_picker_date 100500==="+calendar_for_picker);
+                System.out.println("==calendar_for_picker 100500==="+calendar_for_picker.getTimeInMillis());
+                System.out.println("==long_check_calendar 100500==="+long_check_calendar);
+
+                callAlarmManager2(); // error
+            }
+        };
+
+
+
+        // отображаем диалоговое окно для выбора даты
+     //   public void setDate(View v) {
+     /*   public void setDate() {
+            new DatePickerDialog(MainActivity.this, d,
+                    calendar_for_picker.get(Calendar.YEAR),
+                    calendar_for_picker.get(Calendar.MONTH),
+                    calendar_for_picker.get(Calendar.DAY_OF_MONTH))
+                    .show();
+        }*/
+
+        new DatePickerDialog(MainActivity.this, d,
+                calendar_for_picker.get(Calendar.YEAR),
+                calendar_for_picker.get(Calendar.MONTH),
+                calendar_for_picker.get(Calendar.DAY_OF_MONTH))
+                .show();
+
+
+
+/////////////////////////
+
+
+
+
+
+
+
+        test();
+
+    }
+    private void test() {
+
+        System.out.println("==calendar_for_picker2==="+calendar_for_picker.getTimeInMillis());
+        System.out.println("==long_check_calendar2==="+long_check_calendar);
+
+    }
+
+
+    private void callAlarmManager() {
+        test();
         System.out.println("callAlarmManager-1");
         /*
 
@@ -284,7 +384,7 @@ public void notif(){ //delete
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 */
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
 
         ImageButton_02 = findViewById(R.id.ImageButton_xml_02);
         ImageButton_02.setOnClickListener(v -> {
@@ -301,6 +401,14 @@ public void notif(){ //delete
                 calendar.set(Calendar.MILLISECOND, 0);
                 calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
                 calendar.set(Calendar.HOUR_OF_DAY, materialTimePicker.getHour());
+                /////// проверка при добавлении даты
+                calendar.set(Calendar.YEAR, calendar_for_picker.get(Calendar.YEAR));
+                calendar.set(Calendar.MONTH, calendar_for_picker.get(Calendar.MONTH));
+                calendar.set(Calendar.DAY_OF_MONTH, calendar_for_picker.get(Calendar.DAY_OF_MONTH));
+
+
+
+
 /////
  //               AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
@@ -346,6 +454,47 @@ public void notif(){ //delete
 
 
     }
+
+    private void callAlarmManager2() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
+
+        MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(12)
+                .setMinute(0)
+                .setTitleText("Выберите время для будильника")
+                .build();
+
+
+        materialTimePicker.addOnPositiveButtonClickListener(view -> {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
+                    calendar.set(Calendar.HOUR_OF_DAY, materialTimePicker.getHour());
+                    /////// проверка при добавлении даты
+                    calendar.set(Calendar.YEAR, calendar_for_picker.get(Calendar.YEAR));
+                    calendar.set(Calendar.MONTH, calendar_for_picker.get(Calendar.MONTH));
+                    calendar.set(Calendar.DAY_OF_MONTH, calendar_for_picker.get(Calendar.DAY_OF_MONTH));
+
+
+
+            Toast.makeText(this, "Будильник установлен на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
+
+            Intent my_intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+            PendingIntent   pendingIntent =    PendingIntent.getBroadcast(MainActivity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+        });
+
+
+        materialTimePicker.show(getSupportFragmentManager(), "tag_picker");
+    }
+
+
+
+
+
 
     /*public class NotificationReceiver extends BroadcastReceiver {
         @Override
@@ -726,7 +875,7 @@ public void notif(){ //delete
                 my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(value_checkBox_from_DB);
                 my_txtView_from_List_Two.get(j).setMy_task_id(id_for_object);
 
-                if (data_long == 0) { // если у задачи нет даты (дата = 01.01.1970 или data_long==0) то ничего в поле дата не пишем
+                if (data_long <= 0) { // если у задачи нет даты (дата = 01.01.1970 или data_long==0) то ничего в поле дата не пишем
                     my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText("");
                 }
 
@@ -819,8 +968,15 @@ public void notif(){ //delete
                 System.out.println("===========current_date=calendar.getTime();==" + formatter.format(current_date));
                 System.out.println("===========current_date=calendar.getTime();==+==date_obj==" + formatter.format(date_obj));
 
+
                 //  разделение по сегодня, завтра, на неделе, потом
                 // запись о задаче должна быть только на одном layout иначе не работает
+
+                if (data_long<0){  // убираем глюк при внесении изменений через Edit_Task_Activity
+                    data_long=0;
+                }
+
+
                 if ((date_obj.after(current_date)) && (!(date_obj.equals(current_date_plus_day))) &&
                         (!(num_of_current_week.equals(num_of_obj_week))) &&
                         (!(num_of_current_month.equals(num_of_obj_month))) && (value_checkBox_from_DB == false)) {
@@ -927,7 +1083,7 @@ public void notif(){ //delete
                     my_txtView_from_List_Two.get(j).getMy_checkBox().setChecked(value_checkBox_from_DB);
                     my_txtView_from_List_Two.get(j).setMy_task_id(id_for_object);
 
-                    if (data_long == 0) { // если у задачи нет даты (дата = 01.01.1970 или data_long==0) то ничего в поле дата не пишем
+                    if (data_long <= 0) { // если у задачи нет даты (дата = 01.01.1970 или data_long==0) то ничего в поле дата не пишем
                         my_txtView_from_List_Two.get(j).getMy_textView_DATA().setText("");
                     }
 

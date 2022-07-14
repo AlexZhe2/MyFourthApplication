@@ -63,8 +63,8 @@ public class Edit_Task_Activity extends AppCompatActivity {
         EditText_task_02.setText(string_text_from_data);
 
         loadSubtask();
-        notification ();
-        createNotificationChannels();
+       // notification ();
+       // createNotificationChannels();
     }
 
 
@@ -121,7 +121,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
         str2 = String.valueOf(a4);
         str3 = String.valueOf(a4); // перевод из формата от TextView в формат String
 
-       // value_of_checkBox =CheckBox_task_01.isChecked();
+          // value_of_checkBox =CheckBox_task_01.isChecked();
 
 /////////////////
         //перевод из строки в число
@@ -131,6 +131,9 @@ public class Edit_Task_Activity extends AppCompatActivity {
         try {
             Date docDate = format.parse(str3);
             a5 = docDate.getTime();
+
+
+
             System.out.println("===============data format long from String===== " + a5);
         } catch (ParseException e) {
             e.printStackTrace();
