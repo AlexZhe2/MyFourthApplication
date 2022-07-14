@@ -1,8 +1,12 @@
 package com.example.myfourthapplication;
 
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -13,6 +17,7 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,10 +28,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Edit_Task_Activity extends AppCompatActivity {
 
@@ -80,6 +90,8 @@ public class Edit_Task_Activity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
 
@@ -578,6 +590,99 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
     */
 
+
+    public void startChooseData_Edit_TA(View view)  {
+        System.out.println("startChooseData()-1");
+        callDatePicker();
+
+        System.out.println("startChooseData()-2");
+
+
+
+    }
+    Calendar calendar_for_picker = Calendar.getInstance();
+    long long_check_calendar=0;
+
+    public void callDatePicker() {
+
+
+
+
+        //  // Calendar calendar_for_picker = Calendar.getInstance();
+        //  calendar_for_picker.setTimeInMillis((Long) datePicker.getSelection());
+        long_check_calendar=calendar_for_picker.getTimeInMillis();
+
+        //datePicker.show(getSupportFragmentManager(), "tag_picker_Data");
+
+        System.out.println("==calendar_for_picker1==="+calendar_for_picker.getTimeInMillis());
+        System.out.println("==long_check_calendar1==="+long_check_calendar);
+
+
+
+        // установка обработчика выбора даты
+        DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar_for_picker.set(Calendar.YEAR, year);
+                calendar_for_picker.set(Calendar.MONTH, monthOfYear);
+                calendar_for_picker.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                //setInitialDateTime();
+                long_check_calendar=calendar_for_picker.getTimeInMillis();
+                System.out.println("==calendar_for_picker_date 100500==="+calendar_for_picker);
+                System.out.println("==calendar_for_picker 100500==="+calendar_for_picker.getTimeInMillis());
+                System.out.println("==long_check_calendar 100500==="+long_check_calendar);
+
+                callAlarmManager2(); //
+            }
+        };
+
+
+        new DatePickerDialog(Edit_Task_Activity.this, d,
+                calendar_for_picker.get(Calendar.YEAR),
+                calendar_for_picker.get(Calendar.MONTH),
+                calendar_for_picker.get(Calendar.DAY_OF_MONTH))
+                .show();
+
+    }
+
+    private void callAlarmManager2() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
+        SimpleDateFormat sdf_for_EditText = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+
+        MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(12)
+                .setMinute(0)
+                .setTitleText("Выберите время для будильника")
+                .build();
+
+
+        materialTimePicker.addOnPositiveButtonClickListener(view -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
+            calendar.set(Calendar.HOUR_OF_DAY, materialTimePicker.getHour());
+            /////// проверка при добавлении даты
+            calendar.set(Calendar.YEAR, calendar_for_picker.get(Calendar.YEAR));
+            calendar.set(Calendar.MONTH, calendar_for_picker.get(Calendar.MONTH));
+            calendar.set(Calendar.DAY_OF_MONTH, calendar_for_picker.get(Calendar.DAY_OF_MONTH));
+
+
+
+            Toast.makeText(this, "Будильник установлен на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
+
+            Intent my_intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+            PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+
+            /////установка значения в EditText
+            EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
+        });
+
+
+        materialTimePicker.show(getSupportFragmentManager(), "tag_picker");
+    }
 
 
 

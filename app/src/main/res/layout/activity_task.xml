@@ -100,6 +100,7 @@
             android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textSize="24dp"
+            android:onClick="startChooseData_TA"
             tools:ignore="MissingConstraints,UnknownId">
 
 

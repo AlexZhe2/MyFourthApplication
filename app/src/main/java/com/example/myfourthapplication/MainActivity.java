@@ -279,7 +279,7 @@ public void notif(){ //delete
 
     Calendar calendar_for_picker = Calendar.getInstance();
     long long_check_calendar=0;
-    private void callDatePicker() {
+    public void callDatePicker() {
 
         /////////////установка даты
       //  MaterialDatePicker.Builder data_builder = MaterialDatePicker.Builder.datePicker();
@@ -326,7 +326,7 @@ public void notif(){ //delete
                 System.out.println("==calendar_for_picker 100500==="+calendar_for_picker.getTimeInMillis());
                 System.out.println("==long_check_calendar 100500==="+long_check_calendar);
 
-                callAlarmManager2(); // error
+                callAlarmManager2(); //
             }
         };
 
