@@ -38,6 +38,7 @@ public class Task_Activity extends AppCompatActivity {
     private Button Button_01;
     private EditText EditText_task_01;
     private EditText EditText_task_02;
+    private EditText EditText_task_03;
 
     private ScrollView ScrollView_task_01;
     private LinearLayout LinearLayout_task_01;
@@ -53,6 +54,8 @@ public class Task_Activity extends AppCompatActivity {
         Button_01 = findViewById(R.id.button_task_01);
         EditText_task_01 = findViewById(R.id.EditText_task_01_xml);
         EditText_task_02 = findViewById(R.id.EditText_task_data_02_xml);
+        EditText_task_03 = findViewById(R.id.EditText_edit_task_data_04_xml);
+
       //  CheckBox_task_01 = findViewById(R.id.checkBox_1);   //вроде он здесь не нужен, при создании задачи значение всегда будет false
 
      //   ScrollView_task_01= findViewById(R.id.scrollView_task_01_xml);
@@ -100,10 +103,13 @@ public class Task_Activity extends AppCompatActivity {
     String str1 = "11";
     String str2;
     String str3;
+    String str3_time;
     long a3 = System.currentTimeMillis();
     long a5;
+    long a6_time;
     Editable a2;
     Editable a4;
+    Editable a4_time;
 
     boolean value_of_checkBox = false;
     boolean exist_subtask_true = true;
@@ -116,9 +122,11 @@ public class Task_Activity extends AppCompatActivity {
 
         a2 = EditText_task_01.getText();
         a4 = EditText_task_02.getText();
+        a4_time = EditText_task_03.getText();
 
         str2 = String.valueOf(a4);
         str3 = String.valueOf(a4); // перевод из формата от TextView в формат String
+        str3_time = String.valueOf(a4_time); // перевод из формата от TextView в формат String
 
        // value_of_checkBox =CheckBox_task_01.isChecked();
 
@@ -126,11 +134,19 @@ public class Task_Activity extends AppCompatActivity {
         //перевод из строки в число
         //   String s="05.09.2013";  // нужный формат
         SimpleDateFormat format = new SimpleDateFormat();
+        SimpleDateFormat format_for_a6_time = new SimpleDateFormat();
         format.applyPattern("dd.MM.yyyy");
+        format_for_a6_time.applyPattern("HH:mm");
         try {
             Date docDate = format.parse(str3);
+            Date docDate_2 = format_for_a6_time.parse(str3_time);
             a5 = docDate.getTime();
+            a6_time = docDate_2.getTime();
+
             System.out.println("===============data format long from String===== " + a5);
+            System.out.println("===============data format long from String_all_value===== " + str3);
+            System.out.println("===============data format long from String_all_value_time===== " + str3_time);
+            System.out.println("===============data format long from String_time===== " + a6_time);
         } catch (ParseException e) {
             e.printStackTrace();
             System.out.println("=======ошибка=======");
@@ -158,7 +174,7 @@ public class Task_Activity extends AppCompatActivity {
 
        // db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
       //  db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
-       // db.execSQL("DROP TABLE IF EXISTS  users_06"); //удаление таблицы
+      //  db.execSQL("DROP TABLE IF EXISTS  users_07"); //удаление таблицы
 
         db.execSQL("CREATE TABLE IF NOT EXISTS users_07 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
                 "data INTEGER,checkBox BOOL,done_data_fact INTEGER,time_alert INTEGER,exist_alert BOOL," +
@@ -168,7 +184,8 @@ public class Task_Activity extends AppCompatActivity {
 
         //   db.execSQL("INSERT OR IGNORE INTO users_01 VALUES ('" + a2 + "');"); // добавление значения в базу
         //   db.execSQL("INSERT OR IGNORE INTO users_02 VALUES ('" + a2 + "','" + a4 + "');"); // добавление значения в базу
-        db.execSQL("INSERT OR IGNORE INTO users_07 (name, data, checkBox,exist_subtask) VALUES ('" + a2 + "','" + a5 + "','" + value_of_checkBox + "','" + exist_subtask_false + "');"); // добавление значения в базу
+       //  db.execSQL("INSERT OR IGNORE INTO users_07 (name, data, checkBox,exist_subtask) VALUES ('" + a2 + "','" + a5 + "','" + value_of_checkBox + "','" + exist_subtask_false + "');"); // добавление значения в базу
+        db.execSQL("INSERT OR IGNORE INTO users_07 (name, data, checkBox,exist_subtask,time_alert) VALUES ('" + a2 + "','" + a5 + "','" + value_of_checkBox + "','" + exist_subtask_false + "','" + a6_time + "');"); // добавление значения в базу
 
         Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
 
@@ -181,6 +198,7 @@ public class Task_Activity extends AppCompatActivity {
             String data = query.getString(2);
             boolean value_check = Boolean.parseBoolean(query.getString(3));
             String done_data_fact = query.getString(4);
+            String alarm_time = query.getString(5);
 
             //   int age = query.getInt(1);
             //    textView.append("Name: " + name + " Age: " + age + "\n");
@@ -189,6 +207,7 @@ public class Task_Activity extends AppCompatActivity {
             System.out.println("=========================data " + i + " " + data);
             System.out.println("=========================value_check=main " + i + " " + value_check);
             System.out.println("=========================done_data_fact " + i + " " + done_data_fact);
+            System.out.println("=========================alarm_time " + i + " " + alarm_time);
 
             i++;
 
@@ -414,6 +433,7 @@ public class Task_Activity extends AppCompatActivity {
     private void callAlarmManager2() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
         SimpleDateFormat sdf_for_EditText = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat sdf_for_EditText_Time = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -445,6 +465,7 @@ public class Task_Activity extends AppCompatActivity {
 
             /////установка значения в EditText
             EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
+            EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
 
         });
 

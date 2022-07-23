@@ -117,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
         //  db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL, UNIQUE(name))");//создание таблицы users_01
         //  db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,data INTEGER,checkBox BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
-         // db.execSQL("DROP TABLE IF EXISTS  users_07"); //удаление таблицы
-        // db.execSQL("DROP TABLE IF EXISTS  users_subtask_01"); //удаление таблицы
+        //  db.execSQL("DROP TABLE IF EXISTS  users_07"); //удаление таблицы
+       //  db.execSQL("DROP TABLE IF EXISTS  users_subtask_01"); //удаление таблицы
 
         db.execSQL("CREATE TABLE IF NOT EXISTS users_07 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
                 "data INTEGER,checkBox BOOL,done_data_fact INTEGER,time_alert INTEGER,exist_alert BOOL," +
@@ -849,6 +849,8 @@ public void notif(){ //delete
                 long data_long = query.getLong(2);
                 // boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(3));//2
                 boolean value_checkBox_from_DB = Boolean.parseBoolean(query.getString(3));//2
+                long done_data_fact = query.getLong(4);
+                long data_long_time = query.getLong(5);
 
                 System.out.println("=====value_checkBox_from_DB=====" + value_checkBox_from_DB);
 
@@ -905,7 +907,7 @@ public void notif(){ //delete
                 task_listener(my_txtView_from_List_Two.get(j).getMy_textView(),
                         my_txtView_from_List_Two.get(j).getMy_textView_DATA(),
                         my_txtView_from_List_Two.get(j).getMy_task_id(),
-                        data_long);
+                        data_long,data_long_time);
 
 
 
@@ -1053,6 +1055,8 @@ public void notif(){ //delete
                     long data_long = query.getLong(2);
                     //   boolean value_checkBox_from_DB = query.getExtras().getBoolean(String.valueOf(3)); //2
                     boolean value_checkBox_from_DB = Boolean.parseBoolean(query.getString(3));//2
+                    long done_data_fact = query.getLong(4);
+                    long data_long_time = query.getLong(5);
 
                     System.out.println("=====value_checkBox_from_DB====2=" + value_checkBox_from_DB);
 
@@ -1112,7 +1116,7 @@ public void notif(){ //delete
                     task_listener(my_txtView_from_List_Two.get(j).getMy_textView(),
                             my_txtView_from_List_Two.get(j).getMy_textView_DATA(),
                             my_txtView_from_List_Two.get(j).getMy_task_id(),
-                            data_long);
+                            data_long,data_long_time);
 
 //////// заполнение Layout сегодня
                     // получаем текущие дату
@@ -1378,7 +1382,7 @@ public void notif(){ //delete
 
 
 
-    public void task_listener(TextView textView, TextView TextView_Data, int task_id, long value_data) {
+    public void task_listener(TextView textView, TextView TextView_Data, int task_id, long value_data, long value_data_time) {
         textView.setOnClickListener(new View.OnClickListener() {
 
 
@@ -1393,12 +1397,18 @@ public void notif(){ //delete
 
 
                 Date date_object = new Date();
+                Date date_object_time = new Date();
                 date_object.setTime(value_data);
+                date_object_time.setTime(value_data_time);
                 String data_for_edit = "";
+                String data_for_edit_time = "";
 
                 SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy"); // описание http://proglang.su/java/date-and-time
+                SimpleDateFormat formatForDateNow_time = new SimpleDateFormat("HH:mm"); // описание http://proglang.su/java/date-and-time
                 data_for_edit = formatForDateNow.format(date_object);
+                data_for_edit_time = formatForDateNow_time.format(date_object_time);
                 eta.string_text_from_data=data_for_edit;
+                eta.string_text_from_data_time=data_for_edit_time;
 
                 eta.id_from_task=task_id;
 

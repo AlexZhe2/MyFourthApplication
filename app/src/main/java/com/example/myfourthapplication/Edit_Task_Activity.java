@@ -43,11 +43,14 @@ public class Edit_Task_Activity extends AppCompatActivity {
     private Button Button_01;
     private EditText EditText_task_01;
     private EditText EditText_task_02;
+    private EditText EditText_task_03;
+
   //  private CheckBox CheckBox_task_01;
   private LinearLayout LinearLayout_Edit_subtask_01;
 
     static String string_text_from_task;
     static String string_text_from_data;
+    static String string_text_from_data_time;
     static long id_from_task;
 
     // LinearLayout_Edit_scroll_02_xml
@@ -61,6 +64,8 @@ public class Edit_Task_Activity extends AppCompatActivity {
         Button_01 = findViewById(R.id.button_edit_task_01);
         EditText_task_01 = findViewById(R.id.EditText_edit_task_01_xml);
         EditText_task_02 = findViewById(R.id.EditText_edit_task_data_02_xml);
+        EditText_task_03 = findViewById(R.id.EditText_edit_task_data_04_xml);
+
       //  CheckBox_task_01 = findViewById(R.id.checkBox_1);   //вроде он здесь не нужен, при создании задачи значение всегда будет false
         LinearLayout_Edit_subtask_01= findViewById(R.id.LinearLayout_Edit_scroll_02_xml);
 
@@ -71,6 +76,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
         /////
         EditText_task_01.setText(string_text_from_task);
         EditText_task_02.setText(string_text_from_data);
+        EditText_task_03.setText(string_text_from_data_time);
 
         loadSubtask();
        // notification ();
@@ -114,10 +120,13 @@ public class Edit_Task_Activity extends AppCompatActivity {
     String str1 = "11";
     String str2;
     String str3;
+    String str3_time;
     long a3 = System.currentTimeMillis();
     long a5;
+    long a6_time;
     Editable a2;
     Editable a4;
+    Editable a4_time;
 
     boolean value_of_checkBox = false;
   //  boolean value_of_checkBox =true;
@@ -129,9 +138,12 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
         a2 = EditText_task_01.getText();
         a4 = EditText_task_02.getText();
+        a4_time = EditText_task_03.getText();
+
 
         str2 = String.valueOf(a4);
         str3 = String.valueOf(a4); // перевод из формата от TextView в формат String
+        str3_time = String.valueOf(a4_time); // перевод из формата от TextView в формат String
 
           // value_of_checkBox =CheckBox_task_01.isChecked();
 
@@ -139,14 +151,19 @@ public class Edit_Task_Activity extends AppCompatActivity {
         //перевод из строки в число
         //   String s="05.09.2013";  // нужный формат
         SimpleDateFormat format = new SimpleDateFormat();
+        SimpleDateFormat format_for_a6_time = new SimpleDateFormat();
         format.applyPattern("dd.MM.yyyy");
+        format_for_a6_time.applyPattern("HH:mm");
         try {
             Date docDate = format.parse(str3);
             a5 = docDate.getTime();
-
-
+            Date docDate_2 = format_for_a6_time.parse(str3_time);
+            a6_time = docDate_2.getTime();
 
             System.out.println("===============data format long from String===== " + a5);
+            System.out.println("===============data format long from String_all_value_time-2===== " + str3_time);
+            System.out.println("===============data format long from String_time-2===== " + a6_time);
+
         } catch (ParseException e) {
             e.printStackTrace();
             System.out.println("=======ошибка=======");
@@ -175,9 +192,9 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
 
        // db.execSQL("UPDATE users_06 SET name =  '" + a2 + "' WHERE _id='" + id_from_task + "'"); // обновление значения в базе
-        db.execSQL("UPDATE users_07 SET name =  '" + a2 + "', data='" + a5 + "'  WHERE _id='" + id_from_task + "'"); // обновление значения в базе
+        db.execSQL("UPDATE users_07 SET name =  '" + a2 + "', data='" + a5 + "',time_alert='" + a6_time + "'  WHERE _id='" + id_from_task + "'"); // обновление значения в базе
 
-
+        System.out.println("==check_time+dataBase==");
 /*
         db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
                 "data INTEGER,checkBox BOOL,done_data_fact INTEGER,time_alert INTEGER,exist_alert BOOL," +
@@ -342,8 +359,6 @@ public class Edit_Task_Activity extends AppCompatActivity {
             db.execSQL("UPDATE users_subtask_01 SET name =  '" + text_from_subtask + "' WHERE _id='" + subtask_id + "'"); // обновление значения в базе
 
 
-
-
         }
         db.close();
 
@@ -414,6 +429,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
        int counter=my_txtView_from_Subtask_List_Three.size();
        int z=counter;
+       boolean exist_subtask_true = true;
         System.out.println("checks-1");
         createObjectThreeForEditSubtask();
         System.out.println("checks-2");
@@ -437,6 +453,11 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
 
         db.execSQL("INSERT OR IGNORE INTO users_subtask_01 (name, checkBox, parent_task_id) VALUES ('" + text_from_subtask + "','" + value_of_checkBox + "','" + id_from_task + "');"); // добавление значения в базу
+
+        db.execSQL("UPDATE users_07 SET exist_subtask =  '" + exist_subtask_true + "' WHERE _id='" + id_from_task + "'"); // обновление значения в базе
+
+
+        System.out.println("==checks= id_from_task== "+id_from_task);
 
         Cursor query = db.rawQuery("SELECT * FROM users_subtask_01;", null); // вытаскивает значения из базы
         int last_subtask_id=0;
@@ -647,6 +668,8 @@ public class Edit_Task_Activity extends AppCompatActivity {
     private void callAlarmManager2() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
         SimpleDateFormat sdf_for_EditText = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat sdf_for_EditText_Time = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
 
         MaterialTimePicker materialTimePicker = new MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -678,6 +701,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
             /////установка значения в EditText
             EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
+            EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
         });
 
 
