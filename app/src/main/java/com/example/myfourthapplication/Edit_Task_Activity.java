@@ -92,6 +92,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
                 onClick_02();
                 update_subtask ();
+
                 startMainActivity();
             }
         });
@@ -485,6 +486,13 @@ public class Edit_Task_Activity extends AppCompatActivity {
         db.close(); //закрываем связи
     }
 
+    public void save_added_Edit_Subtask_01(View view){
+
+
+
+    }
+
+
     /////////////////////////////////////////////////////////
    //уведомления
 
@@ -611,6 +619,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
     */
 
+   // Edit_Task_Activity Obj_for_alarm = new Edit_Task_Activity();
 
     public void startChooseData_Edit_TA(View view)  {
         System.out.println("startChooseData()-1");
@@ -618,11 +627,14 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
         System.out.println("startChooseData()-2");
 
-
+   //     Obj_for_alarm.callDatePicker();
 
     }
     Calendar calendar_for_picker = Calendar.getInstance();
     long long_check_calendar=0;
+
+
+
 
     public void callDatePicker() {
 
@@ -665,6 +677,11 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
     }
 
+  //  Edit_Task_Activity eta_for_alarm = new Edit_Task_Activity();
+  //  ArrayList<Edit_Task_Activity> eta_for_alarm_List = new ArrayList<Edit_Task_Activity>(); // создание списка который
+
+
+
     private void callAlarmManager2() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
         SimpleDateFormat sdf_for_EditText = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
@@ -694,10 +711,36 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
             Toast.makeText(this, "Будильник установлен на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
 
+///////// work
+           /*
             Intent my_intent = new Intent(getApplicationContext(), NotificationReceiver.class);
             PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+*/
+//////////
+           // eta_for_alarm_List.add(my_two_01);
+
+          //  eta_for_alarm.instance_callAlarmManager2(calendar,eta_for_alarm); //
+
+              instance_callAlarmManager2 (calendar, Edit_Task_Activity.this);
+
+             // Alarm alarm = new Alarm();
+
+
+             // alarm.instance_callAlarmManager2(calendar,Edit_Task_Activity.this);
+          //  alarm_List.get(0).instance_callAlarmManager2(calendar,Edit_Task_Activity.this);
+
+
+            //alarm_List.add(alarm);
+            //alarm_List.get(0).print();
+            //alarm_List.get(0).instance_callAlarmManager2(calendar, Edit_Task_Activity.this);
+
+           // my_txtView_from_Subtask_List_Three.get(1).instance_callAlarmManager2(calendar,Edit_Task_Activity.this);
+           // my_txtView_from_Subtask_List_Three.get(1).instance_callAlarmManager2(calendar,Edit_Task_Activity.this);
+            System.out.println("==check instance_callAlarmManager2 -1==");
+
+
 
             /////установка значения в EditText
             EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
@@ -708,7 +751,32 @@ public class Edit_Task_Activity extends AppCompatActivity {
         materialTimePicker.show(getSupportFragmentManager(), "tag_picker");
     }
 
+int count_call= (int) id_from_task;
+    public void instance_callAlarmManager2(Calendar calendar, Edit_Task_Activity eta_for_alarm2) {
+/*
 
+       Intent my_intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+       // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
+       // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent =     PendingIntent.getBroadcast(eta_for_alarm2,count_call, my_intent,  PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(eta_for_alarm2.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+*/
+
+
+
+
+        Intent my_intent = new Intent(Edit_Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
+        // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
+        // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent =     PendingIntent.getBroadcast(Edit_Task_Activity.this,count_call, my_intent,  PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Edit_Task_Activity.this.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+
+        System.out.println("==count_call=="+ count_call);
+       // count_call++;
+
+    }
 
 
 

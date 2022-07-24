@@ -1,5 +1,9 @@
 package com.example.myfourthapplication;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import java.util.Calendar;
 
 public class Three extends AppCompatActivity {
 
@@ -106,5 +112,17 @@ public class Three extends AppCompatActivity {
     public void setMy_task_id(int id_from_object){
         my_task_id=id_from_object;
     }
+
+
+    public void instance_callAlarmManager2(Calendar calendar, Edit_Task_Activity eta_for_alarm2) {
+        Intent my_intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+        // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent =    PendingIntent.getBroadcast(eta_for_alarm2,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+        System.out.println("==check instance_callAlarmManager2==");
+
+    }
+
 
 }
