@@ -109,6 +109,59 @@
 
         <ImageButton
             android:id="@+id/ImageButton_edit_task_xml_02"
+
+            android:visibility="invisible"
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_image_06" />
+
+        <EditText
+            android:id="@+id/EditText_edit_task_data_04_old_xml"
+
+            android:visibility="invisible"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintTop_toTopOf="@id/LinearLayout_task_01_xml"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:hint="hh:mm"
+            android:inputType="text"
+            android:paddingStart="10dp"
+            android:paddingBottom="5dp"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:onClick="startChooseData_Edit_TA"
+            tools:ignore="MissingConstraints,OnClick,UnknownId">
+
+
+        </EditText>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/LinearLayout_task_02_1_xml"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/LinearLayout_task_02_xml"
+        tools:ignore="MissingConstraints">
+
+
+
+        <ImageButton
+            android:id="@+id/ImageButton_edit_task_xml_02_1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -143,15 +196,14 @@
     </LinearLayout>
 
 
-
         <ScrollView
             android:id="@+id/scrollView_task_01_xml"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="140dp"
+            android:layout_marginTop="190dp"
             android:background="@null"
 
-            app:layout_constraintTop_toBottomOf="@id/LinearLayout_task_02_xml"
+            app:layout_constraintTop_toBottomOf="@id/LinearLayout_task_02_1_xml"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp">
 

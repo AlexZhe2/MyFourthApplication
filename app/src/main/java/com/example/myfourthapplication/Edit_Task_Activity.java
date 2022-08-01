@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -52,6 +53,8 @@ public class Edit_Task_Activity extends AppCompatActivity {
     static String string_text_from_data;
     static String string_text_from_data_time;
     static long id_from_task;
+
+    static String string_text_for_notification;
 
     // LinearLayout_Edit_scroll_02_xml
 
@@ -751,7 +754,16 @@ public class Edit_Task_Activity extends AppCompatActivity {
         materialTimePicker.show(getSupportFragmentManager(), "tag_picker");
     }
 
-int count_call= (int) id_from_task;
+    int count_call= (int) id_from_task;
+
+    ArrayList<String> Notification_List = new ArrayList<String>(); // создание списка
+
+    private static final String PREFS_FILE = "Account_Notification";
+    SharedPreferences settings;// = getSharedPreferences("PreferencesName", MODE_PRIVATE);
+   // SharedPreferences settings= getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
+   MainActivity ma = new MainActivity();
+
+
     public void instance_callAlarmManager2(Calendar calendar, Edit_Task_Activity eta_for_alarm2) {
 /*
 
@@ -762,8 +774,88 @@ int count_call= (int) id_from_task;
         AlarmManager alarmManager = (AlarmManager) getSystemService(eta_for_alarm2.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
 */
+//////////////////////////////
+
+      // ArrayList<String> Notification_List = new ArrayList<String>(); // создание списка
+
+        //////
+        // SimpleDateFormat formatter = new SimpleDateFormat("E'.' dd.MM.yy HH:mm "); // класс для форматирования
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm "); // класс для форматирования
+        //  Date date = new Date(System.currentTimeMillis());
+        Date current_date_Notification = new Date(); // при создании объекта автоматом задается текущая дата
+        String cur_Time_for_Notification=formatter.format(current_date_Notification);
+        long long_for_cur_Time_for_Notification=0;
+        System.out.println("===========formatter.format(current_date)==" + formatter.format(current_date_Notification));
+        System.out.println("===========formatter.format(current_date)==" + cur_Time_for_Notification);
+
+        SimpleDateFormat format_for_a6_time_Notification = new SimpleDateFormat();
+        format_for_a6_time_Notification.applyPattern("HH:mm");
+
+        try {
+            Date docDate_2 = format_for_a6_time_Notification.parse(cur_Time_for_Notification);
+            long_for_cur_Time_for_Notification = docDate_2.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("===========long_for_cur_Time_for_Notification==" + long_for_cur_Time_for_Notification);
+
+      //  ArrayList<Long> Notification_List = new ArrayList<Long>(); // создание списка
 
 
+        /////
+
+
+
+        int q = 0;
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+        //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
+
+
+        // k = query.getCount();
+
+        if (q == 0) {
+
+            System.out.println("============= if(j==0) " + q);
+            ///
+            while (query.moveToNext()) {
+
+
+                int id_for_object = query.getInt(0);
+                String name = query.getString(1);
+                long data_long = query.getLong(2);
+                boolean value_checkBox_from_DB = Boolean.parseBoolean(query.getString(3));//2
+                long done_data_fact = query.getLong(4);
+                long data_long_time = query.getLong(5);
+
+                Notification_List.add(name);
+
+                System.out.println("===data_long_time=== "+data_long_time);
+                if (id_for_object==count_call){
+
+             //   if (name=="5"){
+                    string_text_for_notification = name;
+                    System.out.println("===data_long_time=== "+data_long_time);
+                }
+
+
+            }
+        }
+
+
+        query.close(); //закрываем связи
+        db.close(); //закрываем связи
+
+
+
+
+/////////////////////////////
+
+       // string_text_for_notification="la-la-la";
+      //  string_text_for_notification= String.valueOf(count_call);
 
 
         Intent my_intent = new Intent(Edit_Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
@@ -773,12 +865,47 @@ int count_call= (int) id_from_task;
         AlarmManager alarmManager = (AlarmManager) getSystemService(Edit_Task_Activity.this.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
 
+        //////////////////
+        // сохраняем его в настройках
+        String key = String.valueOf(count_call);
+
+      //  SharedPreferences settings = getSharedPreferences("PreferencesName", MODE_PRIVATE);
+        settings = getSharedPreferences("PreferencesName2",MODE_MULTI_PROCESS );
+       // SharedPreferences.Editor prefEditor = ma.settings.edit();
+
+       SharedPreferences.Editor prefEditor = settings.edit();
+        prefEditor.putString(key, string_text_for_notification);  //ключ, значение
+        prefEditor.apply();
+        System.out.println("======next from SharedPreferences key===== "+key);
+
+        String PREF_NAME = "5";
+        String name = settings.getString(PREF_NAME,"не определено");
+        System.out.println("======next from SharedPreferences====="+name);
+
+       /////////////////
+
         System.out.println("==count_call=="+ count_call);
        // count_call++;
 
     }
 
 
+
+    String st_for_notif;
+    public String getArrayValue(int num_of) {
+
+        st_for_notif=Notification_List.get(num_of);
+        System.out.println("==st_for_not=="+ st_for_notif);
+        return st_for_notif;
+    }
+
+    public String gg(){
+        settings = getSharedPreferences("PreferencesName2",MODE_MULTI_PROCESS );
+        String PREF_NAME = "5";
+        String name = settings.getString(PREF_NAME,"не определено");
+        st_for_notif=name;
+        return st_for_notif;
+    }
 
 
 

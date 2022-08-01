@@ -15,6 +15,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView TextView_for_data_01;
 
+   // SharedPreferences settings = getSharedPreferences("PreferencesName", MODE_PRIVATE);
 
 
     int j = 0;
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         fill_Layout_for_tasks_03();
         set_Data_in_main_activity();
+
 
 
       //  trueNotification(); /// тест потом удалить
@@ -1501,8 +1504,80 @@ public void notif(){ //delete
         });
     }
 
+    int q = 0;
+
+    public void look_for_Notification (){  // сделать массив в который ложить записи у которых совпадает время вызова
+                                           // потом этот массив прогнать циклом в NotificationReceiver
+        System.out.println("==look_for_Notification==");
+      //////
+       // SimpleDateFormat formatter = new SimpleDateFormat("E'.' dd.MM.yy HH:mm "); // класс для форматирования
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm "); // класс для форматирования
+        //  Date date = new Date(System.currentTimeMillis());
+        Date current_date_Notification = new Date(); // при создании объекта автоматом задается текущая дата
+       String cur_Time_for_Notification=formatter.format(current_date_Notification);
+       long long_for_cur_Time_for_Notification=0;
+        System.out.println("===========formatter.format(current_date)==" + formatter.format(current_date_Notification));
+        System.out.println("===========formatter.format(current_date)==" + cur_Time_for_Notification);
+
+        SimpleDateFormat format_for_a6_time_Notification = new SimpleDateFormat();
+        format_for_a6_time_Notification.applyPattern("HH:mm");
+
+        try {
+            Date docDate_2 = format_for_a6_time_Notification.parse(cur_Time_for_Notification);
+            long_for_cur_Time_for_Notification = docDate_2.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("===========long_for_cur_Time_for_Notification==" + long_for_cur_Time_for_Notification);
+
+        ArrayList<Long> Notification_List = new ArrayList<Long>(); // создание списка
 
 
+      /////
+/*
+
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+        //  Cursor query = db.rawQuery("SELECT * FROM users_02;", null); // вытаскивает значения из базы
+        Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
+
+
+        // k = query.getCount();
+
+        if (q == 0) {
+
+            System.out.println("============= if(j==0) " + q);
+            ///
+            while (query.moveToNext()) {
+
+
+                int id_for_object = query.getInt(0);
+                String name = query.getString(1);
+                long data_long = query.getLong(2);
+                boolean value_checkBox_from_DB = Boolean.parseBoolean(query.getString(3));//2
+                long done_data_fact = query.getLong(4);
+                long data_long_time = query.getLong(5);
+
+
+
+                if (name=="5"){
+                   String stName_from_Main = name;
+                 //   System.out.println("===data_long_time=== "+data_long_time);
+                }
+
+
+            }
+        }
+
+
+        query.close(); //закрываем связи
+        db.close(); //закрываем связи
+*/
+
+
+    }
 
 
 
