@@ -6,7 +6,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -55,6 +53,10 @@ public class Edit_Task_Activity extends AppCompatActivity {
     static long id_from_task;
 
     static String string_text_for_notification;
+
+    String st_data_notif ="";
+    String st_time_notif ="";
+    String st_task_notif="";
 
     // LinearLayout_Edit_scroll_02_xml
 
@@ -200,6 +202,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
         System.out.println("==check_time+dataBase==");
 /*
+
         db.execSQL("CREATE TABLE IF NOT EXISTS users_06 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
                 "data INTEGER,checkBox BOOL,done_data_fact INTEGER,time_alert INTEGER,exist_alert BOOL," +
                 "exist_important BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
@@ -726,6 +729,9 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
           //  eta_for_alarm.instance_callAlarmManager2(calendar,eta_for_alarm); //
 
+             st_time_notif = sdf_for_EditText_Time.format(calendar.getTime());
+             st_data_notif =sdf_for_EditText.format(calendar.getTime());
+
               instance_callAlarmManager2 (calendar, Edit_Task_Activity.this);
 
              // Alarm alarm = new Alarm();
@@ -780,7 +786,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
         //////
         // SimpleDateFormat formatter = new SimpleDateFormat("E'.' dd.MM.yy HH:mm "); // класс для форматирования
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm "); // класс для форматирования
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm"); // класс для форматирования
         //  Date date = new Date(System.currentTimeMillis());
         Date current_date_Notification = new Date(); // при создании объекта автоматом задается текущая дата
         String cur_Time_for_Notification=formatter.format(current_date_Notification);
@@ -870,11 +876,60 @@ public class Edit_Task_Activity extends AppCompatActivity {
         String key = String.valueOf(count_call);
 
       //  SharedPreferences settings = getSharedPreferences("PreferencesName", MODE_PRIVATE);
-        settings = getSharedPreferences("PreferencesName2",MODE_MULTI_PROCESS );
+        settings = getSharedPreferences("PreferencesName2",MODE_PRIVATE );
        // SharedPreferences.Editor prefEditor = ma.settings.edit();
 
        SharedPreferences.Editor prefEditor = settings.edit();
-        prefEditor.putString(key, string_text_for_notification);  //ключ, значение
+      //  prefEditor.putString(key, string_text_for_notification);  //ключ, значение
+      //  prefEditor.putString("6", "string_text_for_notification");  //ключ, значение
+
+     //   prefEditor.clear();
+
+        ///delete
+
+       // String id="44";
+        String id=String.valueOf(count_call);
+       // String time="00:44";
+      //  String time=cur_Time_for_Notification;
+        String time= st_time_notif;
+       // String time=String.valueOf(EditText_task_03.getText());
+       // String data="04.07.2022";
+       // String data=st_data_notif;
+       // String data=String.valueOf(EditText_task_02.getText());
+        String data=st_data_notif;
+      //  String task="task N100500";
+       // String task=string_text_from_task;
+        String task= String.valueOf(EditText_task_01.getText());
+
+      /*
+        String key_time_id=time+"="+id;
+        String key_time_data=time+"="+data;
+        String key_time_task=time+"="+task;
+        */
+        String main_key = id+"="+time+"="+data+"="+task;
+
+/*
+        prefEditor.putString("22:15", "string_text_for_notification");  //ключ, значение
+        prefEditor.putString(key_time_id, id);  //ключ, значение
+        prefEditor.putString(key_time_data, data);  //ключ, значение
+        prefEditor.putString(key_time_task, task);  //ключ, значение
+        */
+        prefEditor.putString(main_key, "empty");  //ключ, значение все записано в ключ
+
+        System.out.println("==main_key== /// "+ main_key);
+
+       // String[] arrSt = new String[] { "data", "time", "text of task" };
+        //LinkedHashSet<String> myHashSet = new LinkedHashSet<String>();
+      /*
+        Set<String> myHashSet = new LinkedHashSet<String>();
+        myHashSet.add("time");
+        myHashSet.add("tadata");
+        myHashSet.add("tadata");
+        myHashSet.add("text of task");
+
+        prefEditor.putStringSet("7", myHashSet);
+*/
+        //putStringSet(String key, Set<String> values)
         prefEditor.apply();
         System.out.println("======next from SharedPreferences key===== "+key);
 
