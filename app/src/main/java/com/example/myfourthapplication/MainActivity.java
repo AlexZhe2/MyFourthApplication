@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         fill_Layout_for_tasks_03();
         set_Data_in_main_activity();
-
+        create_Channel();
 
 
       //  trueNotification(); /// тест потом удалить
@@ -145,8 +145,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
                 ///уведомления
-/*    // перенес в  trueNotification();
-
+    // перенес в  trueNotification();
+/*
                 NotificationCompat.Builder builder =
                         new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
                                 //   .setSmallIcon(R.drawable.ic_pets_black_24dp)
@@ -160,9 +160,10 @@ public class MainActivity extends AppCompatActivity {
                 NotificationManagerCompat notificationManager =
                         NotificationManagerCompat.from(MainActivity.this);
                 notificationManager.notify(NOTIFY_ID, builder.build());
-*/
+
 
                 System.out.println("notification4");
+                */
 /////
                 notif();//delete
                 addNotification();//delete
@@ -231,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "My channel",
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Stella channel",
                     NotificationManager.IMPORTANCE_HIGH);
             channel.setDescription("My channel description");
             channel.enableLights(true);

@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 public class Edit_Task_Activity extends AppCompatActivity {
 
@@ -57,6 +58,9 @@ public class Edit_Task_Activity extends AppCompatActivity {
     String st_data_notif ="";
     String st_time_notif ="";
     String st_task_notif="";
+
+    Calendar calendar = Calendar.getInstance();
+
 
     // LinearLayout_Edit_scroll_02_xml
 
@@ -97,6 +101,8 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
                 onClick_02();
                 update_subtask ();
+
+                save_Change(calendar);
 
                 startMainActivity();
             }
@@ -703,7 +709,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
 
         materialTimePicker.addOnPositiveButtonClickListener(view -> {
-            Calendar calendar = Calendar.getInstance();
+          //  Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
             calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
@@ -858,7 +864,9 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
 
 
-/////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+/*
 
        // string_text_for_notification="la-la-la";
       //  string_text_for_notification= String.valueOf(count_call);
@@ -901,6 +909,141 @@ public class Edit_Task_Activity extends AppCompatActivity {
        // String task=string_text_from_task;
         String task= String.valueOf(EditText_task_01.getText());
 
+      */
+/*
+        String key_time_id=time+"="+id;
+        String key_time_data=time+"="+data;
+        String key_time_task=time+"="+task;
+        *//*
+
+        String main_key = id+"="+time+"="+data+"="+task;
+
+*/
+/*
+        prefEditor.putString("22:15", "string_text_for_notification");  //ключ, значение
+        prefEditor.putString(key_time_id, id);  //ключ, значение
+        prefEditor.putString(key_time_data, data);  //ключ, значение
+        prefEditor.putString(key_time_task, task);  //ключ, значение
+        *//*
+
+        prefEditor.putString(main_key, "empty");  //ключ, значение все записано в ключ
+
+        System.out.println("==main_key== /// "+ main_key);
+
+       // String[] arrSt = new String[] { "data", "time", "text of task" };
+        //LinkedHashSet<String> myHashSet = new LinkedHashSet<String>();
+      */
+/*
+        Set<String> myHashSet = new LinkedHashSet<String>();
+        myHashSet.add("time");
+        myHashSet.add("tadata");
+        myHashSet.add("tadata");
+        myHashSet.add("text of task");
+
+        prefEditor.putStringSet("7", myHashSet);
+*//*
+
+        //putStringSet(String key, Set<String> values)
+        prefEditor.apply();
+*/
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+  //      System.out.println("======next from SharedPreferences key===== "+key);
+
+    //    String PREF_NAME = "5";
+    //    String name = settings.getString(PREF_NAME,"не определено");
+     //   System.out.println("======next from SharedPreferences====="+name);
+
+       /////////////////
+
+        System.out.println("==count_call=="+ count_call);
+       // count_call++;
+
+    }
+
+    public void save_Change(Calendar calendar) {
+
+        String St_id=String.valueOf(count_call);
+        settings = getSharedPreferences("PreferencesName2",MODE_PRIVATE );
+        SharedPreferences.Editor prefEditor = settings.edit();
+
+
+        ////////////  удаляет из настроек ранее созданную запись, если такая была создана ранее
+        Map<String, ?> my_Map = settings.getAll();
+
+        System.out.println("==first all== " + my_Map);
+
+        //перебор мапы
+        //попробовать собрать трехмерный массив и с ним работать
+        for (Map.Entry<String, ?> item : my_Map.entrySet()) {
+
+            String tempTime = item.getKey();
+            String delimeter = "=";
+            //String[] subStrTime = tempTime.split(delimeter, 2); //массив  разбивает на 2 части
+            String[] main_subStrTime = tempTime.split(delimeter, 4); //массив  разбивает на 4 части
+            //  System.out.println("==subStrTime[0]== "+subStrTime[0]);
+            System.out.println("==subStrTime[0]=id= " + main_subStrTime[0]);
+
+
+            //   if (cur_Time_for_Notification==subStrTime[0]){
+            // if (cur_Time_for_Notification.equals(subStrTime[0])){  // сравниваем с первым элементом массива
+            if (St_id.equals(main_subStrTime[0]) ) {  // сравниваем с нулевым элементом массива (id)
+
+                //  System.out.println("BINGO! "+"key =  " + item.getKey() + " value = " + item.getValue());
+                System.out.println("delete old " + "key =  " + item.getKey() + "/ value = " + main_subStrTime[3]);
+                prefEditor.remove(tempTime);
+                prefEditor.apply();
+
+            }
+
+        }
+
+
+        //////////////// создает новыю запись в настройках
+
+
+        Intent my_intent = new Intent(Edit_Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
+        // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
+        // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent =     PendingIntent.getBroadcast(Edit_Task_Activity.this,count_call, my_intent,  PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Edit_Task_Activity.this.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+
+        //////////////////
+        // сохраняем его в настройках
+        String key = String.valueOf(count_call);
+
+        //  SharedPreferences settings = getSharedPreferences("PreferencesName", MODE_PRIVATE);
+
+     //   settings = getSharedPreferences("PreferencesName2",MODE_PRIVATE );// ====
+
+        // SharedPreferences.Editor prefEditor = ma.settings.edit();
+
+        //SharedPreferences.Editor prefEditor = settings.edit(); //===
+
+        //  prefEditor.putString(key, string_text_for_notification);  //ключ, значение
+        //  prefEditor.putString("6", "string_text_for_notification");  //ключ, значение
+
+        //   prefEditor.clear();  // удалит все ожидающие уведомления
+
+        ///delete
+
+        // String id="44";
+        String id=String.valueOf(count_call);
+        // String time="00:44";
+        //  String time=cur_Time_for_Notification;
+        String time= st_time_notif;
+        // String time=String.valueOf(EditText_task_03.getText());
+        // String data="04.07.2022";
+        // String data=st_data_notif;
+        // String data=String.valueOf(EditText_task_02.getText());
+        String data=st_data_notif;
+        //  String task="task N100500";
+        // String task=string_text_from_task;
+        String task= String.valueOf(EditText_task_01.getText());
+
       /*
         String key_time_id=time+"="+id;
         String key_time_data=time+"="+data;
@@ -918,7 +1061,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
         System.out.println("==main_key== /// "+ main_key);
 
-       // String[] arrSt = new String[] { "data", "time", "text of task" };
+        // String[] arrSt = new String[] { "data", "time", "text of task" };
         //LinkedHashSet<String> myHashSet = new LinkedHashSet<String>();
       /*
         Set<String> myHashSet = new LinkedHashSet<String>();
@@ -931,18 +1074,8 @@ public class Edit_Task_Activity extends AppCompatActivity {
 */
         //putStringSet(String key, Set<String> values)
         prefEditor.apply();
-        System.out.println("======next from SharedPreferences key===== "+key);
-
-        String PREF_NAME = "5";
-        String name = settings.getString(PREF_NAME,"не определено");
-        System.out.println("======next from SharedPreferences====="+name);
-
-       /////////////////
-
-        System.out.println("==count_call=="+ count_call);
-       // count_call++;
-
     }
+
 
 
 
