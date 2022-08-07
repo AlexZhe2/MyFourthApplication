@@ -50,9 +50,13 @@ public class NotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        ma.trueTestResiver();
+        System.out.println("======Start_Receiver=====");
 
-        //
+
+      //  ma.trueTestResiver();
+
+        //====
+
         Intent notificationIntent = new Intent(context, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -158,7 +162,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 /////
 
 
-            System.out.println("======Receiver=====");
+
 /*
 
             NotificationCompat.Builder builder =
@@ -175,7 +179,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                             //  .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                             .setPriority(NotificationCompat.PRIORITY_HIGH)
                             //   .addAction(R.drawable.R.drawable.ic_image_01, "Открыть", pendingIntent)
-                            .addAction(R.drawable.ic_image_01, "Открыть", contentIntent) // кнопка действия
+                         //   .addAction(R.drawable.ic_image_01, "Открыть", contentIntent) // кнопка действия
                             .setAutoCancel(true); // автоматически закрыть уведомление после нажатия
 
 
@@ -183,13 +187,14 @@ public class NotificationReceiver extends BroadcastReceiver {
                     //   notificationManager =
                     NotificationManagerCompat.from(context);
             notificationManager.notify(NOTIFY_ID, builder.build());
+
 */
 
         }
 
 
     public void call_Notification_builder (Context context_2, PendingIntent contentIntent_2){
-        System.out.println("======Receiver=====");
+        System.out.println("======Receiver make Notification=====");
 
         NotificationCompat.Builder builder =
                 //   builder =

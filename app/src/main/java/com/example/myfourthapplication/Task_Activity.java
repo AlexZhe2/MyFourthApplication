@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 public class Task_Activity extends AppCompatActivity {
 
@@ -42,9 +44,15 @@ public class Task_Activity extends AppCompatActivity {
 
     private ScrollView ScrollView_task_01;
     private LinearLayout LinearLayout_task_01;
-
-  //  private CheckBox CheckBox_task_01;
+    static long last_id_from_task_TA;
+    int count_call_TA;
+    //  private CheckBox CheckBox_task_01;
     int counter=0;
+    String st_data_notif_TA ="";
+    String st_time_notif_TA ="";
+
+    Calendar calendar = Calendar.getInstance();
+    SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +85,8 @@ public class Task_Activity extends AppCompatActivity {
            //     Toast.makeText(Task_Activity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
 
                 onClick_01();
-                saveSubtask();
+             //   saveSubtask();
+                save_Change(calendar); // сохраняет насройки и для в рессивера
                 startMainActivity();
             }
         });
@@ -200,6 +209,8 @@ public class Task_Activity extends AppCompatActivity {
             String done_data_fact = query.getString(4);
             String alarm_time = query.getString(5);
 
+            last_id_from_task_TA=id_from_db;
+            count_call_TA= (int)last_id_from_task_TA;
             //   int age = query.getInt(1);
             //    textView.append("Name: " + name + " Age: " + age + "\n");
             System.out.println("=========================id_from_db " + i + " " + id_from_db);
@@ -430,6 +441,8 @@ public class Task_Activity extends AppCompatActivity {
 
     }
 
+
+
     private void callAlarmManager2() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
         SimpleDateFormat sdf_for_EditText = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
@@ -444,7 +457,8 @@ public class Task_Activity extends AppCompatActivity {
 
 
         materialTimePicker.addOnPositiveButtonClickListener(view -> {
-            Calendar calendar = Calendar.getInstance();
+          //  Calendar calendar = Calendar.getInstance();
+           // Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
             calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
@@ -458,14 +472,39 @@ public class Task_Activity extends AppCompatActivity {
 
             Toast.makeText(this, "Будильник установлен на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
 
+            /*
             Intent my_intent = new Intent(getApplicationContext(), NotificationReceiver.class);
             PendingIntent pendingIntent =    PendingIntent.getBroadcast(Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+*/
+
+
+/*
+//=============
+            Intent my_intent = new Intent(Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
+            // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
+            // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,count_call_TA, my_intent,  PendingIntent.FLAG_ONE_SHOT);
+        //    PendingIntent pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,3, my_intent,  PendingIntent.FLAG_ONE_SHOT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Task_Activity.this.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+
+*/
+
+
+
+
+
+            st_time_notif_TA = sdf_for_EditText_Time.format(calendar.getTime());
+            st_data_notif_TA =sdf_for_EditText.format(calendar.getTime());
 
             /////установка значения в EditText
             EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
             EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
+
+          //  instance_callAlarmManager2 (calendar, Task_Activity.this);
+
 
         });
 
@@ -477,5 +516,96 @@ public class Task_Activity extends AppCompatActivity {
     }
 
 
+    public void save_Change(Calendar calendar) {
+
+       // String St_id = String.valueOf(count_call_TA);
+        settings = getSharedPreferences("PreferencesName2", MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = settings.edit();
+
+
+        ////////////  удаляет из настроек ранее созданную запись, если такая была создана ранее
+     //   Map<String, ?> my_Map = settings.getAll();
+
+      //  System.out.println("==first all == " + my_Map);
+
+        //перебор мапы
+        //попробовать собрать трехмерный массив и с ним работать
+     /*   for (Map.Entry<String, ?> item : my_Map.entrySet()) {
+
+            String tempTime = item.getKey();
+            String delimeter = "=";
+            //String[] subStrTime = tempTime.split(delimeter, 2); //массив  разбивает на 2 части
+            String[] main_subStrTime = tempTime.split(delimeter, 4); //массив  разбивает на 4 части
+            //  System.out.println("==subStrTime[0]== "+subStrTime[0]);
+            System.out.println("==subStrTime[0]=id= " + main_subStrTime[0]);
+
+
+            //   if (cur_Time_for_Notification==subStrTime[0]){
+            // if (cur_Time_for_Notification.equals(subStrTime[0])){  // сравниваем с первым элементом массива
+            if (St_id.equals(main_subStrTime[0])) {  // сравниваем с нулевым элементом массива (id)
+
+                //  System.out.println("BINGO! "+"key =  " + item.getKey() + " value = " + item.getValue());
+                System.out.println("delete old " + "key =  " + item.getKey() + "/ value = " + main_subStrTime[3]);
+                prefEditor.remove(tempTime);
+                prefEditor.apply();
+
+            }
+
+        }
+*/
+        //////////////// создает новыю запись в настройках
+
+
+
+        Intent my_intent = new Intent(Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
+        // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
+        // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+        //PendingIntent pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,count_call_TA, my_intent,  PendingIntent.FLAG_ONE_SHOT);
+
+        System.out.println("====count_call_TA=== "+count_call_TA);
+        PendingIntent pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,count_call_TA, my_intent,  PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Task_Activity.this.ALARM_SERVICE);
+        System.out.println("====calendar.getTimeInMillis()===x3== "+calendar.getTimeInMillis());
+        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+      //  alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+
+        ////
+      //  pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,(count_call_TA-1), my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+      //  alarmManager = (AlarmManager) getSystemService(Task_Activity.this.ALARM_SERVICE);
+      //  alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+        ////
+
+        //////////////////
+        // сохраняем его в настройках
+        String key = String.valueOf(count_call_TA);
+
+
+
+        // String id="44";
+        String id=String.valueOf(count_call_TA);
+        // String time="00:44";
+        //  String time=cur_Time_for_Notification;
+        String time= st_time_notif_TA;
+        // String time=String.valueOf(EditText_task_03.getText());
+        // String data="04.07.2022";
+        // String data=st_data_notif;
+        // String data=String.valueOf(EditText_task_02.getText());
+        String data=st_data_notif_TA;
+        //  String task="task N100500";
+        // String task=string_text_from_task;
+        String task= String.valueOf(EditText_task_01.getText());
+
+
+        String main_key = id+"="+time+"="+data+"="+task;
+
+        prefEditor.putString(main_key, "empty");  //ключ, значение все записано в ключ
+
+        System.out.println("==add main_key== /// "+ main_key);
+
+        prefEditor.apply();
+
+
+    }
 
 }

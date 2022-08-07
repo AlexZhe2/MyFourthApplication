@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         fill_Layout_for_tasks_03();
         set_Data_in_main_activity();
         create_Channel();
-
+        //gon();
 
       //  trueNotification(); /// тест потом удалить
     }
@@ -1580,6 +1580,59 @@ public void notif(){ //delete
 
     }
 
+
+    public void gon(){   // убрать этот гон!!!
+
+        SQLiteDatabase db = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+
+        Cursor query = db.rawQuery("SELECT * FROM users_07;", null); // вытаскивает значения из базы
+
+        //  TextView textView = findViewById(R.id.textView);
+        //  textView.setText("");
+        int i = 0;
+        while (query.moveToNext()) {
+            int id_from_db= query.getInt(0);
+            String name = query.getString(1);
+            Long data = query.getLong(2);
+            boolean value_check = Boolean.parseBoolean(query.getString(3));
+            String done_data_fact = query.getString(4);
+            long alarm_time = query.getLong(5);
+
+            long puf =data+alarm_time;
+
+            //   int age = query.getInt(1);
+            //    textView.append("Name: " + name + " Age: " + age + "\n");
+            System.out.println("=========================id_from_db " + i + " " + id_from_db);
+            System.out.println("=========================name " + i + " " + name);
+            System.out.println("=========================data " + i + " " + data);
+            System.out.println("=========================value_check=main " + i + " " + value_check);
+            System.out.println("=========================done_data_fact " + i + " " + done_data_fact);
+            System.out.println("=========================alarm_time " + i + " " + alarm_time);
+
+
+            int last_id_from_task_MA=id_from_db;
+            int count_call_TA= (int)last_id_from_task_MA;
+
+            Intent my_intent = new Intent(MainActivity.this, NotificationReceiver.class);  //должно быть так что бы работало
+            // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
+            // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            //PendingIntent pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,count_call_TA, my_intent,  PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pendingIntent =     PendingIntent.getBroadcast(MainActivity.this,count_call_TA, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(MainActivity.this.ALARM_SERVICE);
+          //  alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,puf,pendingIntent);
+
+
+
+            i++;
+
+        }
+
+
+        query.close(); //закрываем связи
+        db.close(); //закрываем связи
+
+    }
 
 
 }
