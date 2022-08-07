@@ -125,7 +125,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2.5"
             app:layout_constraintTop_toTopOf="@id/LinearLayout_task_01_xml"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="5dp"
@@ -145,6 +145,19 @@
 
         </EditText>
 
+        <TextView
+            android:id="@+id/TextView_edit_task_xml_08"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="8dp"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:text="X     "
+            android:onClick="resetData"
+            />
 
     </LinearLayout>
 
@@ -191,6 +204,21 @@
 
         </EditText>
 
+
+        <TextView
+            android:id="@+id/TextView_edit_task_xml_07"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="8dp"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:text="X     "
+            android:onClick="resetTime"
+
+            />
 
     </LinearLayout>
 

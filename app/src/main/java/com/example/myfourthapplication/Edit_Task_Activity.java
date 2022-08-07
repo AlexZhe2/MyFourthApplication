@@ -85,6 +85,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
         /////
         EditText_task_01.setText(string_text_from_task);
         EditText_task_02.setText(string_text_from_data);
+        System.out.println("string_text_from_data_time = "+string_text_from_data_time);
         EditText_task_03.setText(string_text_from_data_time);
 
         loadSubtask();
@@ -966,91 +967,94 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
     public void save_Change(Calendar calendar) {
 
-        String St_id=String.valueOf(count_call);
-        settings = getSharedPreferences("PreferencesName2",MODE_PRIVATE );
-        SharedPreferences.Editor prefEditor = settings.edit();
+            System.out.println("==save_Change==1==");
+
+            String St_id = String.valueOf(count_call);
+            settings = getSharedPreferences("PreferencesName2", MODE_PRIVATE);
+            SharedPreferences.Editor prefEditor = settings.edit();
 
 
-        ////////////  удаляет из настроек ранее созданную запись, если такая была создана ранее
-        Map<String, ?> my_Map = settings.getAll();
+            ////////////  удаляет из настроек ранее созданную запись, если такая была создана ранее
+            Map<String, ?> my_Map = settings.getAll();
 
-        System.out.println("==first all== " + my_Map);
+            System.out.println("==first all== " + my_Map);
 
-        //перебор мапы
-        //попробовать собрать трехмерный массив и с ним работать
-        for (Map.Entry<String, ?> item : my_Map.entrySet()) {
+            //перебор мапы
+            //попробовать собрать трехмерный массив и с ним работать
+            for (Map.Entry<String, ?> item : my_Map.entrySet()) {
 
-            String tempTime = item.getKey();
-            String delimeter = "=";
-            //String[] subStrTime = tempTime.split(delimeter, 2); //массив  разбивает на 2 части
-            String[] main_subStrTime = tempTime.split(delimeter, 4); //массив  разбивает на 4 части
-            //  System.out.println("==subStrTime[0]== "+subStrTime[0]);
-            System.out.println("==subStrTime[0]=id= " + main_subStrTime[0]);
+                String tempTime = item.getKey();
+                String delimeter = "=";
+                //String[] subStrTime = tempTime.split(delimeter, 2); //массив  разбивает на 2 части
+                String[] main_subStrTime = tempTime.split(delimeter, 4); //массив  разбивает на 4 части
+                //  System.out.println("==subStrTime[0]== "+subStrTime[0]);
+                System.out.println("==subStrTime[0]=id= " + main_subStrTime[0]);
 
 
-            //   if (cur_Time_for_Notification==subStrTime[0]){
-            // if (cur_Time_for_Notification.equals(subStrTime[0])){  // сравниваем с первым элементом массива
-            if (St_id.equals(main_subStrTime[0]) ) {  // сравниваем с нулевым элементом массива (id)
+                //   if (cur_Time_for_Notification==subStrTime[0]){
+                // if (cur_Time_for_Notification.equals(subStrTime[0])){  // сравниваем с первым элементом массива
+                if (St_id.equals(main_subStrTime[0])) {  // сравниваем с нулевым элементом массива (id)
 
-                //  System.out.println("BINGO! "+"key =  " + item.getKey() + " value = " + item.getValue());
-                System.out.println("delete old " + "key =  " + item.getKey() + "/ value = " + main_subStrTime[3]);
-                prefEditor.remove(tempTime);
-                prefEditor.apply();
+                    //  System.out.println("BINGO! "+"key =  " + item.getKey() + " value = " + item.getValue());
+                    System.out.println("delete old " + "key =  " + item.getKey() + "/ value = " + main_subStrTime[3]);
+                    prefEditor.remove(tempTime);
+                    prefEditor.apply();
+
+                }
 
             }
 
-        }
+
+            //////////////// создает новыю запись в настройках
+        if(!(EditText_task_03.getText().toString().equals(""))) {
 
 
-        //////////////// создает новыю запись в настройках
+            Intent my_intent = new Intent(Edit_Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
+            // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
+            // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(Edit_Task_Activity.this, count_call, my_intent, PendingIntent.FLAG_ONE_SHOT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Edit_Task_Activity.this.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
+            //////////////////
+            // сохраняем его в настройках
+            String key = String.valueOf(count_call);
 
-        Intent my_intent = new Intent(Edit_Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
-        // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
-        // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent pendingIntent =     PendingIntent.getBroadcast(Edit_Task_Activity.this,count_call, my_intent,  PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Edit_Task_Activity.this.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+            //  SharedPreferences settings = getSharedPreferences("PreferencesName", MODE_PRIVATE);
 
-        //////////////////
-        // сохраняем его в настройках
-        String key = String.valueOf(count_call);
+            //   settings = getSharedPreferences("PreferencesName2",MODE_PRIVATE );// ====
 
-        //  SharedPreferences settings = getSharedPreferences("PreferencesName", MODE_PRIVATE);
+            // SharedPreferences.Editor prefEditor = ma.settings.edit();
 
-     //   settings = getSharedPreferences("PreferencesName2",MODE_PRIVATE );// ====
+            //SharedPreferences.Editor prefEditor = settings.edit(); //===
 
-        // SharedPreferences.Editor prefEditor = ma.settings.edit();
+            //  prefEditor.putString(key, string_text_for_notification);  //ключ, значение
+            //  prefEditor.putString("6", "string_text_for_notification");  //ключ, значение
 
-        //SharedPreferences.Editor prefEditor = settings.edit(); //===
+            //   prefEditor.clear();  // удалит все ожидающие уведомления
 
-        //  prefEditor.putString(key, string_text_for_notification);  //ключ, значение
-        //  prefEditor.putString("6", "string_text_for_notification");  //ключ, значение
+            ///delete
 
-        //   prefEditor.clear();  // удалит все ожидающие уведомления
-
-        ///delete
-
-        // String id="44";
-        String id=String.valueOf(count_call);
-        // String time="00:44";
-        //  String time=cur_Time_for_Notification;
-        String time= st_time_notif;
-        // String time=String.valueOf(EditText_task_03.getText());
-        // String data="04.07.2022";
-        // String data=st_data_notif;
-        // String data=String.valueOf(EditText_task_02.getText());
-        String data=st_data_notif;
-        //  String task="task N100500";
-        // String task=string_text_from_task;
-        String task= String.valueOf(EditText_task_01.getText());
+            // String id="44";
+            String id = String.valueOf(count_call);
+            // String time="00:44";
+            //  String time=cur_Time_for_Notification;
+            String time = st_time_notif;
+            // String time=String.valueOf(EditText_task_03.getText());
+            // String data="04.07.2022";
+            // String data=st_data_notif;
+            // String data=String.valueOf(EditText_task_02.getText());
+            String data = st_data_notif;
+            //  String task="task N100500";
+            // String task=string_text_from_task;
+            String task = String.valueOf(EditText_task_01.getText());
 
       /*
         String key_time_id=time+"="+id;
         String key_time_data=time+"="+data;
         String key_time_task=time+"="+task;
         */
-        String main_key = id+"="+time+"="+data+"="+task;
+            String main_key = id + "=" + time + "=" + data + "=" + task;
 
 /*
         prefEditor.putString("22:15", "string_text_for_notification");  //ключ, значение
@@ -1058,12 +1062,12 @@ public class Edit_Task_Activity extends AppCompatActivity {
         prefEditor.putString(key_time_data, data);  //ключ, значение
         prefEditor.putString(key_time_task, task);  //ключ, значение
         */
-        prefEditor.putString(main_key, "empty");  //ключ, значение все записано в ключ
+            prefEditor.putString(main_key, "empty");  //ключ, значение все записано в ключ
 
-        System.out.println("==main_key== /// "+ main_key);
+            System.out.println("==main_key== /// " + main_key);
 
-        // String[] arrSt = new String[] { "data", "time", "text of task" };
-        //LinkedHashSet<String> myHashSet = new LinkedHashSet<String>();
+            // String[] arrSt = new String[] { "data", "time", "text of task" };
+            //LinkedHashSet<String> myHashSet = new LinkedHashSet<String>();
       /*
         Set<String> myHashSet = new LinkedHashSet<String>();
         myHashSet.add("time");
@@ -1073,8 +1077,10 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
         prefEditor.putStringSet("7", myHashSet);
 */
-        //putStringSet(String key, Set<String> values)
-        prefEditor.apply();
+            //putStringSet(String key, Set<String> values)
+            prefEditor.apply();
+
+        }
     }
 
 
@@ -1151,4 +1157,14 @@ public class Edit_Task_Activity extends AppCompatActivity {
     }
 */
 
+    public void resetTime(View view){
+
+        EditText_task_03.setText("");
+
+    }
+    public void resetData(View view){
+
+        EditText_task_02.setText("");
+        EditText_task_03.setText("");
+    }
 }

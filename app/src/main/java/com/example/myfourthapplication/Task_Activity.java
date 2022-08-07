@@ -146,14 +146,21 @@ public class Task_Activity extends AppCompatActivity {
         SimpleDateFormat format_for_a6_time = new SimpleDateFormat();
         format.applyPattern("dd.MM.yyyy");
         format_for_a6_time.applyPattern("HH:mm");
-        try {
-            Date docDate = format.parse(str3);
-            Date docDate_2 = format_for_a6_time.parse(str3_time);
-            a5 = docDate.getTime();
-            a6_time = docDate_2.getTime();
 
-            System.out.println("===============data format long from String===== " + a5);
-            System.out.println("===============data format long from String_all_value===== " + str3);
+        try {
+        Date docDate = format.parse(str3);
+        a5 = docDate.getTime();
+        System.out.println("===============data format long from String_all_value===== " + str3);
+        System.out.println("===============data format long from String===== " + a5);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.out.println("=======ошибка=======");
+        }
+
+        try {
+            Date docDate_2 = format_for_a6_time.parse(str3_time);
+            a6_time = docDate_2.getTime();
             System.out.println("===============data format long from String_all_value_time===== " + str3_time);
             System.out.println("===============data format long from String_time===== " + a6_time);
         } catch (ParseException e) {
@@ -555,57 +562,66 @@ public class Task_Activity extends AppCompatActivity {
 */
         //////////////// создает новыю запись в настройках
 
+        if(!(EditText_task_03.getText().toString().equals(""))) {
+
+            Intent my_intent = new Intent(Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
+            // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
+            // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            //PendingIntent pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,count_call_TA, my_intent,  PendingIntent.FLAG_ONE_SHOT);
+
+            System.out.println("====count_call_TA=== " + count_call_TA);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(Task_Activity.this, count_call_TA, my_intent, PendingIntent.FLAG_ONE_SHOT);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Task_Activity.this.ALARM_SERVICE);
+            System.out.println("====calendar.getTimeInMillis()===x3== " + calendar.getTimeInMillis());
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            //  alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+
+            ////
+            //  pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,(count_call_TA-1), my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
+            //  alarmManager = (AlarmManager) getSystemService(Task_Activity.this.ALARM_SERVICE);
+            //  alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
+            ////
+
+            //////////////////
+            // сохраняем его в настройках
+            String key = String.valueOf(count_call_TA);
 
 
-        Intent my_intent = new Intent(Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
-        // Intent my_intent = new Intent(eta_for_alarm2, NotificationReceiver.class);
-        // PendingIntent pendingIntent =    PendingIntent.getBroadcast(Edit_Task_Activity.this,0, my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
-        //PendingIntent pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,count_call_TA, my_intent,  PendingIntent.FLAG_ONE_SHOT);
-
-        System.out.println("====count_call_TA=== "+count_call_TA);
-        PendingIntent pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,count_call_TA, my_intent,  PendingIntent.FLAG_ONE_SHOT);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Task_Activity.this.ALARM_SERVICE);
-        System.out.println("====calendar.getTimeInMillis()===x3== "+calendar.getTimeInMillis());
-        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-      //  alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-
-        ////
-      //  pendingIntent =     PendingIntent.getBroadcast(Task_Activity.this,(count_call_TA-1), my_intent,  PendingIntent.FLAG_UPDATE_CURRENT);
-      //  alarmManager = (AlarmManager) getSystemService(Task_Activity.this.ALARM_SERVICE);
-      //  alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
-        ////
-
-        //////////////////
-        // сохраняем его в настройках
-        String key = String.valueOf(count_call_TA);
+            // String id="44";
+            String id = String.valueOf(count_call_TA);
+            // String time="00:44";
+            //  String time=cur_Time_for_Notification;
+            String time = st_time_notif_TA;
+            // String time=String.valueOf(EditText_task_03.getText());
+            // String data="04.07.2022";
+            // String data=st_data_notif;
+            // String data=String.valueOf(EditText_task_02.getText());
+            String data = st_data_notif_TA;
+            //  String task="task N100500";
+            // String task=string_text_from_task;
+            String task = String.valueOf(EditText_task_01.getText());
 
 
+            String main_key = id + "=" + time + "=" + data + "=" + task;
 
-        // String id="44";
-        String id=String.valueOf(count_call_TA);
-        // String time="00:44";
-        //  String time=cur_Time_for_Notification;
-        String time= st_time_notif_TA;
-        // String time=String.valueOf(EditText_task_03.getText());
-        // String data="04.07.2022";
-        // String data=st_data_notif;
-        // String data=String.valueOf(EditText_task_02.getText());
-        String data=st_data_notif_TA;
-        //  String task="task N100500";
-        // String task=string_text_from_task;
-        String task= String.valueOf(EditText_task_01.getText());
+            prefEditor.putString(main_key, "empty");  //ключ, значение все записано в ключ
 
+            System.out.println("==add main_key== /// " + main_key);
 
-        String main_key = id+"="+time+"="+data+"="+task;
-
-        prefEditor.putString(main_key, "empty");  //ключ, значение все записано в ключ
-
-        System.out.println("==add main_key== /// "+ main_key);
-
-        prefEditor.apply();
-
+            prefEditor.apply();
+        }
 
     }
 
+    public void resetTime_TA(View view){
+
+        EditText_task_03.setText("");
+
+    }
+    public void resetData_TA(View view){
+
+        EditText_task_02.setText("");
+        EditText_task_03.setText("");
+    }
 }

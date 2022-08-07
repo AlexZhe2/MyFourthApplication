@@ -1414,6 +1414,13 @@ public void notif(){ //delete
                 eta.string_text_from_data=data_for_edit;
                 eta.string_text_from_data_time=data_for_edit_time;
 
+                if(value_data_time==0){
+                    eta.string_text_from_data_time="";
+                }
+                if(value_data==0){
+                    eta.string_text_from_data="";
+                }
+
                 eta.id_from_task=task_id;
 
                 System.out.println("=========task listener=====!!!");
