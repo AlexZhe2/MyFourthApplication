@@ -44,6 +44,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView TextView_for_data_01;
 
+    SharedPreferences settings;// = getSharedPreferences("PreferencesName", MODE_PRIVATE);
    // SharedPreferences settings = getSharedPreferences("PreferencesName", MODE_PRIVATE);
 
 
@@ -1375,6 +1377,104 @@ public void notif(){ //delete
                 query2.close(); //закрываем связи
 
                 db.close(); //закрываем связи
+
+
+             /////////////////////////// убираем сработку уведомление
+                if (value_checkBox_for_DB==true) {
+                    System.out.println("==save_Change==1==");
+
+                    String St_id = String.valueOf(task_id);
+                    settings = getSharedPreferences("PreferencesName2", MODE_PRIVATE);
+                    SharedPreferences.Editor prefEditor = settings.edit();
+
+
+                    ////////////  удаляет из настроек ранее созданную запись, если такая была создана ранее
+                    Map<String, ?> my_Map = settings.getAll();
+
+                    System.out.println("==first all== " + my_Map);
+
+                    //перебор мапы
+                    //попробовать собрать трехмерный массив и с ним работать
+                    for (Map.Entry<String, ?> item : my_Map.entrySet()) {
+
+                        String tempTime = item.getKey();
+                        String delimeter = "=";
+                        //String[] subStrTime = tempTime.split(delimeter, 2); //массив  разбивает на 2 части
+                        String[] main_subStrTime = tempTime.split(delimeter, 5); //массив  разбивает на 4 части
+                        String st_temp_for_true;
+                        //  System.out.println("==subStrTime[0]== "+subStrTime[0]);
+                        System.out.println("==subStrTime[0]=id= " + main_subStrTime[0]);
+
+
+                        //   if (cur_Time_for_Notification==subStrTime[0]){
+                        // if (cur_Time_for_Notification.equals(subStrTime[0])){  // сравниваем с первым элементом массива
+                        if (St_id.equals(main_subStrTime[0])) {  // сравниваем с нулевым элементом массива (id)
+
+                            st_temp_for_true=main_subStrTime[0]+"="+main_subStrTime[1]+"="+main_subStrTime[2]+"="+main_subStrTime[3]+"="+"true";
+                            //  System.out.println("BINGO! "+"key =  " + item.getKey() + " value = " + item.getValue());
+                            System.out.println("delete old " + "key =  " + item.getKey() + "/ value = " + main_subStrTime[3]);
+
+                            prefEditor.remove(tempTime);
+                            prefEditor.putString(st_temp_for_true, "empty");  //ключ, значение все записано в ключ
+
+                            System.out.println("==main_key== /// " + st_temp_for_true);
+
+                            prefEditor.apply();
+
+                        }
+
+                    }
+                }
+                if (value_checkBox_for_DB==false) {
+                    System.out.println("==save_Change==1==");
+
+                    String St_id = String.valueOf(task_id);
+                    settings = getSharedPreferences("PreferencesName2", MODE_PRIVATE);
+                    SharedPreferences.Editor prefEditor = settings.edit();
+
+
+                    ////////////  удаляет из настроек ранее созданную запись, если такая была создана ранее
+                    Map<String, ?> my_Map = settings.getAll();
+
+                    System.out.println("==first all== " + my_Map);
+
+                    //перебор мапы
+                    //попробовать собрать трехмерный массив и с ним работать
+                    for (Map.Entry<String, ?> item : my_Map.entrySet()) {
+
+                        String tempTime = item.getKey();
+                        String delimeter = "=";
+                        //String[] subStrTime = tempTime.split(delimeter, 2); //массив  разбивает на 2 части
+                        String[] main_subStrTime = tempTime.split(delimeter, 5); //массив  разбивает на 4 части
+                        String st_temp_for_false;
+                        //  System.out.println("==subStrTime[0]== "+subStrTime[0]);
+                        System.out.println("==subStrTime[0]=id= " + main_subStrTime[0]);
+
+
+                        //   if (cur_Time_for_Notification==subStrTime[0]){
+                        // if (cur_Time_for_Notification.equals(subStrTime[0])){  // сравниваем с первым элементом массива
+                        if (St_id.equals(main_subStrTime[0])) {  // сравниваем с нулевым элементом массива (id)
+
+                            st_temp_for_false=main_subStrTime[0]+"="+main_subStrTime[1]+"="+main_subStrTime[2]+"="+main_subStrTime[3]+"="+"false";
+                            //  System.out.println("BINGO! "+"key =  " + item.getKey() + " value = " + item.getValue());
+                            System.out.println("delete old " + "key =  " + item.getKey() + "/ value = " + main_subStrTime[3]);
+
+                            prefEditor.remove(tempTime);
+                            prefEditor.putString(st_temp_for_false, "empty");  //ключ, значение все записано в ключ
+
+                            System.out.println("==main_key== /// " + st_temp_for_false);
+
+                            prefEditor.apply();
+
+                        }
+
+                    }
+                }
+
+
+
+
+                //////////////////////
 
 
             }

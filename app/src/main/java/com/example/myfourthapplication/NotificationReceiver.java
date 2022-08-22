@@ -118,16 +118,19 @@ public class NotificationReceiver extends BroadcastReceiver {
 
             String tempTime = item.getKey();
             String delimeter = "=";
+            String st_false = "false";
             //String[] subStrTime = tempTime.split(delimeter, 2); //массив  разбивает на 2 части
-            String[] main_subStrTime = tempTime.split(delimeter, 4); //массив  разбивает на 4 части
+            String[] main_subStrTime = tempTime.split(delimeter, 5); //массив  разбивает на 5 части
             System.out.println("==cur_Time_for_Notification== " + cur_Time_for_Notification);
             //  System.out.println("==subStrTime[0]== "+subStrTime[0]);
             System.out.println("==subStrTime[0]== " + main_subStrTime[1]);
+            System.out.println("==subStrTime[4]== " + main_subStrTime[4]);
 
 
             //   if (cur_Time_for_Notification==subStrTime[0]){
             // if (cur_Time_for_Notification.equals(subStrTime[0])){  // сравниваем с первым элементом массива
-            if (cur_Time_for_Notification.equals(main_subStrTime[1]) && cur_Data_for_Notification.equals(main_subStrTime[2])) {  // сравниваем с первым элементом массива
+         //   if (cur_Time_for_Notification.equals(main_subStrTime[1]) && cur_Data_for_Notification.equals(main_subStrTime[2])) {  // сравниваем с первым элементом массива
+            if (cur_Time_for_Notification.equals(main_subStrTime[1]) && cur_Data_for_Notification.equals(main_subStrTime[2])&&main_subStrTime[4].equals(st_false)) {  // сравниваем с первым элементом массива
 
                 //  System.out.println("BINGO! "+"key =  " + item.getKey() + " value = " + item.getValue());
                 System.out.println("BINGO! " + "key =  " + item.getKey() + " value = " + main_subStrTime[3]);

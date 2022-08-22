@@ -51,6 +51,9 @@ public class Task_Activity extends AppCompatActivity {
     String st_data_notif_TA ="";
     String st_time_notif_TA ="";
 
+    boolean value_of_main_checkBox_TA = false;
+    String checkBox_notif= String.valueOf(value_of_main_checkBox_TA);
+
     Calendar calendar = Calendar.getInstance();
     SharedPreferences settings;
 
@@ -602,8 +605,10 @@ public class Task_Activity extends AppCompatActivity {
             // String task=string_text_from_task;
             String task = String.valueOf(EditText_task_01.getText());
 
+            String checkBox = checkBox_notif;
 
-            String main_key = id + "=" + time + "=" + data + "=" + task;
+
+            String main_key = id + "=" + time + "=" + data + "=" + task+ "=" + checkBox;
 
             prefEditor.putString(main_key, "empty");  //ключ, значение все записано в ключ
 

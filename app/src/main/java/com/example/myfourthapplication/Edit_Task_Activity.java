@@ -59,6 +59,10 @@ public class Edit_Task_Activity extends AppCompatActivity {
     String st_time_notif ="";
     String st_task_notif="";
 
+    boolean value_of_main_checkBox = false;
+    String checkBox_notif= String.valueOf(value_of_main_checkBox);
+
+
     Calendar calendar = Calendar.getInstance();
 
 
@@ -986,7 +990,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
                 String tempTime = item.getKey();
                 String delimeter = "=";
                 //String[] subStrTime = tempTime.split(delimeter, 2); //массив  разбивает на 2 части
-                String[] main_subStrTime = tempTime.split(delimeter, 4); //массив  разбивает на 4 части
+                String[] main_subStrTime = tempTime.split(delimeter, 5); //массив  разбивает на 4 части
                 //  System.out.println("==subStrTime[0]== "+subStrTime[0]);
                 System.out.println("==subStrTime[0]=id= " + main_subStrTime[0]);
 
@@ -1049,12 +1053,15 @@ public class Edit_Task_Activity extends AppCompatActivity {
             // String task=string_text_from_task;
             String task = String.valueOf(EditText_task_01.getText());
 
+            String checkBox = checkBox_notif;
+
       /*
         String key_time_id=time+"="+id;
         String key_time_data=time+"="+data;
         String key_time_task=time+"="+task;
         */
-            String main_key = id + "=" + time + "=" + data + "=" + task;
+        //    String main_key = id + "=" + time + "=" + data + "=" + task;
+            String main_key = id + "=" + time + "=" + data + "=" + task + "=" + checkBox;
 
 /*
         prefEditor.putString("22:15", "string_text_for_notification");  //ключ, значение
