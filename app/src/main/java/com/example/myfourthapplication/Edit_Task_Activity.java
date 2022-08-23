@@ -648,6 +648,31 @@ public class Edit_Task_Activity extends AppCompatActivity {
    //     Obj_for_alarm.callDatePicker();
 
     }
+
+    int flag_01 =0;
+    public void startChooseTime_Edit_TA(View view)  {
+        System.out.println("startChooseData()-1");
+        System.out.println("EditText_task_02.getText() " + EditText_task_02.getText());
+       // callDatePicker();
+
+       // callAlarmManager2(); // чтобы вышло так как надо сначало запускаем установку времени
+
+        if (EditText_task_02.getText().toString().equals("")){
+            flag_01=1;
+            callDatePicker();
+        } else{
+            callAlarmManager2();
+        }
+
+        System.out.println("startChooseData()-2");
+
+        //     Obj_for_alarm.callDatePicker();
+
+    }
+
+
+
+
     Calendar calendar_for_picker = Calendar.getInstance();
     long long_check_calendar=0;
 
@@ -682,9 +707,20 @@ public class Edit_Task_Activity extends AppCompatActivity {
                 System.out.println("==calendar_for_picker 100500==="+calendar_for_picker.getTimeInMillis());
                 System.out.println("==long_check_calendar 100500==="+long_check_calendar);
 
-                callAlarmManager2(); //
+               // callAlarmManager2(); //
+              //  if (EditText_task_02.getText().toString().equals("")){
+                if (flag_01==1){
+                    callAlarmManager2();
+                    flag_01=0;
+                }
+
+                SimpleDateFormat sdf_for_EditText = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                // EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
+                EditText_task_02.setText(sdf_for_EditText.format(calendar_for_picker.getTime()));
+
             }
         };
+
 
 
         new DatePickerDialog(Edit_Task_Activity.this, d,
@@ -692,6 +728,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
                 calendar_for_picker.get(Calendar.MONTH),
                 calendar_for_picker.get(Calendar.DAY_OF_MONTH))
                 .show();
+
 
     }
 
@@ -764,7 +801,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
 
             /////установка значения в EditText
-            EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
+           // EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
             EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
         });
 

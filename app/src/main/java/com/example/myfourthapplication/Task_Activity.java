@@ -403,10 +403,32 @@ public class Task_Activity extends AppCompatActivity {
         callDatePicker();
 
         System.out.println("startChooseData()-2");
+    }
 
+    int flag_01 =0;
+    public void startChooseTime_TA(View view)  {
+        System.out.println("startChooseData()-1");
+        System.out.println("EditText_task_02.getText() " + EditText_task_02.getText());
+        // callDatePicker();
 
+        // callAlarmManager2(); // чтобы вышло так как надо сначало запускаем установку времени
+
+        if (EditText_task_02.getText().toString().equals("")){
+            flag_01=1;
+            callDatePicker();
+        } else{
+            callAlarmManager2();
+        }
+
+        System.out.println("startChooseData()-2");
+
+        //     Obj_for_alarm.callDatePicker();
 
     }
+
+
+
+
     Calendar calendar_for_picker = Calendar.getInstance();
     long long_check_calendar=0;
 
@@ -438,7 +460,16 @@ public class Task_Activity extends AppCompatActivity {
                 System.out.println("==calendar_for_picker 100500==="+calendar_for_picker.getTimeInMillis());
                 System.out.println("==long_check_calendar 100500==="+long_check_calendar);
 
-                callAlarmManager2(); //
+               // callAlarmManager2(); //
+                if (flag_01==1){
+                    callAlarmManager2();
+                    flag_01=0;
+                }
+
+                SimpleDateFormat sdf_for_EditText = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                // EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
+                EditText_task_02.setText(sdf_for_EditText.format(calendar_for_picker.getTime()));
+
             }
         };
 
@@ -510,7 +541,7 @@ public class Task_Activity extends AppCompatActivity {
             st_data_notif_TA =sdf_for_EditText.format(calendar.getTime());
 
             /////установка значения в EditText
-            EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
+          //  EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
             EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
 
           //  instance_callAlarmManager2 (calendar, Task_Activity.this);

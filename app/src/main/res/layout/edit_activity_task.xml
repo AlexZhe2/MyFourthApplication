@@ -198,7 +198,7 @@
             android:textAlignment="textStart"
             android:textColor="@color/black"
             android:textSize="24dp"
-            android:onClick="startChooseData_Edit_TA"
+            android:onClick="startChooseTime_Edit_TA"
             tools:ignore="MissingConstraints,OnClick,UnknownId">
 
 
