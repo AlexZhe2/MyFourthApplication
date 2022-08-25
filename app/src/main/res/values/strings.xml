@@ -2,5 +2,7 @@
     <string name="app_name">MyFourthApplication</string>
     ////
     <string name="hi_android">hi android</string>
+    <string name="warning_01">заданная дата меньше текущей</string>
+    <string name="warning_02">заданное время меньше текущего</string>
     ////
 </resources>

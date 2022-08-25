@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Map;
 
@@ -716,7 +717,35 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
                 SimpleDateFormat sdf_for_EditText = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
                 // EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
-                EditText_task_02.setText(sdf_for_EditText.format(calendar_for_picker.getTime()));
+                //////////
+                Date current_date2 = new Date(); // при создании объекта автоматом задается текущая дата
+                Calendar calendar2 = new GregorianCalendar();
+                calendar2.setTime(current_date2);
+                //////////
+                System.out.println("ccccc-1"+calendar2.get(Calendar.YEAR));
+                System.out.println("ccccc-1"+calendar2.get(Calendar.DAY_OF_YEAR));
+                System.out.println("ccccc-2"+calendar_for_picker.get(Calendar.YEAR));
+                System.out.println("ccccc-2"+calendar_for_picker.get(Calendar.DAY_OF_YEAR));
+
+                int flag_02=0;
+
+                if ((calendar2.get(Calendar.YEAR)<calendar_for_picker.get(Calendar.YEAR)) &&flag_02==0 )  {
+                    EditText_task_02.setText(sdf_for_EditText.format(calendar_for_picker.getTime()));
+                    flag_02=1;
+                }
+                if ((calendar2.get(Calendar.YEAR)==calendar_for_picker.get(Calendar.YEAR))&&
+                        (calendar2.get(Calendar.DAY_OF_YEAR)<=calendar_for_picker.get(Calendar.DAY_OF_YEAR)) &&
+                        (flag_02==0) )  {
+                    EditText_task_02.setText(sdf_for_EditText.format(calendar_for_picker.getTime()));
+                    flag_02=1;
+                }
+
+                if (flag_02==0){
+                    EditText_task_02.setText("");
+                    System.out.println("заданная дата меньше текущей");
+                    Toast.makeText(Edit_Task_Activity.this, R.string.warning_01, Toast.LENGTH_LONG).show();
+                }
+
 
             }
         };
@@ -764,7 +793,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
 
 
-            Toast.makeText(this, "Будильник установлен на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "Будильник установлен на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
 
 ///////// work
            /*
@@ -802,7 +831,71 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
             /////установка значения в EditText
            // EditText_task_02.setText(sdf_for_EditText.format(calendar.getTime()));
-            EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
+            Date current_date3 = new Date(); // при создании объекта автоматом задается текущая дата
+            Calendar calendar3 = new GregorianCalendar();
+            calendar3.setTime(current_date3);
+
+            Editable ED_02 = EditText_task_02.getText();
+            String str_02 = String.valueOf(ED_02); // перевод из формата от TextView в формат String
+            SimpleDateFormat format = new SimpleDateFormat();
+            format.applyPattern("dd.MM.yyyy");
+            Date docDate_from_ED_02 = null;
+            try {
+                docDate_from_ED_02 = format.parse(str_02);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+          //  long dataFromEditText_task_02= docDate_from_ED_02.getTime();
+            Calendar calendar_02 = new GregorianCalendar();
+            calendar_02.setTime(docDate_from_ED_02); // дата из EditText_task_02
+
+            Date current_date2 = new Date(); // при создании объекта автоматом задается текущая дата
+            Calendar calendar_Current = new GregorianCalendar();
+            calendar_Current.setTime(current_date2);
+
+
+            System.out.println("docDate_from_ED_02"+calendar_02.get(Calendar.YEAR));
+            System.out.println("docDate_from_ED_02"+calendar_02.get(Calendar.DAY_OF_YEAR));
+
+            int flag_03=0;
+
+
+            if ((calendar_02.get(Calendar.YEAR)<calendar_Current.get(Calendar.YEAR)) &&flag_03==0 )  {
+                flag_03=1;
+                Toast.makeText(Edit_Task_Activity.this, R.string.warning_01, Toast.LENGTH_LONG).show();
+            }
+            if ((calendar_02.get(Calendar.YEAR)==calendar_Current.get(Calendar.YEAR))&&
+                    (calendar_02.get(Calendar.DAY_OF_YEAR)<calendar_Current.get(Calendar.DAY_OF_YEAR)) &&
+                    (flag_03==0) )  {
+                flag_03=1;
+                Toast.makeText(Edit_Task_Activity.this, R.string.warning_01, Toast.LENGTH_LONG).show();
+            }
+
+            ////
+            if ((calendar3.get(Calendar.HOUR)<calendar.get(Calendar.HOUR)) &&flag_03==0 )  {
+                EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
+                flag_03=1;
+            //    Toast.makeText(this, "Уведомление установлено на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
+
+            }
+            if ((calendar3.get(Calendar.HOUR)==calendar.get(Calendar.HOUR))&&
+                    (calendar3.get(Calendar.MINUTE)<=calendar.get(Calendar.MINUTE)) &&
+                    (flag_03==0) )  {
+                EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
+                flag_03=1;
+             //   Toast.makeText(this, "Уведомление установлено на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
+
+            }
+
+            if (flag_03==0){
+                EditText_task_03.setText("");
+                System.out.println("заданная дата меньше текущей");
+                Toast.makeText(Edit_Task_Activity.this, R.string.warning_02, Toast.LENGTH_LONG).show();
+            }
+
+          //  EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
+
+
         });
 
 
@@ -1048,6 +1141,9 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
             //////////////// создает новыю запись в настройках
         if(!(EditText_task_03.getText().toString().equals(""))) {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
+            Toast.makeText(this, "Уведомление установлено на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
 
 
             Intent my_intent = new Intent(Edit_Task_Activity.this, NotificationReceiver.class);  //должно быть так что бы работало
