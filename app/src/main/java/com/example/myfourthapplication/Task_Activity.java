@@ -585,13 +585,13 @@ public class Task_Activity extends AppCompatActivity {
 
            String stData= EditText_task_02.getText().toString();
 
-            if ((calendar3.get(Calendar.HOUR)<calendar.get(Calendar.HOUR)) &&flag_03==0 )  {
+            if ((calendar3.get(Calendar.HOUR_OF_DAY)<calendar.get(Calendar.HOUR_OF_DAY)) &&flag_03==0 )  {
                 EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
                 flag_03=1;
             //    Toast.makeText(this, "Уведомление установлено на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
 
             }
-            if ((calendar3.get(Calendar.HOUR)==calendar.get(Calendar.HOUR))&&
+            if ((calendar3.get(Calendar.HOUR_OF_DAY)==calendar.get(Calendar.HOUR_OF_DAY))&&
                     (calendar3.get(Calendar.MINUTE)<=calendar.get(Calendar.MINUTE)) &&
                     (flag_03==0) )  {
                 EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
