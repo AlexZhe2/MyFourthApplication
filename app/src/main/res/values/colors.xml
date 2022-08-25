@@ -10,4 +10,5 @@
     <!-- my_color -->
     <color name="my_color_background">#eeeeee</color>
     <color name="my_color_for_checked">#DCD6D6</color>
+    <color name="my_color_for_button">#888686</color>
 </resources>
