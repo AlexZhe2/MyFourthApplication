@@ -24,6 +24,7 @@ public class Two extends AppCompatActivity {
 
     Two(TextView textView, TextView textView_DATA, CheckBox checkBox, LinearLayout linearLayout, int task_id) {
 
+
         this.my_textView = textView;
         this.my_textView_DATA = textView_DATA;
         this.my_checkBox = checkBox;
