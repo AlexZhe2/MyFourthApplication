@@ -2,6 +2,7 @@ package com.example.myfourthapplication;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -606,6 +607,20 @@ public void notif(){ //delete
         my_txtView_from_List_Two.add(my_two_01);
     }
 
+    ArrayList<Four> my_txtView_from_List_Four = new ArrayList<Four>(); // создание списка который
+    // будет содержать в себе значения типа "Four"
+    public void createObjectFour() {
+
+        Four my_Four_01 = new Four(new TextView(this), new LinearLayout(this));
+
+        my_txtView_from_List_Four.add(my_Four_01);
+        System.out.println("object Four");
+
+    }
+
+
+
+
     int i = 0;
 
     public void add_task_04(ImageButton value) {  // добавление новой задачи
@@ -996,6 +1011,33 @@ public void notif(){ //delete
 
                 if ((data_long == 0) && (value_checkBox_from_DB == false)) { // если у задачи нет даты то ее тоже в поле "Потом"
                     my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                    ///////
+                    createObjectFour();
+                    int sizeFour = my_txtView_from_List_Four.size()-1;
+                   // my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().setVisibility(View.VISIBLE); // скрываем элемент
+                   // my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().setVisibility(View.INVISIBLE);
+                //    my_txtView_from_List_Four.get(sizeFour).getMy_textView().setVisibility(View.INVISIBLE);
+                  //  my_txtView_from_List_Four.get(sizeFour).getMy_textView().setPadding(50,0,0,0);
+
+                 //   my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().addView(my_txtView_from_List_Four.get(sizeFour).getMy_textView());  // work!  добавление, удаление элементов
+                    my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().removeView(my_txtView_from_List_Four.get(sizeFour).getMy_textView());  // work!  добавление, удаление элементов
+
+                    /*
+                    ConstraintSet set = new ConstraintSet();
+
+                    set.clear(my_txtView_from_List_Four.get(sizeFour).getMy_textView().getId(), ConstraintSet.LEFT);
+                    set.clear(my_txtView_from_List_Four.get(sizeFour).getMy_textView().getId(), ConstraintSet.RIGHT);
+
+
+                    set.connect(my_txtView_from_List_Four.get(sizeFour).getMy_textView().getId(), ConstraintSet.RIGHT,   // привязка
+                          //  my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().getId(), ConstraintSet.RIGHT);
+                            ConstraintSet.PARENT_ID, ConstraintSet.RIGHT);
+*/
+                    my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout());
+
+                    ////////
+
                 }
 
 
@@ -1190,6 +1232,14 @@ public void notif(){ //delete
 
                     if ((data_long == 0) && (value_checkBox_from_DB == false)) { // если у задачи нет даты то ее тоже в поле "Потом"
                         my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                        ///////
+                        createObjectFour();
+                        int sizeFour = my_txtView_from_List_Four.size()-1;
+                        my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout());
+
+                        ////////
+
                     }
 
 
