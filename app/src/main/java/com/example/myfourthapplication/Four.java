@@ -65,7 +65,7 @@ public class Four extends AppCompatActivity {
 
 
 
-         linearLayout.addView(textView);   // добавление элемента
+       //  linearLayout.addView(textView);   // добавление элемента
 
     }
 
