@@ -19,6 +19,9 @@
 
         <ImageButton
             android:id="@+id/ImageButton_xml_01"
+
+            android:visibility="invisible"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -27,6 +30,9 @@
 
         <ImageButton
             android:id="@+id/ImageButton_xml_02"
+
+            android:visibility="invisible"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

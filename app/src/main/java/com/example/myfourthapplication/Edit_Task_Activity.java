@@ -860,20 +860,20 @@ public class Edit_Task_Activity extends AppCompatActivity {
             int flag_03=0;
 
 
-            if ((calendar_02.get(Calendar.YEAR)<calendar_Current.get(Calendar.YEAR)) &&flag_03==0 )  {
+            if ((calendar_02.get(Calendar.YEAR)>calendar_Current.get(Calendar.YEAR)) &&flag_03==0 )  {
                 flag_03=1;
-                Toast.makeText(Edit_Task_Activity.this, R.string.warning_01, Toast.LENGTH_LONG).show();
+         //       Toast.makeText(Edit_Task_Activity.this, R.string.warning_01, Toast.LENGTH_LONG).show();
             }
             if ((calendar_02.get(Calendar.YEAR)==calendar_Current.get(Calendar.YEAR))&&
-                    (calendar_02.get(Calendar.DAY_OF_YEAR)<calendar_Current.get(Calendar.DAY_OF_YEAR)) &&
+                    (calendar_02.get(Calendar.DAY_OF_YEAR)>calendar_Current.get(Calendar.DAY_OF_YEAR)) &&
                     (flag_03==0) )  {
                 flag_03=1;
-                Toast.makeText(Edit_Task_Activity.this, R.string.warning_01, Toast.LENGTH_LONG).show();
+           //     Toast.makeText(Edit_Task_Activity.this, R.string.warning_01, Toast.LENGTH_LONG).show();
             }
 
             ////
             if ((calendar3.get(Calendar.HOUR_OF_DAY)<calendar.get(Calendar.HOUR_OF_DAY)) &&flag_03==0 )  {
-                EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
+           //     EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
                 flag_03=1;
             //    Toast.makeText(this, "Уведомление установлено на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
 
@@ -881,11 +881,13 @@ public class Edit_Task_Activity extends AppCompatActivity {
             if ((calendar3.get(Calendar.HOUR_OF_DAY)==calendar.get(Calendar.HOUR_OF_DAY))&&
                     (calendar3.get(Calendar.MINUTE)<=calendar.get(Calendar.MINUTE)) &&
                     (flag_03==0) )  {
-                EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
+           //     EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
                 flag_03=1;
              //   Toast.makeText(this, "Уведомление установлено на " + sdf.format(calendar.getTime()), Toast.LENGTH_SHORT).show();
 
             }
+
+
            // calendar.set(Calendar.AM_PM, Calendar.PM);
             //calendar.set(Calendar.AM_PM, Calendar.AM);
             System.out.println("calendar3.get(Calendar.HOUR) "+calendar3.get(Calendar.HOUR_OF_DAY));
@@ -895,7 +897,10 @@ public class Edit_Task_Activity extends AppCompatActivity {
 
            // System.out.println("calendar.get(Calendar.MINUTE) "+calendar.get(Calendar.PM));
             //EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
+            if (flag_03==1){
+                EditText_task_03.setText(sdf_for_EditText_Time.format(calendar.getTime()));
 
+            }
 
             if (flag_03==0){
                 EditText_task_03.setText("");

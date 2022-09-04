@@ -2,18 +2,15 @@ package com.example.myfourthapplication;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,16 +24,13 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
-
-import org.w3c.dom.Text;
-import org.w3c.dom.ls.LSOutput;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -611,7 +605,11 @@ public void notif(){ //delete
     // будет содержать в себе значения типа "Four"
     public void createObjectFour() {
 
-        Four my_Four_01 = new Four(new TextView(this), new LinearLayout(this));
+        boolean have_notification=false;
+        boolean have_subtask=false;
+
+        Four my_Four_01 = new Four(new TextView(this), new TextView (this),
+                have_notification, have_subtask, new ImageView(this), new ImageView(this), new LinearLayout(this));
 
         my_txtView_from_List_Four.add(my_Four_01);
         System.out.println("object Four");
@@ -873,6 +871,11 @@ public void notif(){ //delete
                 long done_data_fact = query.getLong(4);
                 long data_long_time = query.getLong(5);
 
+                boolean exist_subtask = Boolean.parseBoolean(query.getString(8));
+
+                System.out.println("===data_long_time=== "+data_long_time);
+                System.out.println("===exist_subtask=== "+exist_subtask);
+
                 System.out.println("=====value_checkBox_from_DB=====" + value_checkBox_from_DB);
 
                 //перевод из числа в строку формата дата
@@ -904,6 +907,49 @@ public void notif(){ //delete
 
                 System.out.println("=my_txtView_from_List_Two.get(j).setMy_task_id(id_for_object);= " +
                         my_txtView_from_List_Two.get(j).getMy_task_id());
+
+///////////////////////////////////////////////// для нижней плашки колокольчик и список
+                createObjectFour();
+                if (data_long_time!=0) {
+                      my_txtView_from_List_Four.get(j).setMy_have_notification(true);
+                }
+
+                SQLiteDatabase dbSubTask = getBaseContext().openOrCreateDatabase("app.db", MODE_PRIVATE, null);
+                //  db.execSQL("UPDATE users_subtask_01 SET checkBox =  '" + value_check_subtask + "' WHERE _id='" + subtask_id + "'"); // обновление значения в базе
+
+                Cursor query_subtask = dbSubTask.rawQuery("SELECT * FROM users_subtask_01;", null); // вытаскивает значения из базы
+              // int j=0;
+
+                while (query_subtask.moveToNext()) {
+
+                    int id_from_db_subtask= query_subtask.getInt(0);
+                    String text_subtask = query_subtask.getString(1);
+                    boolean value_check = Boolean.parseBoolean(query_subtask.getString(2));
+                    int id_from_db_parent= query_subtask.getInt(3);
+
+                    //   int age = query.getInt(1);
+                    //    textView.append("Name: " + name + " Age: " + age + "\n");
+                    System.out.println("=========================id_from_db_subtask " + j + " " + id_from_db_subtask);
+                    System.out.println("=========================text_subtask " + j + " " + text_subtask);
+                    System.out.println("=========================value_check_subtask " + j + " " + value_check);
+                    System.out.println("=========================id_from_db_parent===04 " + j + " " + id_from_db_parent);
+
+                    if(id_from_db_parent==id_for_object) {
+                        System.out.println("we are have a subtask");
+                        my_txtView_from_List_Four.get(j).setMy_have_subtask(true);
+                        System.out.println("my_txtView_from_List_Four.get(j).setMy_have_notification(true)"+
+                                my_txtView_from_List_Four.get(j).getMy_have_subtask());
+                    }
+
+                //    j++;
+
+                }
+                query_subtask.close(); //закрываем связи
+                dbSubTask.close();
+
+
+
+
 
                 // отрисовка цвета для выполненых задач
                 Resources resources = getResources();
@@ -1007,21 +1053,53 @@ public void notif(){ //delete
                     my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                     System.out.println("========Date1 is after Date2======");
+
+                    if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                    }
+                    if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                    }
+                    my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
+
                 }
 
                 if ((data_long == 0) && (value_checkBox_from_DB == false)) { // если у задачи нет даты то ее тоже в поле "Потом"
                     my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
+                    if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                    }
+                    if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                    }
+                    my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
+
                     ///////
-                    createObjectFour();
-                    int sizeFour = my_txtView_from_List_Four.size()-1;
+
+                  /////=  createObjectFour();
+                 /////=   int sizeFour = my_txtView_from_List_Four.size()-1;
                    // my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().setVisibility(View.VISIBLE); // скрываем элемент
                    // my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().setVisibility(View.INVISIBLE);
                 //    my_txtView_from_List_Four.get(sizeFour).getMy_textView().setVisibility(View.INVISIBLE);
                   //  my_txtView_from_List_Four.get(sizeFour).getMy_textView().setPadding(50,0,0,0);
 
                  //   my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().addView(my_txtView_from_List_Four.get(sizeFour).getMy_textView());  // work!  добавление, удаление элементов
-                    my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().removeView(my_txtView_from_List_Four.get(sizeFour).getMy_textView());  // work!  добавление, удаление элементов
+                  //  my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().removeView(my_txtView_from_List_Four.get(sizeFour).getMy_textView());  // work!  добавление, удаление элементов
+
+                   // my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().addView(my_txtView_from_List_Four.get(sizeFour).getMy_textView_02());  // work!  добавление, удаление элементов
+                  //  my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().addView(my_txtView_from_List_Four.get(sizeFour).getMy_textView());  // work!  добавление, удаление элементов
+
+
+                //////= my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().addView(my_txtView_from_List_Four.get(sizeFour).getMy_ImageView_01());  // work!  добавление, удаление элементов
+
+               //////=    my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().addView(my_txtView_from_List_Four.get(sizeFour).getMy_ImageView_02());  // work!  добавление, удаление элементов
+
+
 
                     /*
                     ConstraintSet set = new ConstraintSet();
@@ -1034,7 +1112,7 @@ public void notif(){ //delete
                           //  my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout().getId(), ConstraintSet.RIGHT);
                             ConstraintSet.PARENT_ID, ConstraintSet.RIGHT);
 */
-                    my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout());
+                 /////=   my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout());
 
                     ////////
 
@@ -1047,24 +1125,76 @@ public void notif(){ //delete
                     System.out.println("=======Date1 is before Date2=======");
                     System.out.println("=======add to layoyt TODAY=======");
 
+////////////////////////////////////
+
+                    if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                //        my_LinerLayout_Today_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
+                    }
+                  //  if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                  //      my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                  //      my_LinerLayout_Today_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
+                 //   }
+                 // my_txtView_from_List_Four.get(j).setMy_have_subtask(true)
+                    if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                    }
+                    my_LinerLayout_Today_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
+
+/////////////////////////////////
+
+
                 }
 
                 if (date_obj.equals(current_date) && (value_checkBox_from_DB == false)) {
                     my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                     System.out.println("======Date1 is equal Date2=====");
+                    if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                     //   my_LinerLayout_Today_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
+                    }
+                    if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                    }
+                    my_LinerLayout_Today_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
+
+
                 }
 
                 if (date_obj.equals(current_date_plus_day) && (value_checkBox_from_DB == false)) {
                     my_LinerLayout_Tomorrow_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                     System.out.println("!!!====current_date_plus_day===!!!" + formatter.format(current_date_plus_day));
 
+                    if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                    }
+                    if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                    }
+                    my_LinerLayout_Tomorrow_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
                 }
 
                 if ((date_obj.after(current_date)) && (!(date_obj.equals(current_date_plus_day))) &&
                         ((num_of_current_week.equals(num_of_obj_week))) && (value_checkBox_from_DB == false)) {
 
                     my_LinerLayout_Week_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                    if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                    }
+                    if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                    }
+                    my_LinerLayout_Week_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
                 }
 
                 if ((date_obj.after(current_date)) && (!(date_obj.equals(current_date_plus_day))) &&
@@ -1072,6 +1202,16 @@ public void notif(){ //delete
                         ((num_of_current_month.equals(num_of_obj_month))) && (value_checkBox_from_DB == false)) {
 
                     my_LinerLayout_Month_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                    if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                    }
+                    if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                        my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                    }
+                    my_LinerLayout_Month_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
                 }
 
 
@@ -1228,17 +1368,36 @@ public void notif(){ //delete
                         my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                         System.out.println("========Date1 is after Date2======");
+
+                        if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                        }
+                        if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                        }
+                        my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
                     }
 
                     if ((data_long == 0) && (value_checkBox_from_DB == false)) { // если у задачи нет даты то ее тоже в поле "Потом"
                         my_LinerLayout_Late_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                         ///////
-                        createObjectFour();
-                        int sizeFour = my_txtView_from_List_Four.size()-1;
-                        my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout());
+                       // createObjectFour();
+                       // int sizeFour = my_txtView_from_List_Four.size()-1;
+                       // my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(sizeFour).getMy_linearLayout());
 
                         ////////
+                        if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                        }
+                        if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                        }
+                        my_LinerLayout_Late_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
 
                     }
 
@@ -1248,7 +1407,15 @@ public void notif(){ //delete
 
                         System.out.println("=======Date1 is before Date2=======");
                         System.out.println("=======add to layoyt TODAY=======");
-
+                        if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                        }
+                        if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                        }
+                        my_LinerLayout_Today_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
                     }
 
 
@@ -1256,18 +1423,46 @@ public void notif(){ //delete
                         my_LinerLayout_Today_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
 
                         System.out.println("======Date1 is equal Date2=====");
+                        if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                        }
+                        if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                        }
+                        my_LinerLayout_Today_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
                     }
 
                     if (date_obj.equals(current_date_plus_day) && (value_checkBox_from_DB == false)) {
                         my_LinerLayout_Tomorrow_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
                         System.out.println("!!!====current_date_plus_day===!!!" + formatter.format(current_date_plus_day));
 
+                        if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                        }
+                        if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                        }
+                        my_LinerLayout_Tomorrow_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
                     }
 
                     if ((date_obj.after(current_date)) && (!(date_obj.equals(current_date_plus_day))) &&
                             ((num_of_current_week.equals(num_of_obj_week))) && (value_checkBox_from_DB == false)) {
 
                         my_LinerLayout_Week_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                        if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                        }
+                        if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                        }
+                        my_LinerLayout_Week_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
                     }
 
                     if ((date_obj.after(current_date)) && (!(date_obj.equals(current_date_plus_day))) &&
@@ -1275,6 +1470,16 @@ public void notif(){ //delete
                             ((num_of_current_month.equals(num_of_obj_month))) && (value_checkBox_from_DB == false)) {
 
                         my_LinerLayout_Month_01.addView(my_txtView_from_List_Two.get(j).getMy_linearLayout());
+
+                        if( my_txtView_from_List_Four.get(j).getMy_have_notification()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_01());  // work!  добавление, удаление элементов
+                        }
+                        if( my_txtView_from_List_Four.get(j).getMy_have_subtask()==true) {  // плашка с колокольчиком и списком
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_textView_02());  // work!  добавление, удаление элементов
+                            my_txtView_from_List_Four.get(j).getMy_linearLayout().addView(my_txtView_from_List_Four.get(j).getMy_ImageView_02());  // work!  добавление, удаление элементов
+                        }
+                        my_LinerLayout_Month_01.addView(my_txtView_from_List_Four.get(j).getMy_linearLayout());
                     }
 
 
