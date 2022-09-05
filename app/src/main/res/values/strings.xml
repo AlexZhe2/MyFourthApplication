@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyFourthApplication</string>
+    <string name="app_name">Stella</string>
     ////
     <string name="hi_android">hi android</string>
     <string name="warning_01">заданная дата меньше текущей</string>
