@@ -104,7 +104,7 @@ public class Edit_Task_Activity extends AppCompatActivity {
         value.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(Edit_Task_Activity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
+              //  Toast.makeText(Edit_Task_Activity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
 
                 onClick_02();
                 update_subtask ();

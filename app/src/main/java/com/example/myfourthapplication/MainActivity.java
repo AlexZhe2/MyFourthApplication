@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
+            //    Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
                 ///уведомления
     // перенес в  trueNotification();
 /*
@@ -1748,7 +1748,7 @@ public void notif(){ //delete
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
+             //   Toast.makeText(MainActivity.this, R.string.hi_android, Toast.LENGTH_LONG).show();
                 startEditTaskActivity(textView);
 
                 Edit_Task_Activity eta= new Edit_Task_Activity();

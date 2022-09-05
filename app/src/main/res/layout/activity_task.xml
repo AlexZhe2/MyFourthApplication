@@ -18,7 +18,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:background="@null"
-        android:hint="new task"
+        android:hint="новая задача"
 
         android:inputType="text"
         android:paddingStart="10dp"
@@ -93,7 +93,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="5dp"
             android:background="@null"
-            android:hint="dd.MM.yyyy"
+            android:hint="дата"
             android:inputType="text"
             android:focusable="false"
             android:paddingStart="10dp"
@@ -193,7 +193,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:background="@null"
-            android:hint="hh:mm"
+            android:hint="время"
             android:inputType="text"
             android:focusable="false"
             android:paddingStart="10dp"
@@ -268,7 +268,7 @@
                     android:id="@+id/button_task_02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="add subtask"
+                    android:text="добавить подзадачу"
                     android:onClick="addSubtask2"
                     tools:ignore="MissingConstraints,OnClick" />
 

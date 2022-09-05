@@ -68,7 +68,8 @@ public class Three extends AppCompatActivity {
         textView.setLayoutParams(layoutParams_DATA);
 
 //параметры для textView
-        textView.setText("text from class");
+    //    textView.setText("text from class");
+        textView.setText("");
         textView.setBackgroundColor(Color.parseColor("#eeeeee"));
         textView.setTextColor(Color.BLACK);
        // textView.setTextSize(28);
