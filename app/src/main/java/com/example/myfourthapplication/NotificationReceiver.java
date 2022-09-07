@@ -203,7 +203,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 //   builder =
                 new NotificationCompat.Builder(context_2, CHANNEL_ID)
                         //   .setSmallIcon(R.drawable.ic_pets_black_24dp)
-                        .setSmallIcon(R.drawable.ic_image_01)
+                        .setSmallIcon(R.drawable.ic_image_07)
                         //   .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Напоминание")
                         //   .setContentText("Пора покормить кота-222")
@@ -213,7 +213,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                         //  .setPriority(NotificationCompat.PRIORITY_DEFAULT);
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         //   .addAction(R.drawable.R.drawable.ic_image_01, "Открыть", pendingIntent)
-                        .addAction(R.drawable.ic_image_01, "Открыть приложение", contentIntent_2) // кнопка действия
+                        .addAction(R.drawable.ic_image_07, "Открыть приложение", contentIntent_2) // кнопка действия
                         .setAutoCancel(true); // автоматически закрыть уведомление после нажатия
 
 

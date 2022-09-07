@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
       //   builder =
                 new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
                         //   .setSmallIcon(R.drawable.ic_pets_black_24dp)
-                        .setSmallIcon(R.drawable.ic_image_01)
+                        .setSmallIcon(R.drawable.ic_image_07)
                         //   .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Напоминание")
                         .setContentText("Пора покормить кота")
