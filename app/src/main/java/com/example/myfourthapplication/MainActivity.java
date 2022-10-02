@@ -124,6 +124,9 @@ public class MainActivity extends AppCompatActivity {
                 "data INTEGER,checkBox BOOL,done_data_fact INTEGER,time_alert INTEGER,exist_alert BOOL," +
                 "exist_important BOOL,exist_subtask BOOL)");//создание таблицы users_01 , UNIQUE - не нужен
 
+        db.execSQL("CREATE TABLE IF NOT EXISTS users_subtask_01 (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT," +
+                "checkBox BOOL,parent_task_id INTEGER)");//создание таблицы users_01
+
 
         // поле "name" в ней текстовое и уникальное (UNIQUE(name)) но это не точно:-)
 
